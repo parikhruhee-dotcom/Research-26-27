@@ -5,9 +5,9 @@ module ran for real, but was capped to a wall-clock budget and (for the
 fibril-tip system) truncated in size so it would finish. The exact
 achieved simulation length for each system:
 
-- **PHF6**: 0.17367 ns (target was 2.0 ns; capped_by_wallclock_budget=True)
-- **PHF6_star**: 0.11512 ns (target was 2.0 ns; capped_by_wallclock_budget=True)
-- **fibril_tip**: 0.00269 ns (target was 1.0 ns; capped_by_wallclock_budget=True)
+- **PHF6**: 0.1816 ns (target was 2.0 ns; capped_by_wallclock_budget=True)
+- **PHF6_star**: 0.20335 ns (target was 2.0 ns; capped_by_wallclock_budget=True)
+- **fibril_tip**: 0.0027 ns (target was 1.0 ns; capped_by_wallclock_budget=True)
 
 ## To reproduce at full scale on a GPU workstation
 

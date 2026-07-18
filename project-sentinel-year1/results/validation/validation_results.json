@@ -3,14 +3,14 @@
     "design_id": "r8_c3_long_helix_capper_s2",
     "backbone_id": "r8_c3_long_helix_capper",
     "composite_score": "0.2995",
-    "actual_ns_simulated": 0.00101,
-    "mean_rmsd_nm": 0.0357,
-    "final_rmsd_nm": 0.0563,
-    "mean_rg_nm": 2.9355,
+    "actual_ns_simulated": 0.00105,
+    "mean_rmsd_nm": 0.0391,
+    "final_rmsd_nm": 0.0611,
+    "mean_rg_nm": 2.9422,
     "capping_occlusion": {
       "n_tip_hbond_atoms": 146,
-      "n_occluded": 23,
-      "fraction_occluded": 0.1575
+      "n_occluded": 25,
+      "fraction_occluded": 0.1712
     },
     "stable": true,
     "mechanistically_plausible": false
@@ -19,14 +19,14 @@
     "design_id": "r8_c3_long_helix_capper_s1",
     "backbone_id": "r8_c3_long_helix_capper",
     "composite_score": "0.2984",
-    "actual_ns_simulated": 0.00109,
-    "mean_rmsd_nm": 0.0402,
-    "final_rmsd_nm": 0.0648,
-    "mean_rg_nm": 2.8935,
+    "actual_ns_simulated": 0.00114,
+    "mean_rmsd_nm": 0.0447,
+    "final_rmsd_nm": 0.0759,
+    "mean_rg_nm": 2.9023,
     "capping_occlusion": {
       "n_tip_hbond_atoms": 146,
-      "n_occluded": 22,
-      "fraction_occluded": 0.1507
+      "n_occluded": 25,
+      "fraction_occluded": 0.1712
     },
     "stable": true,
     "mechanistically_plausible": false
@@ -35,14 +35,14 @@
     "design_id": "r8_c3_long_helix_capper_s0",
     "backbone_id": "r8_c3_long_helix_capper",
     "composite_score": "0.2979",
-    "actual_ns_simulated": 0.00119,
-    "mean_rmsd_nm": 0.0422,
-    "final_rmsd_nm": 0.0701,
-    "mean_rg_nm": 2.9284,
+    "actual_ns_simulated": 0.00128,
+    "mean_rmsd_nm": 0.0468,
+    "final_rmsd_nm": 0.0839,
+    "mean_rg_nm": 2.9157,
     "capping_occlusion": {
       "n_tip_hbond_atoms": 146,
-      "n_occluded": 25,
-      "fraction_occluded": 0.1712
+      "n_occluded": 26,
+      "fraction_occluded": 0.1781
     },
     "stable": true,
     "mechanistically_plausible": false

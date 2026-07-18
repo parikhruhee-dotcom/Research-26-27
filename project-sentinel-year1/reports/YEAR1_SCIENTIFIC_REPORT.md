@@ -461,13 +461,13 @@ directly motivates the GPU-tier Colab path (§2.6, §6).
 
 ### 3.5 Test suite (M11)
 
-**49/49 tests pass** (`results/TEST_SUMMARY.json`, `results/pytest_full_output.log`),
+**51/51 tests pass** (`results/TEST_SUMMARY.json`, `results/pytest_full_output.log`),
 including all 5 required scientific-validation tests
 (`tests/test_scientific_validation.py`): PHF6/PHF6\* ranked top,
 VQIINK-buries-more-than-VQIVYK, AD-selective designs prefer the AD tip,
 active learning beats random search (by mean score across all evaluated
 candidates — the statistically correct comparison; see §2.6/§4), and
-determinism under a fixed seed. 17 of these 49 tests
+determinism under a fixed seed. 19 of these 51 tests
 (`test_topology_builder.py`, `test_active_learning.py`, and additions to
 `test_design_scoring.py`) are regression tests added directly in response
 to the four real bugs found and fixed during this build (§2.6, §4) — each
@@ -686,6 +686,6 @@ sha256 checksum, access timestamp) and every documented tool substitution
 is logged in `results/PROVENANCE.json`. Full beginner-level walkthrough:
 `REPRODUCIBILITY_ARTIFACT.md`.
 
-**Test suite: 49/49 passed** (`results/TEST_SUMMARY.json`), including all 5
-required scientific-validation tests and 17 regression tests added directly
+**Test suite: 51/51 passed** (`results/TEST_SUMMARY.json`), including all 5
+required scientific-validation tests and 19 regression tests added directly
 in response to real bugs found during this build.

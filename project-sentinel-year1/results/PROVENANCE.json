@@ -1,11 +1,11 @@
 {
-  "created": "2026-07-18T12:16:41Z",
+  "created": "2026-07-18T16:10:49Z",
   "downloads": [
     {
       "url": "https://rest.uniprot.org/uniprotkb/P10636-8.fasta",
       "dest": "data/raw/tau_P10636-8_2N4R.fasta",
       "sha256": "e30ed5b41ba21782ac58824b766367900791486b4cdf4c24b41028d392c09291",
-      "timestamp": "2026-07-18T12:16:41Z",
+      "timestamp": "2026-07-18T16:10:49Z",
       "kind": "uniprot_fasta",
       "accession": "P10636-8",
       "isoform": "2N4R"
@@ -14,7 +14,7 @@
       "url": "https://files.rcsb.org/download/5O3L.cif",
       "dest": "data/raw/structures/5O3L.cif",
       "sha256": "bb49bd2bbbe08b8b3232619d3aa73d8472fd64ff3dd5502bf205eae20f7fbc32",
-      "timestamp": "2026-07-18T12:17:13Z",
+      "timestamp": "2026-07-18T16:10:50Z",
       "kind": "rcsb_cif",
       "pdb_id": "5O3L"
     },
@@ -22,7 +22,7 @@
       "url": "https://files.rcsb.org/download/5O3L.pdb",
       "dest": "data/raw/structures/5O3L.pdb",
       "sha256": "2eabac8b92d32e98dbe181a652afb28d5d91c39604adf63ab516395d975bedd4",
-      "timestamp": "2026-07-18T12:17:14Z",
+      "timestamp": "2026-07-18T16:10:51Z",
       "kind": "rcsb_pdb",
       "pdb_id": "5O3L"
     },
@@ -30,7 +30,7 @@
       "url": "https://files.rcsb.org/download/5O3T.cif",
       "dest": "data/raw/structures/5O3T.cif",
       "sha256": "e2c2e2a0087dbdeca529a79b929783720ea40c2780dc1dfefa4a71c9b3df7899",
-      "timestamp": "2026-07-18T12:17:14Z",
+      "timestamp": "2026-07-18T16:10:52Z",
       "kind": "rcsb_cif",
       "pdb_id": "5O3T"
     },
@@ -38,7 +38,7 @@
       "url": "https://files.rcsb.org/download/5O3T.pdb",
       "dest": "data/raw/structures/5O3T.pdb",
       "sha256": "c02dc45a6359b78972f21a184a1110325658d55c792ac9925c34a8a8495f71f0",
-      "timestamp": "2026-07-18T12:17:15Z",
+      "timestamp": "2026-07-18T16:10:52Z",
       "kind": "rcsb_pdb",
       "pdb_id": "5O3T"
     },
@@ -46,7 +46,7 @@
       "url": "https://files.rcsb.org/download/6NWP.cif",
       "dest": "data/raw/structures/6NWP.cif",
       "sha256": "4ffee938c0d55510b94a98e3b455a629c954cf07b899e025864c3a7cad96cf46",
-      "timestamp": "2026-07-18T12:17:15Z",
+      "timestamp": "2026-07-18T16:10:53Z",
       "kind": "rcsb_cif",
       "pdb_id": "6NWP"
     },
@@ -54,7 +54,7 @@
       "url": "https://files.rcsb.org/download/6NWP.pdb",
       "dest": "data/raw/structures/6NWP.pdb",
       "sha256": "42256edf65c6eff691e0dede04339c543c4a175bee13dab86f9d0e4411953cfe",
-      "timestamp": "2026-07-18T12:17:16Z",
+      "timestamp": "2026-07-18T16:10:53Z",
       "kind": "rcsb_pdb",
       "pdb_id": "6NWP"
     },
@@ -62,7 +62,7 @@
       "url": "https://files.rcsb.org/download/6NWQ.cif",
       "dest": "data/raw/structures/6NWQ.cif",
       "sha256": "8b28258c9448a20fb68fbf0e6338a3cb3b7cbaf3969d43eb4a8faf53b5d57471",
-      "timestamp": "2026-07-18T12:17:16Z",
+      "timestamp": "2026-07-18T16:10:54Z",
       "kind": "rcsb_cif",
       "pdb_id": "6NWQ"
     },
@@ -70,7 +70,7 @@
       "url": "https://files.rcsb.org/download/6NWQ.pdb",
       "dest": "data/raw/structures/6NWQ.pdb",
       "sha256": "3d64d5bd8b19b154fcfd732cf25d15e8ac1bce4e8319a708f191db61118ade29",
-      "timestamp": "2026-07-18T12:17:17Z",
+      "timestamp": "2026-07-18T16:10:54Z",
       "kind": "rcsb_pdb",
       "pdb_id": "6NWQ"
     },
@@ -78,7 +78,7 @@
       "url": "https://files.rcsb.org/download/6GX5.cif",
       "dest": "data/raw/structures/6GX5.cif",
       "sha256": "1a4476ab26489921c96ff9410f26efe8468d63676d946ca61fdab67ea05d4e8a",
-      "timestamp": "2026-07-18T12:17:17Z",
+      "timestamp": "2026-07-18T16:10:55Z",
       "kind": "rcsb_cif",
       "pdb_id": "6GX5"
     },
@@ -86,7 +86,7 @@
       "url": "https://files.rcsb.org/download/6GX5.pdb",
       "dest": "data/raw/structures/6GX5.pdb",
       "sha256": "a780cab8171739d55ef8536a4af47e6e9837bd8ac056c9a19ca30a0d27107d56",
-      "timestamp": "2026-07-18T12:17:17Z",
+      "timestamp": "2026-07-18T16:10:55Z",
       "kind": "rcsb_pdb",
       "pdb_id": "6GX5"
     },
@@ -94,7 +94,7 @@
       "url": "https://files.rcsb.org/download/6TJO.cif",
       "dest": "data/raw/structures/6TJO.cif",
       "sha256": "9e8cf835ea887efa7f2937dfc99fc194834457723b4751c816ff9466a7658ff9",
-      "timestamp": "2026-07-18T12:17:18Z",
+      "timestamp": "2026-07-18T16:10:55Z",
       "kind": "rcsb_cif",
       "pdb_id": "6TJO"
     },
@@ -102,7 +102,7 @@
       "url": "https://files.rcsb.org/download/6TJO.pdb",
       "dest": "data/raw/structures/6TJO.pdb",
       "sha256": "4e511001f4a329ecd805f0c8ac0565846392ebdaaef285c35d16d81c63a5cfec",
-      "timestamp": "2026-07-18T12:17:18Z",
+      "timestamp": "2026-07-18T16:10:56Z",
       "kind": "rcsb_pdb",
       "pdb_id": "6TJO"
     },
@@ -110,7 +110,7 @@
       "url": "https://files.rcsb.org/download/7P65.cif",
       "dest": "data/raw/structures/7P65.cif",
       "sha256": "4961ee3b2278d69b0a140ac005199b9c684f04dc6b7d1ce49f3de1b5f7f57978",
-      "timestamp": "2026-07-18T12:17:19Z",
+      "timestamp": "2026-07-18T16:10:57Z",
       "kind": "rcsb_cif",
       "pdb_id": "7P65"
     },
@@ -118,7 +118,7 @@
       "url": "https://files.rcsb.org/download/7P65.pdb",
       "dest": "data/raw/structures/7P65.pdb",
       "sha256": "561f214b4a3876d15138d17a7b5643b7dbf9828e792675adc6b3951fa1907498",
-      "timestamp": "2026-07-18T12:17:19Z",
+      "timestamp": "2026-07-18T16:10:57Z",
       "kind": "rcsb_pdb",
       "pdb_id": "7P65"
     },
@@ -126,7 +126,7 @@
       "url": "https://files.rcsb.org/download/7P6D.cif",
       "dest": "data/raw/structures/7P6D.cif",
       "sha256": "c0d071dc2000bc595cd2b6f245ea7be5fb575ed7f217ca85270ec1639f37837a",
-      "timestamp": "2026-07-18T12:17:20Z",
+      "timestamp": "2026-07-18T16:10:58Z",
       "kind": "rcsb_cif",
       "pdb_id": "7P6D"
     },
@@ -134,7 +134,7 @@
       "url": "https://files.rcsb.org/download/7P6D.pdb",
       "dest": "data/raw/structures/7P6D.pdb",
       "sha256": "afd5a13439b88bb360bcf38c0af59bc379fe9974fece3ba4c6b6acaef7d48758",
-      "timestamp": "2026-07-18T12:17:20Z",
+      "timestamp": "2026-07-18T16:10:58Z",
       "kind": "rcsb_pdb",
       "pdb_id": "7P6D"
     },
@@ -142,7 +142,7 @@
       "url": "https://files.rcsb.org/download/7P66.cif",
       "dest": "data/raw/structures/7P66.cif",
       "sha256": "177089a9c0701b54aa117c13dc979fdefe62f4d7b9fe1feb0b607deaab5a95ac",
-      "timestamp": "2026-07-18T12:17:21Z",
+      "timestamp": "2026-07-18T16:10:59Z",
       "kind": "rcsb_cif",
       "pdb_id": "7P66"
     },
@@ -150,7 +150,7 @@
       "url": "https://files.rcsb.org/download/7P66.pdb",
       "dest": "data/raw/structures/7P66.pdb",
       "sha256": "de7f2b0d93281c12313d015ccb0805ae3351be72c7ee6de613220e63fc3f10d8",
-      "timestamp": "2026-07-18T12:17:21Z",
+      "timestamp": "2026-07-18T16:10:59Z",
       "kind": "rcsb_pdb",
       "pdb_id": "7P66"
     },
@@ -158,7 +158,7 @@
       "url": "https://files.rcsb.org/download/7P6A.cif",
       "dest": "data/raw/structures/7P6A.cif",
       "sha256": "de262273d0bf6f0c829bb6fa9ed3dab37d9b8fc67db644551c17aee92b573cb9",
-      "timestamp": "2026-07-18T12:17:21Z",
+      "timestamp": "2026-07-18T16:10:59Z",
       "kind": "rcsb_cif",
       "pdb_id": "7P6A"
     },
@@ -166,184 +166,7 @@
       "url": "https://files.rcsb.org/download/7P6A.pdb",
       "dest": "data/raw/structures/7P6A.pdb",
       "sha256": "3850a8ba90d83752f603deabc0cf7b8de012c073b1746f69e268deefb66a10a8",
-      "timestamp": "2026-07-18T12:17:22Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "7P6A"
-    },
-    {
-      "url": "literature_curation (WebSearch-verified: Seidler et al. 2018 Nature Chemistry 'Structure-based inhibitors of tau aggregation', PMID 29359764)",
-      "dest": "data/external/known_tau_inhibitors.csv",
-      "sha256": "0c327a8594a9998f89805286494bfbf52fccfa51ab54d46185bef3ed6e2f5c6a",
-      "timestamp": "2026-07-18T12:18:54Z",
-      "kind": "curated_literature_table",
-      "n_entries": 4
-    },
-    {
-      "url": "https://rest.uniprot.org/uniprotkb/P10636-8.fasta",
-      "dest": "data/raw/tau_P10636-8_2N4R.fasta",
-      "sha256": "e30ed5b41ba21782ac58824b766367900791486b4cdf4c24b41028d392c09291",
-      "timestamp": "2026-07-18T12:21:53Z",
-      "kind": "uniprot_fasta",
-      "accession": "P10636-8",
-      "isoform": "2N4R"
-    },
-    {
-      "url": "https://files.rcsb.org/download/5O3L.cif",
-      "dest": "data/raw/structures/5O3L.cif",
-      "sha256": "bb49bd2bbbe08b8b3232619d3aa73d8472fd64ff3dd5502bf205eae20f7fbc32",
-      "timestamp": "2026-07-18T12:30:55Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "5O3L"
-    },
-    {
-      "url": "https://files.rcsb.org/download/5O3L.pdb",
-      "dest": "data/raw/structures/5O3L.pdb",
-      "sha256": "2eabac8b92d32e98dbe181a652afb28d5d91c39604adf63ab516395d975bedd4",
-      "timestamp": "2026-07-18T12:30:55Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "5O3L"
-    },
-    {
-      "url": "https://files.rcsb.org/download/5O3T.cif",
-      "dest": "data/raw/structures/5O3T.cif",
-      "sha256": "e2c2e2a0087dbdeca529a79b929783720ea40c2780dc1dfefa4a71c9b3df7899",
-      "timestamp": "2026-07-18T12:30:55Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "5O3T"
-    },
-    {
-      "url": "https://files.rcsb.org/download/5O3T.pdb",
-      "dest": "data/raw/structures/5O3T.pdb",
-      "sha256": "c02dc45a6359b78972f21a184a1110325658d55c792ac9925c34a8a8495f71f0",
-      "timestamp": "2026-07-18T12:30:55Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "5O3T"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6NWP.cif",
-      "dest": "data/raw/structures/6NWP.cif",
-      "sha256": "4ffee938c0d55510b94a98e3b455a629c954cf07b899e025864c3a7cad96cf46",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "6NWP"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6NWP.pdb",
-      "dest": "data/raw/structures/6NWP.pdb",
-      "sha256": "42256edf65c6eff691e0dede04339c543c4a175bee13dab86f9d0e4411953cfe",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "6NWP"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6NWQ.cif",
-      "dest": "data/raw/structures/6NWQ.cif",
-      "sha256": "8b28258c9448a20fb68fbf0e6338a3cb3b7cbaf3969d43eb4a8faf53b5d57471",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "6NWQ"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6NWQ.pdb",
-      "dest": "data/raw/structures/6NWQ.pdb",
-      "sha256": "3d64d5bd8b19b154fcfd732cf25d15e8ac1bce4e8319a708f191db61118ade29",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "6NWQ"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6GX5.cif",
-      "dest": "data/raw/structures/6GX5.cif",
-      "sha256": "1a4476ab26489921c96ff9410f26efe8468d63676d946ca61fdab67ea05d4e8a",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "6GX5"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6GX5.pdb",
-      "dest": "data/raw/structures/6GX5.pdb",
-      "sha256": "a780cab8171739d55ef8536a4af47e6e9837bd8ac056c9a19ca30a0d27107d56",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "6GX5"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6TJO.cif",
-      "dest": "data/raw/structures/6TJO.cif",
-      "sha256": "9e8cf835ea887efa7f2937dfc99fc194834457723b4751c816ff9466a7658ff9",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "6TJO"
-    },
-    {
-      "url": "https://files.rcsb.org/download/6TJO.pdb",
-      "dest": "data/raw/structures/6TJO.pdb",
-      "sha256": "4e511001f4a329ecd805f0c8ac0565846392ebdaaef285c35d16d81c63a5cfec",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "6TJO"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P65.cif",
-      "dest": "data/raw/structures/7P65.cif",
-      "sha256": "4961ee3b2278d69b0a140ac005199b9c684f04dc6b7d1ce49f3de1b5f7f57978",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "7P65"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P65.pdb",
-      "dest": "data/raw/structures/7P65.pdb",
-      "sha256": "561f214b4a3876d15138d17a7b5643b7dbf9828e792675adc6b3951fa1907498",
-      "timestamp": "2026-07-18T12:30:56Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "7P65"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P6D.cif",
-      "dest": "data/raw/structures/7P6D.cif",
-      "sha256": "c0d071dc2000bc595cd2b6f245ea7be5fb575ed7f217ca85270ec1639f37837a",
-      "timestamp": "2026-07-18T12:30:57Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "7P6D"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P6D.pdb",
-      "dest": "data/raw/structures/7P6D.pdb",
-      "sha256": "afd5a13439b88bb360bcf38c0af59bc379fe9974fece3ba4c6b6acaef7d48758",
-      "timestamp": "2026-07-18T12:30:57Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "7P6D"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P66.cif",
-      "dest": "data/raw/structures/7P66.cif",
-      "sha256": "177089a9c0701b54aa117c13dc979fdefe62f4d7b9fe1feb0b607deaab5a95ac",
-      "timestamp": "2026-07-18T12:30:57Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "7P66"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P66.pdb",
-      "dest": "data/raw/structures/7P66.pdb",
-      "sha256": "de7f2b0d93281c12313d015ccb0805ae3351be72c7ee6de613220e63fc3f10d8",
-      "timestamp": "2026-07-18T12:30:57Z",
-      "kind": "rcsb_pdb",
-      "pdb_id": "7P66"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P6A.cif",
-      "dest": "data/raw/structures/7P6A.cif",
-      "sha256": "de262273d0bf6f0c829bb6fa9ed3dab37d9b8fc67db644551c17aee92b573cb9",
-      "timestamp": "2026-07-18T12:30:57Z",
-      "kind": "rcsb_cif",
-      "pdb_id": "7P6A"
-    },
-    {
-      "url": "https://files.rcsb.org/download/7P6A.pdb",
-      "dest": "data/raw/structures/7P6A.pdb",
-      "sha256": "3850a8ba90d83752f603deabc0cf7b8de012c073b1746f69e268deefb66a10a8",
-      "timestamp": "2026-07-18T12:30:57Z",
+      "timestamp": "2026-07-18T16:11:00Z",
       "kind": "rcsb_pdb",
       "pdb_id": "7P6A"
     },
@@ -351,7 +174,7 @@
       "url": "https://files.rcsb.org/download/2ON9.cif",
       "dest": "data/raw/structures/2ON9.cif",
       "sha256": "5559fdb062f80050cfb0f589f5d832c9d39702a9f8ca086e8ed87cf9b3ae88d5",
-      "timestamp": "2026-07-18T12:30:57Z",
+      "timestamp": "2026-07-18T16:11:00Z",
       "kind": "zipper_reference_asu",
       "motif": "VQIVYK",
       "pdb_id": "2ON9"
@@ -360,7 +183,7 @@
       "url": "https://files.rcsb.org/download/2ON9-assembly1.cif",
       "dest": "data/raw/structures/2ON9-assembly1.cif",
       "sha256": "89ece1329483c3b5974926f574f330f45a383c2941e40605df2c3350ca78c001",
-      "timestamp": "2026-07-18T12:30:58Z",
+      "timestamp": "2026-07-18T16:11:01Z",
       "kind": "zipper_reference_assembly",
       "motif": "VQIVYK",
       "pdb_id": "2ON9"
@@ -369,7 +192,7 @@
       "url": "https://files.rcsb.org/download/5V5C.cif",
       "dest": "data/raw/structures/5V5C.cif",
       "sha256": "1a0a5f1bcce2527672cc6fe58df5fe9a2afa9135ad16ddd0f17ce3c8e6a40042",
-      "timestamp": "2026-07-18T12:30:58Z",
+      "timestamp": "2026-07-18T16:11:01Z",
       "kind": "zipper_reference_asu",
       "motif": "VQIINK",
       "pdb_id": "5V5C"
@@ -378,10 +201,18 @@
       "url": "https://files.rcsb.org/download/5V5C-assembly1.cif",
       "dest": "data/raw/structures/5V5C-assembly1.cif",
       "sha256": "55221c7b24bd2fc3284deeef83d365f1eedd324051a2ea33fd17befd3fefbea6",
-      "timestamp": "2026-07-18T12:30:58Z",
+      "timestamp": "2026-07-18T16:11:01Z",
       "kind": "zipper_reference_assembly",
       "motif": "VQIINK",
       "pdb_id": "5V5C"
+    },
+    {
+      "url": "literature_curation (WebSearch-verified: Seidler et al. 2018 Nature Chemistry 'Structure-based inhibitors of tau aggregation', PMID 29359764)",
+      "dest": "data/external/known_tau_inhibitors.csv",
+      "sha256": "0c327a8594a9998f89805286494bfbf52fccfa51ab54d46185bef3ed6e2f5c6a",
+      "timestamp": "2026-07-18T16:11:02Z",
+      "kind": "curated_literature_table",
+      "n_entries": 4
     }
   ],
   "tool_versions": {},
@@ -390,33 +221,15 @@
       "original": "DSSP/secondary-structure geometry via literature symmetry annotation",
       "substitute": "geometric nearest-neighbor centroid-graph clustering (this script) to auto-detect protofilament membership and layer order directly from coordinates",
       "reason": "The brief does not specify an algorithm for separating protofilaments/ordering layers; cryo-EM deposits do not tag this explicitly in a machine-readable way. A distance-based graph on CA centroids reproduces the known symmetry (verified: 5O3L/5O3T split cleanly into two 5-layer protofilaments at 4.75 A intra-stack vs 9.5 A inter-protofilament, matching the published C2-symmetric PHF architecture).",
-      "timestamp": "2026-07-18T12:21:18Z"
-    },
-    {
-      "original": "DSSP/secondary-structure geometry via literature symmetry annotation",
-      "substitute": "geometric nearest-neighbor centroid-graph clustering (this script) to auto-detect protofilament membership and layer order directly from coordinates",
-      "reason": "The brief does not specify an algorithm for separating protofilaments/ordering layers; cryo-EM deposits do not tag this explicitly in a machine-readable way. A distance-based graph on CA centroids reproduces the known symmetry (verified: 5O3L/5O3T split cleanly into two 5-layer protofilaments at 4.75 A intra-stack vs 9.5 A inter-protofilament, matching the published C2-symmetric PHF architecture).",
-      "timestamp": "2026-07-18T12:23:58Z"
+      "timestamp": "2026-07-18T16:11:58Z"
     },
     {
       "original": "PyMOL-open-source structural rendering",
       "substitute": "matplotlib 3D CA-trace ribbons",
       "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
-      "timestamp": "2026-07-18T13:54:10Z"
-    },
-    {
-      "original": "PyMOL-open-source structural rendering",
-      "substitute": "matplotlib 3D CA-trace ribbons",
-      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
-      "timestamp": "2026-07-18T15:57:14Z"
-    },
-    {
-      "original": "PyMOL-open-source structural rendering",
-      "substitute": "matplotlib 3D CA-trace ribbons",
-      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
-      "timestamp": "2026-07-18T16:00:19Z"
+      "timestamp": "2026-07-18T16:59:53Z"
     }
   ],
   "seeds": [],
-  "updated": "2026-07-18T16:00:19Z"
+  "updated": "2026-07-18T16:59:53Z"
 }

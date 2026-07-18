@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 
 from sentinel.io.http_client import download
+from sentinel.utils.compute import detect_compute_tier
 from sentinel.utils.config import load_config, repo_path
 from sentinel.utils.logging import append_progress_log, get_logger
 
@@ -41,6 +42,15 @@ def build_aggregation_constructs(full_seq: str, landmarks: dict) -> dict[str, st
 
 
 def main() -> dict:
+    # First real action of `make data` (the pipeline's actual entry point) — detect and
+    # record the compute tier per brief Part 4.1 ("on startup... writes compute_profile.json").
+    # A prior version of this build only ever wrote this file via an ad-hoc interactive check,
+    # never from the real `make all` chain, which crashed sentinel.design.gpu_tier_status on a
+    # genuinely fresh checkout — caught by a from-scratch `make clean && make all` rebuild.
+    profile = detect_compute_tier(write=True)
+    logger.info(f"compute tier detected: {profile.tier} ({profile.cpu_cores} cores, "
+                f"{profile.ram_gb} GB RAM, CUDA={profile.cuda_available})")
+
     cfg = load_config()
     uni = cfg["data"]["uniprot"]
     dest = repo_path("data", "raw", "tau_P10636-8_2N4R.fasta")

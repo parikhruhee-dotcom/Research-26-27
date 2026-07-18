@@ -1006,7 +1006,7 @@ specification (M5); real ProteinMPNN sequence design and the full 10-round
 active-learning loop with its random-search comparison (M6b, M6d); the
 selectivity and developability filtering (M6e); real full-atom molecular
 dynamics on the top leads (M7); the biosensor design proposal (M8); every
-statistical benchmark (M9); every figure (M10); the full 49-test test suite
+statistical benchmark (M9); every figure (M10); the full 51-test test suite
 (M11).
 
 **Prepared, code-verified, and packaged for one-click GPU reproduction —

@@ -12,7 +12,14 @@ from sentinel.utils.config import load_config, repo_path
 def main() -> None:
     cfg = load_config()
     import json
-    compute_profile = json.load(open(repo_path("results", "compute_profile.json")))
+    from sentinel.utils.compute import detect_compute_tier
+    # results/compute_profile.json is normally written at the start of `make data`
+    # (see sentinel.io.fetch_sequence.main); detect fresh here too so this script
+    # is self-contained and never crashes if run standalone or out of order.
+    profile_path = repo_path("results", "compute_profile.json")
+    if not profile_path.exists():
+        detect_compute_tier(write=True)
+    compute_profile = json.load(open(profile_path))
 
     content = f"""# GPU-tier status — what ran locally vs. what is Colab-deferred
 

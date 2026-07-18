@@ -1,26 +1,26 @@
 {
   "PHF6": {
-    "actual_ns_simulated": 0.17367,
+    "actual_ns_simulated": 0.1816,
     "target_ns": 2.0,
     "capped_by_wallclock_budget": true,
-    "mean_rmsd_nm": 0.12478824540279633,
-    "mean_rg_nm": 0.6618703908563942,
+    "mean_rmsd_nm": 0.10354616724394469,
+    "mean_rg_nm": 0.6374132059548087,
     "mean_beta_fraction": 0.0
   },
   "PHF6_star": {
-    "actual_ns_simulated": 0.11512,
+    "actual_ns_simulated": 0.20335,
     "target_ns": 2.0,
     "capped_by_wallclock_budget": true,
-    "mean_rmsd_nm": 0.1546621118721209,
-    "mean_rg_nm": 0.6650483233685806,
+    "mean_rmsd_nm": 0.12701879533948285,
+    "mean_rg_nm": 0.6427939015535503,
     "mean_beta_fraction": 0.0
   },
   "fibril_tip": {
-    "actual_ns_simulated": 0.00269,
+    "actual_ns_simulated": 0.0027,
     "target_ns": 1.0,
     "capped_by_wallclock_budget": true,
-    "mean_rmsd_nm": 0.08708928773800532,
-    "mean_rg_nm": 2.355967717342765,
-    "mean_beta_fraction": 0.4840182648401827
+    "mean_rmsd_nm": 0.08781811222434044,
+    "mean_rg_nm": 2.3622123300406535,
+    "mean_beta_fraction": 0.4885844748858447
   }
 }
