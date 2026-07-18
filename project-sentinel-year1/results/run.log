@@ -131,3 +131,20 @@
 2026-07-18T12:37:58+0000 | INFO    | __main__ | zipper crystal ratio VQIINK/VQIVYK buried SASA = 2.031
 2026-07-18T12:40:24+0000 | INFO    | __main__ | PHF6 rank=1, PHF6* rank=3 (top-15 required) out of 436 windows.
 2026-07-18T12:40:24+0000 | INFO    | __main__ | top-5 predicted nucleating windows: VQIVYK@306, SVQIVY@305, VQIINK@275, IVYKPV@308, VAVVRT@226
+2026-07-18T12:42:39+0000 | INFO    | sentinel.md.simulate | TEST_PHF6: simulated 0.01000 ns (5000 steps @ 2.0 fs) in 19.0s wall-clock (275.8 steps/s measured on this CPU).
+2026-07-18T12:48:11+0000 | INFO    | sentinel.md.simulate | 3420 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T12:50:31+0000 | INFO    | sentinel.md.simulate | 2280 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T12:52:34+0000 | INFO    | __main__ | running hexapeptide MD for PHF6...
+2026-07-18T12:52:36+0000 | WARNING | sentinel.md.simulate | PHF6: target 2.0 ns would take ~4837s at 206.8 steps/s on this CPU; capping to a 420s budget (86835 steps) and logging the ACTUAL ns simulated, not the target.
+2026-07-18T13:00:12+0000 | INFO    | sentinel.md.simulate | PHF6: simulated 0.17367 ns (86835 steps @ 2.0 fs) in 455.7s wall-clock (206.8 steps/s measured on this CPU).
+2026-07-18T13:00:12+0000 | INFO    | __main__ | running hexapeptide MD for PHF6_star...
+2026-07-18T13:00:16+0000 | WARNING | sentinel.md.simulate | PHF6_star: target 2.0 ns would take ~7297s at 137.0 steps/s on this CPU; capping to a 420s budget (57559 steps) and logging the ACTUAL ns simulated, not the target.
+2026-07-18T13:04:19+0000 | INFO    | sentinel.md.simulate | PHF6_star: simulated 0.11512 ns (57559 steps @ 2.0 fs) in 242.7s wall-clock (137.0 steps/s measured on this CPU).
+2026-07-18T13:04:19+0000 | INFO    | __main__ | running fibril growing-tip MD...
+2026-07-18T13:04:19+0000 | INFO    | sentinel.md.simulate | 2280 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T13:06:36+0000 | WARNING | sentinel.md.simulate | 5O3L_fibril_tip: target 1.0 ns would take ~111531s at 4.5 steps/s on this CPU; capping to a 300s budget (1344 steps) and logging the ACTUAL ns simulated, not the target.
+2026-07-18T13:11:31+0000 | INFO    | sentinel.md.simulate | 5O3L_fibril_tip: simulated 0.00269 ns (1344 steps @ 2.0 fs) in 294.6s wall-clock (4.5 steps/s measured on this CPU).
+2026-07-18T13:11:31+0000 | INFO    | __main__ | PHF6: 0.17367 ns simulated (target 2.0 ns), mean RMSD=0.125 nm, mean Rg=0.662 nm, mean beta-fraction=0.000
+2026-07-18T13:11:31+0000 | INFO    | __main__ | PHF6_star: 0.11512 ns simulated (target 2.0 ns), mean RMSD=0.155 nm, mean Rg=0.665 nm, mean beta-fraction=0.000
+2026-07-18T13:11:31+0000 | INFO    | __main__ | fibril_tip: 0.00269 ns simulated (target 1.0 ns), mean RMSD=0.087 nm, mean Rg=2.356 nm, mean beta-fraction=0.484
+2026-07-18T13:13:46+0000 | INFO    | __main__ | design target spec: 15 hotspots, 45 rigid anchors, 9 overlap (hotspot AND rigid) -> 9 conditioning residues, 8-fold negative-design panel.

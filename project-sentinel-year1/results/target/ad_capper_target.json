@@ -1,0 +1,175 @@
+{
+  "target_name": "AD_tau_fibril_templating_tip_capper",
+  "reference_strain": "AD_PHF",
+  "reference_pdb_id": "5O3L",
+  "reference_stack_pdb": "data/interim/structures/5O3L_stack.pdb",
+  "reference_tip_chain": "I",
+  "core_residue_range": [
+    306,
+    378
+  ],
+  "hotspot_residues": [
+    365,
+    357,
+    342,
+    326,
+    315,
+    354,
+    334,
+    323,
+    361,
+    313,
+    346,
+    310,
+    362,
+    320,
+    374
+  ],
+  "rigid_anchor_residues": [
+    307,
+    308,
+    309,
+    311,
+    312,
+    315,
+    316,
+    319,
+    320,
+    323,
+    330,
+    331,
+    337,
+    338,
+    339,
+    340,
+    341,
+    343,
+    345,
+    346,
+    347,
+    348,
+    350,
+    351,
+    352,
+    353,
+    354,
+    355,
+    356,
+    357,
+    358,
+    360,
+    361,
+    362,
+    363,
+    368,
+    370,
+    371,
+    372,
+    373,
+    374,
+    375,
+    376,
+    377,
+    378
+  ],
+  "hotspot_and_anchor_residues": [
+    315,
+    320,
+    323,
+    346,
+    354,
+    357,
+    361,
+    362,
+    374
+  ],
+  "conditioning_residues_for_rfdiffusion": [
+    315,
+    320,
+    323,
+    346,
+    354,
+    357,
+    361,
+    362,
+    374
+  ],
+  "templating_tip_geometry": {
+    "description": "the terminal cross-beta layer of the AD PHF stack (see results/atlas/per_strain_characterization.json, strain AD_PHF) \u2014 the surface a new tau monomer would dock onto to extend the fibril; a capper must complement its exposed backbone H-bond donors/acceptors and hotspot side chains without occluding residues shared with the other 7 folds.",
+    "n_beta_strands_per_layer": 10
+  },
+  "binder_length_range": [
+    60,
+    120
+  ],
+  "negative_design_panel": [
+    {
+      "strain": "CTE_I",
+      "pdb_id": "6NWP",
+      "stack_pdb": "data/interim/structures/6NWP_stack.pdb",
+      "tip_chain": "C",
+      "core_start": 305,
+      "core_end": 379
+    },
+    {
+      "strain": "CTE_II",
+      "pdb_id": "6NWQ",
+      "stack_pdb": "data/interim/structures/6NWQ_stack.pdb",
+      "tip_chain": "C",
+      "core_start": 305,
+      "core_end": 379
+    },
+    {
+      "strain": "PiD",
+      "pdb_id": "6GX5",
+      "stack_pdb": "data/interim/structures/6GX5_stack.pdb",
+      "tip_chain": "C",
+      "core_start": 254,
+      "core_end": 378
+    },
+    {
+      "strain": "CBD",
+      "pdb_id": "6TJO",
+      "stack_pdb": "data/interim/structures/6TJO_stack.pdb",
+      "tip_chain": "B",
+      "core_start": 274,
+      "core_end": 380
+    },
+    {
+      "strain": "PSP",
+      "pdb_id": "7P65",
+      "stack_pdb": "data/interim/structures/7P65_stack.pdb",
+      "tip_chain": "C",
+      "core_start": 272,
+      "core_end": 381
+    },
+    {
+      "strain": "AGD",
+      "pdb_id": "7P6D",
+      "stack_pdb": "data/interim/structures/7P6D_stack.pdb",
+      "tip_chain": "B",
+      "core_start": 273,
+      "core_end": 387
+    },
+    {
+      "strain": "GGT",
+      "pdb_id": "7P66",
+      "stack_pdb": "data/interim/structures/7P66_stack.pdb",
+      "tip_chain": "E",
+      "core_start": 272,
+      "core_end": 379
+    },
+    {
+      "strain": "GPT",
+      "pdb_id": "7P6A",
+      "stack_pdb": "data/interim/structures/7P6A_stack.pdb",
+      "tip_chain": "C",
+      "core_start": 272,
+      "core_end": 379
+    }
+  ],
+  "provenance": {
+    "hotspots_source": "results/atlas/ad_strain_fingerprint.json (top_hotspots, boundary-excluded)",
+    "anchors_source": "results/md/md_results_full.json (fibril_tip RMSF, bottom 60th... percentile <=40 = most rigid)"
+  }
+}

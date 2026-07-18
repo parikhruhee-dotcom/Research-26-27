@@ -124,10 +124,11 @@ md:
     temperature_K: 300
     friction_per_ps: 1.0
     timestep_fs: 2.0
-    minimize_max_iterations: 500
+    minimize_max_iterations: 100  # reduced from 500: measured ~1.28s/iteration on this 2-core CPU
+                                    # for the ~2300-atom truncated system; see PROGRESS_LOG.md M4
     target_ns_gpu: 10
     target_ns_cpu: 1.0
-    report_interval_steps: 1000
+    report_interval_steps: 200
 
 # ------------------------------------------------------------------------------
 # M5 — Design target
@@ -148,7 +149,9 @@ design:
   proteinmpnn:
     repo: "https://github.com/dauparas/ProteinMPNN"
     sampling_temperatures: [0.1, 0.15, 0.2]
-    n_sequences_per_backbone: 8
+    n_sequences_per_backbone: 4   # reduced from a nominal 8 for CPU wall-clock tractability across
+                                    # a 6-round loop on a 2-core sandbox; real ProteinMPNN is still
+                                    # run for every backbone (see PROGRESS_LOG.md M6)
   synthetic_backbone_generation:
     # CPU-tier substitute backbone generator (see src/sentinel/design/backbone_gen.py):
     # helix-loop-helix and beta-hairpin-capper scaffold library, parametrically enumerated
@@ -156,12 +159,17 @@ design:
     # non-ML geometric baseline that keeps the closed loop fully executable on CPU while
     # RFdiffusion is Colab-deferred.
     n_scaffold_topologies: 4
-    n_backbones_per_round: 24
+    n_backbones_per_round: 8   # reduced from a nominal 24 for CPU wall-clock tractability (see above)
   scoring:
     interface_pae_max: 7.5
     plddt_min: 85
     iptm_min: 0.7
     esm_model: "esm2_t6_8M_UR50D"     # smallest ESM-2 checkpoint, CPU-feasible
+    composite_weights:                 # combine into one score per (backbone, sequence) design
+      packing_density_sc_proxy: 0.40
+      clash_penalty: 0.30              # subtracted: composite -= weight * clash_score
+      esm_plausibility: 0.20
+      developability_bonus: 0.10       # added if developability_passed
   active_learning:
     n_rounds: 6
     n_candidates_per_round: 24
