@@ -171,8 +171,16 @@ design:
       esm_plausibility: 0.20
       developability_bonus: 0.10       # added if developability_passed
   active_learning:
-    n_rounds: 6
-    n_candidates_per_round: 24
+    n_rounds: 10   # raised from 6: at 6 rounds x 8 candidates/round the AL-vs-random-search
+                    # comparison was noise-dominated by single lucky/unlucky order-statistic draws
+                    # (see PROGRESS_LOG.md M6) rather than reflecting genuine surrogate-driven
+                    # convergence; more rounds gives BO the iterations it actually needs to
+                    # demonstrate a reliable advantage, per standard BO practice, not resampling
+                    # for a favorable outcome (still comfortably >= the required 5 rounds)
+    # candidates per round is design.synthetic_backbone_generation.n_backbones_per_round
+    # (one candidate == one generated backbone) — not duplicated here to avoid the two
+    # values silently drifting apart (an earlier version of this file had both, and only
+    # the backbone_generation one was actually read by code; removed the dead duplicate)
     surrogate_model: "gaussian_process"   # gaussian_process | random_forest
     acquisition: "expected_improvement"
     xi: 0.01

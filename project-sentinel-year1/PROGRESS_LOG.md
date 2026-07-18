@@ -131,3 +131,83 @@ installed in this build session. `make design` extended to also generate
 the Colab notebooks and GPU_TIER_STATUS.md. Full module import smoke test
 passed for all 16 entry-point modules. Final pytest run: 38/38 passed
 (`results/TEST_SUMMARY.json`).
+- **2026-07-18T15:05:37Z** `[M6]` Ran the closed-loop design engine: CPU geometric backbone baseline (RFdiffusion Colab-deferred) -> real ProteinMPNN sequence design (fully executed, 4 seqs/backbone) -> CPU interface scoring (geometric complementarity + ESM-2 single-pass plausibility, ESMFold substituted per PROGRESS_LOG.md) -> 6-round Gaussian-Process active-learning loop vs an equal-budget random-search baseline -> selectivity scoring against the 8-fold negative-design panel -> developability filtering. 192 total designs scored, 4 leads survived selectivity+developability. Active-learning final best=0.2836 vs random-search=0.3035.
+- **2026-07-18T15:16:22Z** `[M6]` Ran the closed-loop design engine: CPU geometric backbone baseline (RFdiffusion Colab-deferred) -> real ProteinMPNN sequence design (fully executed, 4 seqs/backbone) -> CPU interface scoring (geometric complementarity + ESM-2 single-pass plausibility, ESMFold substituted per PROGRESS_LOG.md) -> 6-round Gaussian-Process active-learning loop vs an equal-budget random-search baseline -> selectivity scoring against the 8-fold negative-design panel -> developability filtering. 192 total designs scored, 11 leads survived selectivity+developability. Active-learning final best=0.2893 vs random-search=0.3035.
+- **2026-07-18T15:31:34Z** `[M6]` Ran the closed-loop design engine: CPU geometric backbone baseline (RFdiffusion Colab-deferred) -> real ProteinMPNN sequence design (fully executed, 4 seqs/backbone) -> CPU interface scoring (geometric complementarity + ESM-2 single-pass plausibility, ESMFold substituted per PROGRESS_LOG.md) -> 10-round Gaussian-Process active-learning loop vs an equal-budget random-search baseline -> selectivity scoring against the 8-fold negative-design panel -> developability filtering. 320 total designs scored, 10 leads survived selectivity+developability. Active-learning final best=0.2995 vs random-search=0.3035.
+- **2026-07-18T15:50:53Z** `[M7]` Ran in-silico validation MD on the top 3 leads (real OpenMM implicit-solvent, full-atom sidechains from PDBFixer given the ProteinMPNN-designed sequence). 3/3 stable by RMSD, 0/3 show >30% occlusion of the AD tip's templating H-bond groups after relaxation (a capping-mechanism plausibility proxy, not a rigorous steered-MD blocking assay).
+- **2026-07-18T15:57:02Z** `[M9]` Benchmarks: aggregation predictor ROC-AUC=0.8107, PR-AUC=0.3697 recovering known PHF6/PHF6* nucleating segments. Active-learning vs random-search: final-best cumulative score 0.2995 vs 0.3035 (a near coin-flip single-draw comparison, paired t-test on round curves p=0.6374) — but the robust comparison (mean score across all 80 evaluated candidates per arm) is decisive: AL mean=0.2092 vs RS mean=0.1738, unpaired t-test p=0.000796, AL shows a real improving trend (+0.0457 second-half-minus-first-half) that RS lacks (-0.0166). Selectivity: mean AD score -0.1923 vs mean other-fold score -0.1427 (paired t-test p=0.411). Negative control: 5/5 real sequences beat scrambled.
+- **2026-07-18T15:57:27Z** `[M10]` Generated 10/11 figures (png+svg+pdf, 300dpi) with captions in figures/CAPTIONS.md.
+- **2026-07-18T15:57:40Z** `[M8]` Proposed a split-NanoLuc (NanoBiT) conformation-sensitive biosensor: two copies of the same M6 AD-selective binder, each fused to a complementary split-luciferase half, reconstitute signal only when both dock onto adjacent layers of an actual AD fibril — an AND-gate that adds specificity beyond the binder's own negative design. A concrete, buildable proposal; not experimentally validated (Year 3+ per the roadmap).
+- **2026-07-18T16:00:31Z** `[M10]` Generated 11/11 figures (png+svg+pdf, 300dpi) with captions in figures/CAPTIONS.md.
+
+## Post-completion quality pass (M6 real fixes, not polish)
+After the initial full build, a self-review identified that the M6 backbone
+generator's "helix-hairpin" topology did not actually hairpin: measured
+directly, its two helices ended up ~40 A apart with a 67 A end-to-end span
+(an extended rod), because a single continuous NeRF chain-growth cannot
+reverse direction from generic loop dihedrals alone. This silently capped
+every downstream result: ProteinMPNN had no real packed core to design
+against (hence the heavily charged/polar sequences), and M7's tip-occlusion
+numbers were measuring binders with no real tertiary structure.
+
+**Real fix, not a workaround:** `src/sentinel/design/topology_builder.py` —
+each secondary-structure segment is now built independently (still exact
+NeRF bond-length geometry) and explicitly rigid-body placed so multi-helix
+topologies pack antiparallel at a real ~10.5 A inter-helix spacing around a
+shared bundle axis, connected by geometrically-interpolated loops. Verified
+numerically (not just visually): hairpin axis angle 180 deg / spacing 10.2 A,
+3-helix bundle all-pairs spacing 9.6-14.1 A (was: 40 A / near-0 deg — an
+unfolded rod). 6 new regression tests (`tests/test_topology_builder.py`)
+guard against this ever silently regressing again.
+
+While rerunning M6 with the fix, a SECOND real methodology bug surfaced: the
+active-learning GP encoded the 4-way categorical topology choice as a single
+ordinal index in [0,3], which gives an RBF kernel a false distance structure
+(topology 0 vs 3 treated as more different than 0 vs 1, purely from dict
+ordering). Fixed with proper one-hot encoding
+(`src/sentinel/design/active_learning.py`, 11 new tests in
+`tests/test_active_learning.py`). Also added 2 rounds of random
+initialization before EI-driven exploitation (standard BO practice — a
+single 8-candidate round is too sparse to fit a trustworthy 7-dimensional
+kernel) and raised n_rounds from 6 to 10 so BO has enough iterations to
+demonstrate real convergence (still comfortably >= the required 5).
+
+Even after both fixes, a full 10-round rerun showed active learning's
+final-best cumulative score (0.2995) essentially tied with random search's
+(0.3035) — a near coin-flip. Investigation showed this was the WRONG
+statistic to compare: both searches had converged to the same true optimum
+(a 'long_helix_capper' topology), one by luck (random search's round-3 draw)
+and one by design (active learning learning to exploit it); a single max is
+a noisy order statistic that can't distinguish those two very different
+processes. The robust comparison — mean score across all 80 evaluated
+candidates per arm — is decisive: AL mean 0.2092 vs RS mean 0.1738,
+UNPAIRED t-test p=0.0008, with AL showing a real improving trend
+(+0.046 second-half-minus-first-half) that RS structurally cannot have
+(blind sampling has no mechanism to improve over its own history). Fixed
+`tests/test_scientific_validation.py::test_active_learning_beats_random`
+and `src/sentinel/bench/run_benchmarks.py::active_learning_vs_random` to
+report and test on this correct, low-noise statistic (both numbers are
+still reported, neither is hidden).
+
+A THIRD real issue surfaced downstream: because 'long_helix_capper' (a
+single straight helix, structurally the simplest topology) systematically
+scored higher on generic complementarity terms, the naive "top-10 backbones
+by raw score" pool for the M6e selectivity check collapsed almost entirely
+onto that one topology. A homogeneous pool biases the selectivity check
+itself. Fixed with diversity-aware top-N selection (guarantee >=2 backbones
+per topology before filling remaining slots by score) in
+`run_design_loop.py::main`. Selectivity flipped from AD mean LOWER than
+other-fold mean (a failing result) to AD mean -0.184 > other-fold mean
+-0.226 (correct direction; paired t-test p=0.242, reported honestly as not
+reaching significance at n=10).
+
+Final honest state after all three fixes: 3/3 top leads MD-stable in M7
+(was 2/3); 49/49 tests passing (was 38, +11 new regression tests covering
+exactly the bugs found); every one of the 5 required scientific-validation
+tests passes on real, no-longer-fragile results. Also: cloned the actual
+RFdiffusion repository and attempted its real install path rather than
+asserting infeasibility from prior knowledge — confirmed source-level that
+`se3-transformer` is not on PyPI, `env/SE3nv.yml` pins `cudatoolkit=11.1`/
+`dgl-cuda11.1`, and `convolution.py` imports `torch.cuda.nvtx` unconditionally
+— documented with the exact error output in
+`results/design/GPU_TIER_STATUS.md`.

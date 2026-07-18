@@ -1,33 +1,33 @@
 {
   "per_design": [
     {
-      "design_id": "r4_c5_helix_hairpin_s1",
-      "real_plausibility": 0.9408,
-      "scrambled_plausibility": 0.9399,
+      "design_id": "r8_c3_long_helix_capper_s2",
+      "real_plausibility": 0.9472,
+      "scrambled_plausibility": 0.9434,
       "real_beats_scrambled": true
     },
     {
-      "design_id": "r4_c5_helix_hairpin_s2",
-      "real_plausibility": 0.9371,
-      "scrambled_plausibility": 0.9366,
+      "design_id": "r8_c3_long_helix_capper_s1",
+      "real_plausibility": 0.9419,
+      "scrambled_plausibility": 0.9377,
       "real_beats_scrambled": true
     },
     {
-      "design_id": "r5_c1_three_helix_bundle_s0",
-      "real_plausibility": 0.9407,
-      "scrambled_plausibility": 0.9308,
+      "design_id": "r8_c3_long_helix_capper_s0",
+      "real_plausibility": 0.9394,
+      "scrambled_plausibility": 0.9373,
       "real_beats_scrambled": true
     },
     {
-      "design_id": "r0_c7_helix_hairpin_s1",
-      "real_plausibility": 0.9411,
-      "scrambled_plausibility": 0.9354,
+      "design_id": "r6_c0_long_helix_capper_s1",
+      "real_plausibility": 0.9436,
+      "scrambled_plausibility": 0.9402,
       "real_beats_scrambled": true
     },
     {
-      "design_id": "r1_c0_helix_hairpin_s2",
-      "real_plausibility": 0.9377,
-      "scrambled_plausibility": 0.9352,
+      "design_id": "r3_c7_long_helix_capper_s1",
+      "real_plausibility": 0.9438,
+      "scrambled_plausibility": 0.9409,
       "real_beats_scrambled": true
     }
   ],

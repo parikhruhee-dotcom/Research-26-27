@@ -16,8 +16,7 @@ from __future__ import annotations
 import numpy as np
 
 from sentinel.aggregation.scorer import compute_profile as compute_aggregation_profile
-from sentinel.design.backbone_gen import TOPOLOGIES, dock_onto_target
-from sentinel.design.geometry import build_backbone
+from sentinel.design.backbone_gen import TOPOLOGIES, build_topology_backbone, dock_onto_target
 from sentinel.design.interface_scorer import geometric_complementarity
 from sentinel.utils.config import load_config, repo_path
 
@@ -49,8 +48,7 @@ def _fold_target_geometry(prepared_entry: dict, hotspot_resids: list[int]) -> tu
 
 
 def score_backbone_against_fold(backbone_record: dict, prepared_entry: dict, hotspot_resids: list[int]) -> dict:
-    ss = backbone_record["ss_string"]
-    coords = build_backbone(ss)
+    coords = build_topology_backbone(backbone_record["topology"], backbone_record["topology_seed"])
     target_centroid, approach, tip_coords = _fold_target_geometry(prepared_entry, hotspot_resids)
 
     rng = np.random.default_rng(backbone_record["dock_seed"])

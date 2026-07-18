@@ -24,16 +24,41 @@ from __future__ import annotations
 import numpy as np
 
 from sentinel.design.geometry import build_backbone
+from sentinel.design.topology_builder import build_packed_bundle
 from sentinel.utils.config import load_config, repo_path
 
+# Each topology is a list of (secondary-structure-type, length) segments plus
+# the loop length connecting consecutive segments. Multi-segment topologies
+# are built via topology_builder.build_packed_bundle, which EXPLICITLY places
+# each segment in a real, packed antiparallel arrangement (verified: ~10.5 A
+# inter-helix spacing, ~180 degree antiparallel axis angle) rather than
+# hoping a naive dihedral-only chain happens to fold back on itself (it
+# doesn't — see PROGRESS_LOG.md for the measurement that caught this).
 TOPOLOGIES = {
-    "helix_hairpin": "H" * 30 + "L" * 4 + "H" * 30,                              # 64 aa
-    "three_helix_bundle": "H" * 24 + "L" * 3 + "H" * 24 + "L" * 3 + "H" * 24,     # 78 aa
-    "helix_strand_helix": "H" * 24 + "L" * 3 + "E" * 10 + "L" * 3 + "H" * 24,     # 64 aa
-    "long_helix_capper": "H" * 65,                                                # 65 aa
+    "helix_hairpin": {"segments": [("H", 30), ("H", 30)], "loop_length": 4},            # 64 aa
+    "three_helix_bundle": {"segments": [("H", 24), ("H", 24), ("H", 24)], "loop_length": 3},  # 78 aa
+    "helix_strand_helix": {"segments": [("H", 24), ("E", 10), ("H", 24)], "loop_length": 3},  # 64 aa
+    "long_helix_capper": {"segments": [("H", 65)], "loop_length": 0},                    # 65 aa, no packing needed
 }
 
 AA_PLACEHOLDER = "ALA"
+
+
+def build_topology_backbone(topo_name: str, topology_seed: int) -> dict:
+    """Build one topology's coordinates deterministically from its own seed
+    (independent of the docking pose seed), so selectivity.py can rebuild
+    the identical backbone shape when redocking onto other folds."""
+    spec = TOPOLOGIES[topo_name]
+    if len(spec["segments"]) == 1:
+        ss_char, length = spec["segments"][0]
+        return build_backbone(ss_char * length)
+    return build_packed_bundle(spec["segments"], spec["loop_length"], seed=topology_seed)
+
+
+def topology_length(topo_name: str) -> int:
+    spec = TOPOLOGIES[topo_name]
+    n_segments = len(spec["segments"])
+    return sum(length for _, length in spec["segments"]) + spec["loop_length"] * (n_segments - 1)
 
 
 def _write_backbone_pdb(coords: dict, dest_path, chain_id: str = "A") -> None:
@@ -116,21 +141,21 @@ def generate_backbones(target_spec: dict, n_backbones: int, seed: int) -> list[d
     manifest = []
     for i in range(n_backbones):
         topo_name = topo_names[i % len(topo_names)]
-        ss = TOPOLOGIES[topo_name]
-        coords = build_backbone(ss)
+        topology_seed = int(rng.integers(0, 2**31 - 1))
+        coords = build_topology_backbone(topo_name, topology_seed)
         standoff = float(rng.uniform(9.0, 13.0))
         placed = dock_onto_target(coords, target_centroid, approach_direction, standoff, rng)
 
         tag = f"backbone_{i:03d}_{topo_name}"
         pdb_path = out_dir / f"{tag}.pdb"
         _write_backbone_pdb(placed, pdb_path)
-        backbone_seed = int(rng.integers(0, 2**31 - 1))
+        dock_seed = int(rng.integers(0, 2**31 - 1))
         manifest.append({
-            "backbone_id": tag, "topology": topo_name, "length": len(ss),
-            "ss_string": ss, "standoff_A": round(standoff, 2), "pdb_path": str(pdb_path),
-            "dock_seed": backbone_seed,  # lets selectivity.py reproduce the identical rigid-body
-                                          # pose (twist/tilt) when redocking this same backbone onto
-                                          # each negative-design fold's tip for a fair comparison
+            "backbone_id": tag, "topology": topo_name, "length": topology_length(topo_name),
+            "topology_seed": topology_seed, "standoff_A": round(standoff, 2), "pdb_path": str(pdb_path),
+            "dock_seed": dock_seed,  # lets selectivity.py reproduce the identical rigid-body
+                                      # pose (twist/tilt) when redocking this same backbone onto
+                                      # each negative-design fold's tip for a fair comparison
             "source": "cpu_geometric_baseline (RFdiffusion Colab-deferred — see GPU_TIER_STATUS.md)",
         })
 

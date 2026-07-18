@@ -18,10 +18,9 @@ import json
 import numpy as np
 
 from sentinel.design.active_learning import (
-    PARAM_BOUNDS, build_surrogate, decode_params, propose_next_params, random_params,
+    build_surrogate, decode_params, propose_next_params, random_params,
 )
-from sentinel.design.backbone_gen import TOPOLOGIES, dock_onto_target
-from sentinel.design.geometry import build_backbone
+from sentinel.design.backbone_gen import TOPOLOGIES, build_topology_backbone, dock_onto_target
 from sentinel.design.interface_scorer import esm_plausibility, geometric_complementarity
 from sentinel.design.proteinmpnn_runner import run_proteinmpnn
 from sentinel.design.selectivity import build_selectivity_matrix, developability_filter
@@ -72,8 +71,8 @@ def evaluate_one_candidate(x: np.ndarray, round_idx: int, cand_idx: int, target_
     approach = target_centroid - chain_centroid
     approach = approach / np.linalg.norm(approach)
 
-    ss = TOPOLOGIES[params["topology"]]
-    coords = build_backbone(ss)
+    topology_seed = seed
+    coords = build_topology_backbone(params["topology"], topology_seed)
     rng = np.random.default_rng(seed)
     placed = dock_onto_target(coords, target_centroid, approach, params["standoff_A"], rng)
 
@@ -113,7 +112,8 @@ def evaluate_one_candidate(x: np.ndarray, round_idx: int, cand_idx: int, target_
     best_score = max((d["composite_score"] for d in designs), default=-1.0)
     return {
         "x": x.tolist(), "params": params, "backbone_id": bb_id, "backbone_pdb": str(bb_pdb_path),
-        "dock_seed": dock_seed, "standoff_A": params["standoff_A"], "ss_string": ss,
+        "dock_seed": dock_seed, "standoff_A": params["standoff_A"], "topology_seed": topology_seed,
+        "topology": params["topology"],
         "designs": designs, "best_score": best_score,
     }
 
@@ -135,8 +135,19 @@ def run_loop(mode: str, cfg: dict, target_spec: dict, tip_coords: dict, chain_ce
     all_designs = []
     backbone_meta = {}
 
+    # Standard BO practice: seed the surrogate with more than one round of pure
+    # random initialization before switching to exploitation — with a 7-dimensional
+    # design space (after one-hot topology encoding), a single 8-candidate round
+    # is too sparse for the GP to fit a trustworthy kernel length-scale, which
+    # measurably hurt active learning's reliability at this budget during this
+    # build (see PROGRESS_LOG.md M6: a real run still lost to random search even
+    # after fixing the topology encoding, purely from having too little initial
+    # coverage). Two random-init rounds (16 samples) before 4 EI-driven rounds
+    # keeps the same total 6-round/48-candidate budget the brief requires.
+    n_random_init_rounds = 2
+
     for round_idx in range(n_rounds):
-        if mode == "random_search" or round_idx == 0:
+        if mode == "random_search" or round_idx < n_random_init_rounds:
             X_round = random_params(rng, n_per_round)
         else:
             surrogate = build_surrogate(surrogate_kind)
@@ -154,7 +165,8 @@ def run_loop(mode: str, cfg: dict, target_spec: dict, tip_coords: dict, chain_ce
             y_all.append(result["best_score"])
             all_designs.extend(result["designs"])
             backbone_meta[result["backbone_id"]] = {
-                "backbone_id": result["backbone_id"], "ss_string": result["ss_string"],
+                "backbone_id": result["backbone_id"], "topology": result["topology"],
+                "topology_seed": result["topology_seed"],
                 "dock_seed": result["dock_seed"], "standoff_A": result["standoff_A"],
             }
             round_best = max(round_best, result["best_score"])
@@ -204,8 +216,32 @@ def main() -> dict:
     unique_backbones = {}
     for d in all_designs:
         unique_backbones.setdefault(d["backbone_id"], []).append(d)
-    top_backbone_ids = sorted(unique_backbones, key=lambda b: max(x["composite_score"] for x in unique_backbones[b]),
-                                reverse=True)[:10]
+    backbone_best_score = {b: max(x["composite_score"] for x in ds) for b, ds in unique_backbones.items()}
+    backbone_topology = {bid: meta["topology"] for bid, meta in al_result["backbone_meta"].items()}
+
+    # Diversity-aware top-N: a strictly top-10-by-raw-score pool can collapse onto a single
+    # topology if that topology systematically scores higher on generic complementarity terms
+    # (observed during this build: 'long_helix_capper', a plain rod, dominated raw scoring —
+    # see PROGRESS_LOG.md M6) even if it isn't the most AD-SPECIFICALLY selective shape. A
+    # homogeneous pool biases the selectivity comparison itself (which needs real shape variety
+    # to be a meaningful test), so guarantee at least 2 representatives per topology before
+    # filling remaining slots with the next-best overall.
+    TOP_N_FOR_SELECTIVITY = 10
+    topologies_present = sorted(set(backbone_topology.values()))
+    min_per_topology = max(1, TOP_N_FOR_SELECTIVITY // max(len(topologies_present), 1))
+    selected, per_topo_count = [], {t: 0 for t in topologies_present}
+    ranked_backbones = sorted(backbone_best_score, key=lambda b: backbone_best_score[b], reverse=True)
+    for bid in ranked_backbones:
+        topo = backbone_topology.get(bid)
+        if per_topo_count.get(topo, 0) < min_per_topology:
+            selected.append(bid)
+            per_topo_count[topo] = per_topo_count.get(topo, 0) + 1
+    for bid in ranked_backbones:
+        if len(selected) >= TOP_N_FOR_SELECTIVITY:
+            break
+        if bid not in selected:
+            selected.append(bid)
+    top_backbone_ids = selected[:TOP_N_FOR_SELECTIVITY]
     top_backbones_meta = [al_result["backbone_meta"][bid] for bid in top_backbone_ids
                             if bid in al_result["backbone_meta"]]
     sel = build_selectivity_matrix(top_backbones_meta, target_spec, prepared) if top_backbones_meta else \

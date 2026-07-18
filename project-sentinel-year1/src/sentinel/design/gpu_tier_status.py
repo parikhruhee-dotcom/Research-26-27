@@ -26,18 +26,47 @@ CUDA available: {compute_profile['cuda_available']}). Full profile:
 - **Specified tool:** RFdiffusion (RosettaCommons/RFdiffusion). Requires a
   CUDA-capable GPU (its SE(3)-Transformer denoiser has no practical CPU
   inference path).
-- **What ran on this machine:** NOT RFdiffusion. A documented, deterministic,
-  non-ML **CPU geometric baseline** (`src/sentinel/design/backbone_gen.py`):
-  a 4-topology idealized secondary-structure scaffold library (helix-hairpin,
-  three-helix-bundle, helix-strand-helix, long single helix), built with real
-  peptide geometry (NeRF construction from standard bond lengths/angles/ideal
-  Ramachandran dihedrals — `src/sentinel/design/geometry.py`, unit-tested
-  against known ideal-alpha-helix rise), then rigid-body docked onto the AD
-  templating tip's hotspot-residue centroid with sampled approach angles.
-  This is explicitly weaker than a trained generative model — it does not
-  learn shape complementarity the way RFdiffusion does — but it kept every
-  downstream stage (ProteinMPNN, scoring, active learning, selectivity)
-  genuinely exercised end-to-end on real (if geometrically naive) backbones.
+- **Verified, not assumed:** the real RFdiffusion repository was cloned to
+  this machine and its actual install path was attempted and inspected
+  (not just asserted infeasible from prior knowledge):
+  - `env/SE3nv.yml` (RFdiffusion's own specified conda environment) pins
+    `cudatoolkit=11.1` and `dgl-cuda11.1` — packages that require a matching
+    NVIDIA driver/CUDA runtime to install correctly, not merely to run fast.
+  - `pip install -e .` on this machine fails at dependency resolution:
+    `ERROR: Could not find a version that satisfies the requirement
+    se3-transformer (from rfdiffusion) (from versions: none)` — the
+    `se3-transformer` package is not published on PyPI at all; it only
+    exists as the CUDA-dependent bundled subpackage in
+    `env/SE3Transformer/`, whose own `requirements.txt` pulls in `pynvml`
+    (the NVIDIA Management Library Python bindings).
+  - `env/SE3Transformer/se3_transformer/model/layers/convolution.py`
+    imports `torch.cuda.nvtx` unconditionally at module load time.
+  This is a genuine, source-level-verified hard CUDA dependency, not a
+  "would be slow on CPU" situation — the package cannot even be installed,
+  let alone run, without a CUDA-capable GPU present.
+- **What ran on this machine instead:** a documented, deterministic,
+  non-ML **CPU geometric baseline** (`src/sentinel/design/backbone_gen.py`,
+  `topology_builder.py`): a 4-topology idealized secondary-structure scaffold
+  library (helix-hairpin, three-helix-bundle, helix-strand-helix, long single
+  helix), each segment built with real peptide geometry (NeRF construction
+  from standard bond lengths/angles/ideal Ramachandran dihedrals —
+  `geometry.py`, unit-tested against the known ideal-alpha-helix rise), then
+  EXPLICITLY rigid-body packed — multi-helix topologies place each segment
+  antiparallel at a real ~10.5 A inter-helix spacing around a shared bundle
+  axis (verified numerically: ~180 degree axis angle, ~9.5-14 A pairwise
+  spacing — a real compact fold, not an extended rod; an earlier version of
+  this builder that grew a single continuous dihedral chain through the loop
+  region left the two helices ~40 A apart with no reversal at all — caught
+  by exactly this numeric check and fixed, see PROGRESS_LOG.md) — then the
+  whole assembled backbone is rigid-body docked onto the AD templating tip's
+  hotspot-residue centroid with sampled approach angles. This is still
+  explicitly weaker than a trained generative model — it does not learn
+  target-specific shape complementarity the way RFdiffusion does, and the
+  resulting ProteinMPNN sequences are more polar/charged than a real
+  RFdiffusion backbone would elicit — but it now produces genuinely packed,
+  non-degenerate 3D scaffolds, keeping every downstream stage (ProteinMPNN,
+  scoring, active learning, selectivity) exercised end-to-end on real,
+  structurally sound (if not target-optimized) backbones.
 - **Full-scale GPU path:** `notebooks/colab_rfdiffusion.ipynb` — one-click,
   pre-filled with this build's real target spec (hotspot residues, core
   range, PDB ID). Drop resulting backbones into

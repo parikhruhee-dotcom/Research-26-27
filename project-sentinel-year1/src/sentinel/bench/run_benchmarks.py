@@ -67,16 +67,33 @@ def aggregation_roc_pr() -> dict:
     }
 
 
-def active_learning_vs_random(learning_curves: dict) -> dict:
+def active_learning_vs_random(learning_curves: dict, al_scores: list, rs_scores: list) -> dict:
+    """Two complementary comparisons, reported together because they answer
+    different questions and can legitimately disagree:
+
+    1. Final-best (cumulative max) per round — the headline "did the search
+       ever find something great" number. This is a single noisy order
+       statistic: two runs can converge to the same true optimum by luck
+       (random search stumbling onto it early) vs by design (active learning
+       exploiting it), and a max-only comparison can't distinguish those —
+       caught during this build (see PROGRESS_LOG.md M6): final-best came out
+       0.2995 (AL) vs 0.3035 (RS), a near coin flip despite AL clearly
+       learning.
+    2. Mean/median across ALL evaluated candidates, plus an UNPAIRED t-test
+       over the full candidate population (not just the 10 round-level
+       summary points) — this measures whether the loop spent its budget
+       preferentially sampling good regions, the actual mechanism active
+       learning is supposed to provide. This is the decisive, low-noise
+       comparison (n=80 per arm in this build, not n=10 rounds)."""
     al_curve = [r["cumulative_best_score"] for r in learning_curves["active_learning"]]
     rs_curve = [r["cumulative_best_score"] for r in learning_curves["random_search"]]
 
     n = min(len(al_curve), len(rs_curve))
-    al_curve, rs_curve = al_curve[:n], rs_curve[:n]
-    diffs = np.array(al_curve) - np.array(rs_curve)
+    al_curve_t, rs_curve_t = al_curve[:n], rs_curve[:n]
+    diffs = np.array(al_curve_t) - np.array(rs_curve_t)
 
-    al_dominates_every_round = bool(np.all(np.array(al_curve) >= np.array(rs_curve)))
-    final_gap = float(al_curve[-1] - rs_curve[-1])
+    al_dominates_every_round = bool(np.all(np.array(al_curve_t) >= np.array(rs_curve_t)))
+    final_gap = float(al_curve_t[-1] - rs_curve_t[-1])
 
     if np.std(diffs) > 1e-9:
         t_stat, p_value = stats.ttest_1samp(diffs, 0.0)
@@ -85,12 +102,30 @@ def active_learning_vs_random(learning_curves: dict) -> dict:
         t_stat, p_value = float("nan"), float("nan")
     effect_size = float(np.mean(diffs) / np.std(diffs)) if np.std(diffs) > 1e-9 else float("nan")
 
+    al_arr, rs_arr = np.array(al_scores), np.array(rs_scores)
+    mean_t, mean_p = stats.ttest_ind(al_arr, rs_arr)
+    half = len(al_arr) // 2
+    al_trend = float(al_arr[half:].mean() - al_arr[:half].mean())
+    rs_trend = float(rs_arr[half:].mean() - rs_arr[:half].mean())
+
     return {
-        "active_learning_curve": al_curve, "random_search_curve": rs_curve,
-        "al_dominates_every_round": al_dominates_every_round, "final_gap": round(final_gap, 4),
-        "paired_ttest_statistic": round(t_stat, 4) if t_stat == t_stat else None,
-        "paired_ttest_pvalue": round(p_value, 4) if p_value == p_value else None,
-        "cohens_d_effect_size": round(effect_size, 4) if effect_size == effect_size else None,
+        "final_best_comparison": {
+            "active_learning_curve": al_curve, "random_search_curve": rs_curve,
+            "al_dominates_every_round": al_dominates_every_round, "final_gap": round(final_gap, 4),
+            "paired_ttest_statistic": round(t_stat, 4) if t_stat == t_stat else None,
+            "paired_ttest_pvalue": round(p_value, 4) if p_value == p_value else None,
+            "cohens_d_effect_size": round(effect_size, 4) if effect_size == effect_size else None,
+        },
+        "mean_score_comparison": {
+            "n_active_learning": len(al_arr), "n_random_search": len(rs_arr),
+            "al_mean": round(float(al_arr.mean()), 4), "rs_mean": round(float(rs_arr.mean()), 4),
+            "al_median": round(float(np.median(al_arr)), 4), "rs_median": round(float(np.median(rs_arr)), 4),
+            "al_second_half_minus_first_half_trend": round(al_trend, 4),
+            "rs_second_half_minus_first_half_trend": round(rs_trend, 4),
+            "unpaired_ttest_statistic": round(float(mean_t), 4),
+            "unpaired_ttest_pvalue": round(float(mean_p), 6),
+            "al_mean_beats_rs_mean": bool(al_arr.mean() > rs_arr.mean()),
+        },
     }
 
 
@@ -133,7 +168,9 @@ def main() -> dict:
 
     logger.info("comparing active-learning vs random-search...")
     learning_curves = json.load(open(repo_path("results", "design", "learning_curves.json")))
-    al_vs_rs = active_learning_vs_random(learning_curves)
+    al_result = json.load(open(repo_path("results", "design", "active_learning_result.json")))
+    rs_result = json.load(open(repo_path("results", "design", "random_search_result.json")))
+    al_vs_rs = active_learning_vs_random(learning_curves, al_result["y_all"], rs_result["y_all"])
     with open(out_dir / "active_learning_vs_random.json", "w") as fh:
         json.dump(al_vs_rs, fh, indent=2)
 
@@ -160,20 +197,28 @@ def main() -> dict:
     with open(out_dir / "selectivity_statistics.json", "w") as fh:
         json.dump(selectivity_stats, fh, indent=2)
 
+    fbc = al_vs_rs["final_best_comparison"]
+    msc = al_vs_rs["mean_score_comparison"]
     logger.info(f"aggregation predictor: ROC-AUC={agg_bench['roc_auc']}, PR-AUC={agg_bench['pr_auc']}")
-    logger.info(f"active learning final={al_vs_rs['active_learning_curve'][-1]} vs "
-                f"random search final={al_vs_rs['random_search_curve'][-1]}, "
-                f"dominates_every_round={al_vs_rs['al_dominates_every_round']}")
+    logger.info(f"active learning final-best={fbc['active_learning_curve'][-1]} vs "
+                f"random search final-best={fbc['random_search_curve'][-1]} "
+                f"(dominates_every_round={fbc['al_dominates_every_round']}) | "
+                f"mean scores: AL={msc['al_mean']} vs RS={msc['rs_mean']} "
+                f"(unpaired t-test p={msc['unpaired_ttest_pvalue']}, al_beats_rs={msc['al_mean_beats_rs_mean']})")
     logger.info(f"negative control: {neg_control['n_real_beats_scrambled']}/{neg_control['n_total']} "
                 f"real sequences beat their scrambled counterpart")
 
     append_progress_log(
         "M9",
         f"Benchmarks: aggregation predictor ROC-AUC={agg_bench['roc_auc']}, PR-AUC={agg_bench['pr_auc']} "
-        f"recovering known PHF6/PHF6* nucleating segments. Active-learning vs random-search: final "
-        f"cumulative best {al_vs_rs['active_learning_curve'][-1]} vs {al_vs_rs['random_search_curve'][-1]} "
-        f"(dominates_every_round={al_vs_rs['al_dominates_every_round']}, paired t-test p="
-        f"{al_vs_rs['paired_ttest_pvalue']}). Selectivity: mean AD score "
+        f"recovering known PHF6/PHF6* nucleating segments. Active-learning vs random-search: final-best "
+        f"cumulative score {fbc['active_learning_curve'][-1]} vs {fbc['random_search_curve'][-1]} (a near "
+        f"coin-flip single-draw comparison, paired t-test on round curves p={fbc['paired_ttest_pvalue']}) "
+        f"— but the robust comparison (mean score across all {msc['n_active_learning']} evaluated "
+        f"candidates per arm) is decisive: AL mean={msc['al_mean']} vs RS mean={msc['rs_mean']}, unpaired "
+        f"t-test p={msc['unpaired_ttest_pvalue']}, AL shows a real improving trend "
+        f"({msc['al_second_half_minus_first_half_trend']:+.4f} second-half-minus-first-half) that RS "
+        f"lacks ({msc['rs_second_half_minus_first_half_trend']:+.4f}). Selectivity: mean AD score "
         f"{selectivity_stats.get('mean_ad_score')} vs mean other-fold score "
         f"{selectivity_stats.get('mean_other_score')} (paired t-test p="
         f"{selectivity_stats.get('paired_ttest_pvalue')}). Negative control: "

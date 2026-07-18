@@ -403,8 +403,20 @@
       "substitute": "matplotlib 3D CA-trace ribbons",
       "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
       "timestamp": "2026-07-18T13:54:10Z"
+    },
+    {
+      "original": "PyMOL-open-source structural rendering",
+      "substitute": "matplotlib 3D CA-trace ribbons",
+      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
+      "timestamp": "2026-07-18T15:57:14Z"
+    },
+    {
+      "original": "PyMOL-open-source structural rendering",
+      "substitute": "matplotlib 3D CA-trace ribbons",
+      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
+      "timestamp": "2026-07-18T16:00:19Z"
     }
   ],
   "seeds": [],
-  "updated": "2026-07-18T13:54:10Z"
+  "updated": "2026-07-18T16:00:19Z"
 }
