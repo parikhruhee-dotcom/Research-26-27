@@ -1,0 +1,66 @@
+{
+  "active_learning": [
+    {
+      "round": 0,
+      "round_best_score": 0.2991,
+      "cumulative_best_score": 0.2991
+    },
+    {
+      "round": 1,
+      "round_best_score": 0.2913,
+      "cumulative_best_score": 0.2991
+    },
+    {
+      "round": 2,
+      "round_best_score": 0.2896,
+      "cumulative_best_score": 0.2991
+    },
+    {
+      "round": 3,
+      "round_best_score": 0.29,
+      "cumulative_best_score": 0.2991
+    },
+    {
+      "round": 4,
+      "round_best_score": 0.3103,
+      "cumulative_best_score": 0.3103
+    },
+    {
+      "round": 5,
+      "round_best_score": 0.3008,
+      "cumulative_best_score": 0.3103
+    }
+  ],
+  "random_search": [
+    {
+      "round": 0,
+      "round_best_score": 0.2887,
+      "cumulative_best_score": 0.2887
+    },
+    {
+      "round": 1,
+      "round_best_score": 0.2961,
+      "cumulative_best_score": 0.2961
+    },
+    {
+      "round": 2,
+      "round_best_score": 0.286,
+      "cumulative_best_score": 0.2961
+    },
+    {
+      "round": 3,
+      "round_best_score": 0.3031,
+      "cumulative_best_score": 0.3031
+    },
+    {
+      "round": 4,
+      "round_best_score": 0.2917,
+      "cumulative_best_score": 0.3031
+    },
+    {
+      "round": 5,
+      "round_best_score": 0.2932,
+      "cumulative_best_score": 0.3031
+    }
+  ]
+}

@@ -94,9 +94,15 @@ def build_selectivity_matrix(backbones: list[dict], target_spec: dict, prepared_
     return {"matrix": matrix, "selectivity_calls": selective}
 
 
-def developability_filter(sequence: str, full_tau_agg_profile_scores: list[float]) -> dict:
+def developability_filter(sequence: str, full_tau_agg_profile_scores: list[float],
+                            tau_normalization_bounds: dict) -> dict:
+    """tau_normalization_bounds: from sentinel.aggregation.scorer.get_normalization_bounds()
+    on tau's own profile. The binder must be scored on TAU'S scale, not its own —
+    min-max normalizing a short binder sequence against only its own windows
+    would make its max score trivially always 1.0 regardless of how
+    amyloidogenic it actually is."""
     cfg = load_config()
-    profile = compute_aggregation_profile(sequence)
+    profile = compute_aggregation_profile(sequence, normalization_bounds=tau_normalization_bounds)
     binder_scores = [r["combined_score"] for r in profile["records"]]
     max_binder_score = max(binder_scores) if binder_scores else 0.0
 

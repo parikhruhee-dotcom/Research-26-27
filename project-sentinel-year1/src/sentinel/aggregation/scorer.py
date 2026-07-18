@@ -50,14 +50,23 @@ def zipper_compatibility_score(window_seq: str, reference_motifs: list[str]) -> 
     return best
 
 
-def _minmax(values: np.ndarray) -> np.ndarray:
-    lo, hi = values.min(), values.max()
+def _minmax(values: np.ndarray, bounds: tuple[float, float] | None = None) -> np.ndarray:
+    lo, hi = bounds if bounds is not None else (values.min(), values.max())
     if hi - lo < 1e-12:
         return np.zeros_like(values)
-    return (values - lo) / (hi - lo)
+    return np.clip((values - lo) / (hi - lo), 0.0, 1.0)
 
 
-def compute_profile(sequence: str) -> dict:
+def compute_profile(sequence: str, normalization_bounds: dict[str, tuple[float, float]] | None = None) -> dict:
+    """normalization_bounds: optional {component: (lo, hi)} to score this
+    sequence on an EXTERNAL scale (e.g. full-length tau's own raw-score
+    range) rather than the trivial per-call min-max over this sequence's own
+    windows. Without this, a short sequence's own max window is *always*
+    exactly 1.0 by construction of min-max normalization regardless of its
+    actual amyloidogenicity — meaningless for comparing a binder's
+    self-aggregation risk against tau. Use `get_normalization_bounds()` on
+    the reference (tau) profile to obtain bounds for this parameter.
+    """
     cfg = load_config()
     window_size = cfg["aggregation"]["window_size"]
     weights = cfg["aggregation"]["weights"]
@@ -88,9 +97,12 @@ def compute_profile(sequence: str) -> dict:
         raw["aromatic_bonus"].append(aromatic)
         raw["zipper_compatibility"].append(zipper)
 
-    normalized = {k: _minmax(np.array(v)) for k, v in raw.items()}
-    combined = sum(weights[k] * normalized[k] for k in weights)
-    combined = _minmax(combined)  # final combined score also min-max normalized to [0,1]
+    raw_bounds = {k: (float(np.min(v)), float(np.max(v))) for k, v in raw.items()}
+    component_bounds = normalization_bounds or raw_bounds
+    normalized = {k: _minmax(np.array(v), component_bounds.get(k)) for k, v in raw.items()}
+    combined_raw = sum(weights[k] * normalized[k] for k in weights)
+    combined_bounds = None if normalization_bounds is None else normalization_bounds.get("__combined__")
+    combined = _minmax(combined_raw, combined_bounds)
 
     records = []
     for idx, start in enumerate(window_starts):
@@ -115,4 +127,15 @@ def compute_profile(sequence: str) -> dict:
     for rank, r in enumerate(records, start=1):
         r["rank"] = rank
     records.sort(key=lambda r: r["window_start"])  # restore sequence order for the CSV
-    return {"sequence_length": n, "window_size": window_size, "weights": weights, "records": records}
+
+    normalization_bounds_used = dict(component_bounds)
+    normalization_bounds_used["__combined__"] = combined_bounds or (
+        float(np.min(combined_raw)), float(np.max(combined_raw)))
+    return {"sequence_length": n, "window_size": window_size, "weights": weights, "records": records,
+            "normalization_bounds": normalization_bounds_used}
+
+
+def get_normalization_bounds(profile: dict) -> dict[str, tuple[float, float]]:
+    """Extract the {component: (lo, hi)} bounds from a reference profile
+    (e.g. full-length tau) to score OTHER sequences on that same scale."""
+    return profile["normalization_bounds"]

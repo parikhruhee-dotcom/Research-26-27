@@ -53,7 +53,7 @@ def load_target_and_tip():
 
 def evaluate_one_candidate(x: np.ndarray, round_idx: int, cand_idx: int, target_spec: dict,
                              tip_coords: dict, chain_centroid, cfg: dict, seed: int,
-                             mpnn_out_dir, backbone_out_dir) -> dict:
+                             mpnn_out_dir, backbone_out_dir, tau_agg_scores: list, tau_bounds: dict) -> dict:
     topologies = list(TOPOLOGIES.keys())
     mpnn_temps = cfg["design"]["proteinmpnn"]["sampling_temperatures"]
     params = decode_params(x, topologies, mpnn_temps)
@@ -87,9 +87,6 @@ def evaluate_one_candidate(x: np.ndarray, round_idx: int, cand_idx: int, target_
     n_seq = cfg["design"]["proteinmpnn"]["n_sequences_per_backbone"]
     esm_model = cfg["design"]["scoring"]["esm_model"]
     weights = cfg["design"]["scoring"]["composite_weights"]
-    tau_seq = json.load(open(repo_path("data", "interim", "tau_sequence.json")))["sequence"]
-    from sentinel.aggregation.scorer import compute_profile
-    tau_agg_scores = [r["combined_score"] for r in compute_profile(tau_seq)["records"]]
 
     try:
         mpnn_records = run_proteinmpnn(str(bb_pdb_path), str(mpnn_out_dir), n_seq,
@@ -101,7 +98,7 @@ def evaluate_one_candidate(x: np.ndarray, round_idx: int, cand_idx: int, target_
     designs = []
     for si, mrec in enumerate(mpnn_records):
         plaus = esm_plausibility(mrec["sequence"], esm_model)
-        dev = developability_filter(mrec["sequence"], tau_agg_scores)
+        dev = developability_filter(mrec["sequence"], tau_agg_scores, tau_bounds)
         composite = (weights["packing_density_sc_proxy"] * geom["packing_density_sc_proxy"]
                      - weights["clash_penalty"] * geom["clash_score"]
                      + weights["esm_plausibility"] * plaus
@@ -122,7 +119,7 @@ def evaluate_one_candidate(x: np.ndarray, round_idx: int, cand_idx: int, target_
 
 
 def run_loop(mode: str, cfg: dict, target_spec: dict, tip_coords: dict, chain_centroid,
-              out_dir) -> dict:
+              out_dir, tau_agg_scores: list, tau_bounds: dict) -> dict:
     n_rounds = cfg["design"]["active_learning"]["n_rounds"]
     n_per_round = cfg["design"]["synthetic_backbone_generation"]["n_backbones_per_round"]
     xi = cfg["design"]["active_learning"]["xi"]
@@ -151,7 +148,8 @@ def run_loop(mode: str, cfg: dict, target_spec: dict, tip_coords: dict, chain_ce
         for cand_idx, x in enumerate(X_round):
             seed = base_seed + round_idx * 1000 + cand_idx + (0 if mode == "active_learning" else 500000)
             result = evaluate_one_candidate(x, round_idx, cand_idx, target_spec, tip_coords,
-                                              chain_centroid, cfg, seed, mpnn_out_dir, backbone_out_dir)
+                                              chain_centroid, cfg, seed, mpnn_out_dir, backbone_out_dir,
+                                              tau_agg_scores, tau_bounds)
             X_all.append(x)
             y_all.append(result["best_score"])
             all_designs.extend(result["designs"])
@@ -181,11 +179,19 @@ def main() -> dict:
     out_dir = repo_path("results", "design")
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    from sentinel.aggregation.scorer import compute_profile, get_normalization_bounds
+    tau_seq = json.load(open(repo_path("data", "interim", "tau_sequence.json")))["sequence"]
+    tau_profile = compute_profile(tau_seq)
+    tau_agg_scores = [r["combined_score"] for r in tau_profile["records"]]
+    tau_bounds = get_normalization_bounds(tau_profile)
+
     logger.info("running active-learning design loop...")
-    al_result = run_loop("active_learning", cfg, target_spec, tip_coords, chain_centroid, out_dir)
+    al_result = run_loop("active_learning", cfg, target_spec, tip_coords, chain_centroid, out_dir,
+                           tau_agg_scores, tau_bounds)
 
     logger.info("running equal-budget random-search baseline...")
-    rs_result = run_loop("random_search", cfg, target_spec, tip_coords, chain_centroid, out_dir)
+    rs_result = run_loop("random_search", cfg, target_spec, tip_coords, chain_centroid, out_dir,
+                           tau_agg_scores, tau_bounds)
 
     with open(out_dir / "active_learning_result.json", "w") as fh:
         json.dump(al_result, fh, indent=2)
