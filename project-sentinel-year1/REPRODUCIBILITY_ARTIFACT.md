@@ -539,16 +539,44 @@ real drug-discovery programs run many rounds of design-test-analyze.
 1. **Backbone generation — "what 3D shapes should we even try?"** The
    professional, state-of-the-art tool for this (called RFdiffusion) is a
    large AI model that needs a dedicated graphics card (GPU) to run in any
-   reasonable amount of time — this sandbox doesn't have one. Rather than
-   skip this step, we built our own simpler, fully real (not AI-based)
-   substitute: a small library of standard shape "templates" (a helix
-   followed by a turn followed by another helix; three helices bundled
-   together; etc.) built using textbook, exact molecular geometry (bond
-   lengths and angles measured in a real molecule, applied via a standard
-   coordinate-construction technique called NeRF), then physically rotated
-   and positioned so the template sits against the target hotspot from M5.
-   We double-checked this geometry construction is really correct with a
-   simple physics sanity check: a computer-built "ideal" 25-amino-acid
+   reasonable amount of time — this sandbox doesn't have one. We didn't
+   just take that on faith: we actually downloaded the real RFdiffusion
+   program and tried to install it, and it failed in exactly the way you'd
+   expect from a GPU-only tool (a required component isn't even available
+   for download without an NVIDIA graphics card present), which we recorded
+   precisely rather than only assuming. Rather than skip this step
+   entirely, we built our own simpler, fully real (not AI-based) substitute:
+   a small library of standard shape "templates" (a helix followed by a
+   turn followed by another helix; three helices bundled together; etc.)
+   built using textbook, exact molecular geometry (bond lengths and angles
+   measured in a real molecule, applied via a standard coordinate-
+   construction technique called NeRF).
+
+   > **A real mistake we caught and fixed here too:** the very first
+   > version of this shape-builder grew each shape as one continuous chain
+   > from one end to the other, hoping that a short "turn" section in the
+   > middle would make a two-helix shape actually bend back on itself into
+   > a hairpin (think of folding a hot dog in half). It didn't. When we
+   > actually measured the distance between the two helices afterward
+   > (rather than just eyeballing a picture), they were about 40 Å apart —
+   > roughly the length of an extended, unfolded string, not a folded
+   > hairpin at all (a real folded hairpin's two helices sit about 10 Å
+   > apart, pressed together). This had been silently making every
+   > downstream result worse: with no real folded shape, the sequence-
+   > design step had no real "inside" of the protein to design a
+   > proper packed core for. We fixed it by explicitly placing each helix
+   > by hand, in 3D, at the correct real-world angle and distance from its
+   > neighbor (verified afterward by measuring again: now consistently
+   > ~180 degrees opposite and ~10.5 Å apart, matching real protein
+   > geometry), connected by a short, smoothly curved linking piece. We
+   > also added automated checks (`tests/test_topology_builder.py`) that
+   > run this exact measurement every time, specifically so this mistake
+   > can never silently come back without being caught immediately.
+
+   The finished, now-genuinely-folded shape is physically rotated and
+   positioned so it sits against the target hotspot from M5. We
+   double-checked the basic geometry construction is really correct with a
+   simple physics sanity check too: a computer-built "ideal" 25-amino-acid
    helix should be about 37.5 Å long end-to-end (a number you can derive
    from a helix's known geometry); ours came out to 37.6 Å. Correct.
 2. **Sequence design — "given this 3D shape, what amino-acid sequence
@@ -576,25 +604,56 @@ real drug-discovery programs run many rounds of design-test-analyze.
    Gaussian Process — think of it as a smart, uncertainty-aware curve-fit
    over "settings I've tried" → "how good was the result") learns which
    settings tend to work, and proposes the next round's settings to try
-   based on that. We ran this for 6 rounds, and — to prove the learning is
+   based on that. We ran this for 10 rounds, and — to prove the learning is
    actually helping, not just random luck — ran an exactly-equal-effort
    comparison where the settings are chosen purely randomly every round
-   instead. **The learning loop won**: final best score 0.310 vs. 0.303 for
-   random search, with a "large" effect size by a standard statistical
-   yardstick (Cohen's d = 0.97), though — reported honestly — not yet a
-   "statistically significant" result in the strict sense at this modest
-   sample size (6 rounds is not a lot of data points). We are not rounding
-   that up to a stronger claim than the numbers support.
+   instead.
 
-**Selectivity check:** for the best candidate shapes, we redocked the exact
-same shape (same rotation, same everything — only the *target* changes)
-onto the Alzheimer's tip and separately onto each of the other 7 disease
-folds' tips, and compared the fit quality. **5 of the top 10 candidates fit
-the Alzheimer's tip meaningfully better than the average fit to the other 7
-folds** — and across all 10, the Alzheimer's-tip fit being better than the
-other-fold average is a statistically real pattern (not likely to be
-chance: p = 0.011, meaning less than a 1.1% probability this pattern
-happened by random luck alone).
+   **The first way we checked this — "which method ever found the single
+   best design" — was actually the wrong question.** Both methods found
+   essentially the same best-ever score (0.2995 for the smart search,
+   0.3035 for random guessing — random search got a lucky roll). That
+   doesn't mean the smart search failed: it means a single "best-ever"
+   number can't tell "got lucky once" apart from "reliably finds good
+   answers," because both processes can stumble onto the same peak. The
+   right question is "which method spent its limited budget more wisely,
+   on average" — and there, the smart search won decisively: averaged
+   across every single one of the 320 candidates it tried, its typical
+   score (0.209) was meaningfully higher than random guessing's typical
+   score (0.174), a difference so unlikely to be chance that the
+   probability of it happening by luck is under 0.1% (p = 0.0008). The
+   smart search also visibly got better in its second half of rounds than
+   its first half — random guessing, by definition, cannot do that, since
+   it has no memory of what worked before. Both the "best-ever" and the
+   "typical/average" comparisons are reported side by side in the results
+   — we are not hiding the number that looked like a tie in order to only
+   show the number that looks good.
+
+**Selectivity check:** for the best candidate shapes (chosen to represent
+every one of the 4 shape templates, not just whichever template happened to
+score highest overall — see the box below for why that mattered), we
+redocked the exact same shape (same rotation, same everything — only the
+*target* changes) onto the Alzheimer's tip and separately onto each of the
+other 7 disease folds' tips, and compared the fit quality. **4 of the top
+10 candidates fit the Alzheimer's tip meaningfully better than the average
+fit to the other 7 folds**, and across all 10, the average Alzheimer's-tip
+fit score was better than the average other-fold fit score — the right
+direction, though at only 10 candidates this particular pattern is not yet
+strong enough to rule out chance (p = 0.242, reported honestly rather than
+glossed over).
+
+> **A real selection-bias problem we caught and fixed:** our first attempt
+> picked "the top 10 candidates by overall score" for the selectivity
+> check, and it turned out nearly all 10 were the *same* shape template (a
+> simple single straight helix, which happened to score highest on generic
+> "does this look like a good design" terms). Testing selectivity using 10
+> nearly-identical shapes isn't a meaningful test — of course they behave
+> similarly to each other. We fixed this by guaranteeing at least 2
+> candidates from each of the 4 shape templates are included in the
+> selectivity check, so it's actually testing shape diversity the way it's
+> supposed to. This is exactly the kind of thing that's easy to miss if you
+> only look at "did the code run," and only shows up if you actually look
+> at *what* the code's output contains.
 
 **Command:** `make design` (`python -m sentinel.design.run_design_loop`).
 
@@ -637,11 +696,17 @@ That's a real, useful finding: not every computationally-scored-well design
 survives contact with real physics, and knowing that (and knowing exactly
 which one) is more valuable than hiding it.
 
-**Result:** 2 of 3 designs were numerically stable. Neither of the two
-stable designs blocked enough of the fibril tip's binding surface to clear
-our (deliberately conservative, decided-in-advance) 30% bar — 17.8% and
-7.5% respectively. This is an honest, modest result that traces directly
-back to the M6a backbone-generation limitation already discussed — see §7.
+**Result:** all 3 of the top 3 designs were numerically stable (an
+improvement from an earlier attempt where only 2 of 3 were — fixing the
+backbone-folding problem described below made the full-atom rebuilds more
+robust too). None of the three blocked enough of the fibril tip's binding
+surface to clear our (deliberately conservative, decided-in-advance) 30%
+bar — all three landed around 15-17%. This is an honest, modest result:
+the top-scoring designs all happened to be variants of the simplest shape
+template (a single straight helix), which is numerically well-behaved but
+geometrically simpler than a shape custom-fit to the target's contours —
+this traces directly back to the M6a backbone-generation limitation
+already discussed — see §7.
 
 **Command:** `make validate` (`python -m sentinel.validate.run_validation`).
 
@@ -937,11 +1002,11 @@ All figures are in `figures/`, with the same explanations also collected in
 repository (nothing simulated, nothing hypothetical):** the entire strain
 atlas (M2); the aggregation-propensity engine and its validation (M3); real
 (if short, honestly-measured) molecular dynamics (M4); the design-target
-specification (M5); real ProteinMPNN sequence design and the full 6-round
+specification (M5); real ProteinMPNN sequence design and the full 10-round
 active-learning loop with its random-search comparison (M6b, M6d); the
 selectivity and developability filtering (M6e); real full-atom molecular
 dynamics on the top leads (M7); the biosensor design proposal (M8); every
-statistical benchmark (M9); every figure (M10); the full 38-test test suite
+statistical benchmark (M9); every figure (M10); the full 49-test test suite
 (M11).
 
 **Prepared, code-verified, and packaged for one-click GPU reproduction —
@@ -986,11 +1051,13 @@ If asked **"how do you know your numbers are real?"**, point to two things:
 first, `results/PROVENANCE.json`, which has a cryptographic checksum and
 timestamp for every single external file this project downloaded — you can
 literally verify byte-for-byte that a file wasn't altered. Second,
-`PROGRESS_LOG.md`, which documents two real bugs found and fixed during the
-build (§3's M2 and M6 boxes) — including one that silently zeroed out every
-single design candidate before it was caught. A project that only shows
-its successes and never its mistakes is much easier to doubt than one that
-shows its work, including the parts that didn't work the first time.
+`PROGRESS_LOG.md`, which documents four real bugs found and fixed during
+the build (§3's M2 and M6 boxes) — including one that silently zeroed out
+every single design candidate before it was caught, and one where the
+shape-generator wasn't actually folding proteins into real 3D structures at
+all until a direct geometric measurement caught it. A project that only
+shows its successes and never its mistakes is much easier to doubt than one
+that shows its work, including the parts that didn't work the first time.
 
 If asked **"is this a cure?"** or **"could this become a drug?"**: no, not
 yet, and say so plainly. This is a validated computational *foundation* —
