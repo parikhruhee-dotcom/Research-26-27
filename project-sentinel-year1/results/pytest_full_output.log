@@ -1,0 +1,48 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.1, pytest-9.1.1, pluggy-1.6.0 -- /home/codespace/.python/current/bin/python3
+cachedir: .pytest_cache
+rootdir: /workspaces/Research-26-27/project-sentinel-year1
+configfile: pyproject.toml
+plugins: anyio-4.12.1
+collecting ... collected 38 items
+
+tests/test_aggregation.py::test_zipper_compatibility_perfect_match PASSED [  2%]
+tests/test_aggregation.py::test_zipper_compatibility_mismatch_lower PASSED [  5%]
+tests/test_aggregation.py::test_compute_profile_scores_normalized_0_1 PASSED [  7%]
+tests/test_aggregation.py::test_compute_profile_window_count PASSED      [ 10%]
+tests/test_aggregation.py::test_compute_profile_deterministic PASSED     [ 13%]
+tests/test_atlas.py::test_charge_class PASSED                            [ 15%]
+tests/test_atlas.py::test_residue_physchem_aromatic PASSED               [ 18%]
+tests/test_atlas.py::test_classify_burial_thresholds PASSED              [ 21%]
+tests/test_atlas.py::test_kabsch_rmsd_identical_structures_is_zero PASSED [ 23%]
+tests/test_atlas.py::test_kabsch_rmsd_rotation_invariant PASSED          [ 26%]
+tests/test_design_geometry.py::test_build_backbone_bond_lengths PASSED   [ 28%]
+tests/test_design_geometry.py::test_ideal_alpha_helix_rise PASSED        [ 31%]
+tests/test_design_geometry.py::test_no_atom_clashes_within_single_chain PASSED [ 34%]
+tests/test_design_geometry.py::test_rotation_matrix_is_orthonormal PASSED [ 36%]
+tests/test_design_scoring.py::test_binder_own_max_score_is_not_trivially_one PASSED [ 39%]
+tests/test_design_scoring.py::test_developability_flags_known_amyloid_motif PASSED [ 42%]
+tests/test_design_scoring.py::test_developability_passes_bland_sequence PASSED [ 44%]
+tests/test_design_scoring.py::test_cysteine_check PASSED                 [ 47%]
+tests/test_io.py::test_parse_fasta PASSED                                [ 50%]
+tests/test_io.py::test_build_aggregation_constructs PASSED               [ 52%]
+tests/test_io.py::test_panel_manifest_has_ten_verified_structures PASSED [ 55%]
+tests/test_md.py::test_rmsf_shape_consistency PASSED                     [ 57%]
+tests/test_md.py::test_md_results_exist_and_actual_ns_logged PASSED      [ 60%]
+tests/test_md.py::test_hexapeptides_lose_beta_structure_in_isolation PASSED [ 63%]
+tests/test_outputs_exist.py::test_atlas_outputs PASSED                   [ 65%]
+tests/test_outputs_exist.py::test_figures_generated PASSED               [ 68%]
+tests/test_outputs_exist.py::test_benchmarks_outputs PASSED              [ 71%]
+tests/test_outputs_exist.py::test_design_leads_are_valid_sequences PASSED [ 73%]
+tests/test_outputs_exist.py::test_provenance_ledger_populated PASSED     [ 76%]
+tests/test_scientific_validation.py::test_phf6_ranked_top PASSED         [ 78%]
+tests/test_scientific_validation.py::test_vqiink_buries_more_than_vqivyk PASSED [ 81%]
+tests/test_scientific_validation.py::test_ad_selective_designs_prefer_ad_tip PASSED [ 84%]
+tests/test_scientific_validation.py::test_active_learning_beats_random PASSED [ 86%]
+tests/test_scientific_validation.py::test_determinism PASSED             [ 89%]
+tests/test_utils.py::test_config_loads PASSED                            [ 92%]
+tests/test_utils.py::test_set_global_seed_reproducible PASSED            [ 94%]
+tests/test_utils.py::test_compute_tier_detection PASSED                  [ 97%]
+tests/test_utils.py::test_provenance_sha256 PASSED                       [100%]
+
+============================== 38 passed in 3.64s ==============================

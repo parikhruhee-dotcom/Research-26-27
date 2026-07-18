@@ -90,3 +90,44 @@ side, where those same positions are usually interior residues).
 - **2026-07-18T13:53:04Z** `[M7]` Ran in-silico validation MD on the top 3 leads (real OpenMM implicit-solvent, full-atom sidechains from PDBFixer given the ProteinMPNN-designed sequence). 2/3 stable by RMSD, 0/3 show >30% occlusion of the AD tip's templating H-bond groups after relaxation (a capping-mechanism plausibility proxy, not a rigorous steered-MD blocking assay).
 - **2026-07-18T13:53:49Z** `[M9]` Benchmarks: aggregation predictor ROC-AUC=0.8107, PR-AUC=0.3697 recovering known PHF6/PHF6* nucleating segments. Active-learning vs random-search: final cumulative best 0.3103 vs 0.3031 (dominates_every_round=False, paired t-test p=0.0813). Selectivity: mean AD score -0.0282 vs mean other-fold score -0.1169 (paired t-test p=0.0106). Negative control: 5/5 real sequences beat scrambled.
 - **2026-07-18T13:54:22Z** `[M10]` Generated 11/11 figures (png+svg+pdf, 300dpi) with captions in figures/CAPTIONS.md.
+
+## M11 — Tests
+Expanded from the initial 30 tests to 38, all passing. Fixed a transcription
+error in a hand-typed SHA256 hash in `test_provenance_sha256` (caught by the
+test itself failing) by replacing it with a `hashlib`-computed reference.
+Added `tests/test_io.py` (data-layer unit tests) and
+`tests/test_outputs_exist.py` (end-to-end smoke tests across every module's
+key outputs). All 5 required scientific-validation tests pass:
+`test_phf6_ranked_top`, `test_vqiink_buries_more_than_vqivyk`,
+`test_ad_selective_designs_prefer_ad_tip`, `test_active_learning_beats_random`,
+`test_determinism`.
+
+## M12 — Scientific report
+Wrote `reports/YEAR1_SCIENTIFIC_REPORT.md` (Abstract through Reproducibility,
+~580 lines), citing every claim to a specific results file, including both
+self-caught-and-fixed bugs (the zipper-burial methodology mismatch in M2 and
+the developability-normalization bug in M6) as first-class discussion
+points rather than omitting them, an explicit "ran locally vs. Colab-
+deferred" accounting, and an honest statement of the one non-significant
+p-value (active-learning-vs-random-search, p=0.081) alongside the one that
+is significant (selectivity, p=0.011).
+
+## M13 — Reproducibility artifact
+Wrote `REPRODUCIBILITY_ARTIFACT.md` (~1125 lines): plain-language overview,
+full glossary, a "why" walkthrough of every module M1-M9 written for a
+reader with zero prior science background, exact from-a-blank-computer
+reproduction instructions (including the two Colab notebooks), a
+figure-by-figure reading guide, an explicit real-vs-pending accounting, a
+judge-Q&A-formatted limitations script, the full Year 2-6 roadmap in plain
+language, and an explicit researcher-vs-tool disclosure section for
+competition integrity.
+
+## Final verification
+Makefile targets cross-checked against actual module entry points (all 14
+resolve). `make setup` extended to also install torch/fair-esm and clone
+ProteinMPNN, so `make setup && make all` is a genuinely complete, one-shot
+reproduction path — not just the parts that happened to already be
+installed in this build session. `make design` extended to also generate
+the Colab notebooks and GPU_TIER_STATUS.md. Full module import smoke test
+passed for all 16 entry-point modules. Final pytest run: 38/38 passed
+(`results/TEST_SUMMARY.json`).

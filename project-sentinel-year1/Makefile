@@ -4,6 +4,10 @@ PYTHON ?= python3
 
 setup:
 	$(PYTHON) -m pip install -e .[dev]
+	$(PYTHON) -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+	$(PYTHON) -m pip install fair-esm
+	test -f /tmp/ProteinMPNN/protein_mpnn_run.py || \
+		git clone --depth 1 https://github.com/dauparas/ProteinMPNN.git /tmp/ProteinMPNN
 
 data:
 	$(PYTHON) -m sentinel.io.fetch_sequence
@@ -25,6 +29,8 @@ target:
 
 design:
 	$(PYTHON) -m sentinel.design.run_design_loop
+	$(PYTHON) -m sentinel.design.colab_notebooks
+	$(PYTHON) -m sentinel.design.gpu_tier_status
 
 validate:
 	$(PYTHON) -m sentinel.validate.run_validation
