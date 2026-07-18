@@ -1,0 +1,43 @@
+[
+  {
+    "design_id": "r4_c5_helix_hairpin_s1",
+    "backbone_id": "r4_c5_helix_hairpin",
+    "composite_score": "0.3103",
+    "actual_ns_simulated": 0.00072,
+    "mean_rmsd_nm": 0.0834,
+    "final_rmsd_nm": 0.1309,
+    "mean_rg_nm": 2.2801,
+    "capping_occlusion": {
+      "n_tip_hbond_atoms": 146,
+      "n_occluded": 26,
+      "fraction_occluded": 0.1781
+    },
+    "stable": true,
+    "mechanistically_plausible": false
+  },
+  {
+    "design_id": "r4_c5_helix_hairpin_s2",
+    "backbone_id": "r4_c5_helix_hairpin",
+    "composite_score": "0.3096",
+    "md_failed": true,
+    "md_failure_reason": "Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+    "stable": false,
+    "mechanistically_plausible": false
+  },
+  {
+    "design_id": "r5_c1_three_helix_bundle_s0",
+    "backbone_id": "r5_c1_three_helix_bundle",
+    "composite_score": "0.3008",
+    "actual_ns_simulated": 0.00064,
+    "mean_rmsd_nm": 0.0329,
+    "final_rmsd_nm": 0.0549,
+    "mean_rg_nm": 3.4962,
+    "capping_occlusion": {
+      "n_tip_hbond_atoms": 146,
+      "n_occluded": 11,
+      "fraction_occluded": 0.0753
+    },
+    "stable": true,
+    "mechanistically_plausible": false
+  }
+]

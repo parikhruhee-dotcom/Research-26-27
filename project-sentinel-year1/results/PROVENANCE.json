@@ -397,8 +397,14 @@
       "substitute": "geometric nearest-neighbor centroid-graph clustering (this script) to auto-detect protofilament membership and layer order directly from coordinates",
       "reason": "The brief does not specify an algorithm for separating protofilaments/ordering layers; cryo-EM deposits do not tag this explicitly in a machine-readable way. A distance-based graph on CA centroids reproduces the known symmetry (verified: 5O3L/5O3T split cleanly into two 5-layer protofilaments at 4.75 A intra-stack vs 9.5 A inter-protofilament, matching the published C2-symmetric PHF architecture).",
       "timestamp": "2026-07-18T12:23:58Z"
+    },
+    {
+      "original": "PyMOL-open-source structural rendering",
+      "substitute": "matplotlib 3D CA-trace ribbons",
+      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
+      "timestamp": "2026-07-18T13:54:10Z"
     }
   ],
   "seeds": [],
-  "updated": "2026-07-18T12:30:58Z"
+  "updated": "2026-07-18T13:54:10Z"
 }

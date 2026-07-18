@@ -372,3 +372,33 @@
 2026-07-18T13:38:20+0000 | INFO    | __main__ | [random_search] round 5 complete: round_best=0.2932, cumulative_best=0.3031
 2026-07-18T13:38:23+0000 | INFO    | __main__ | design loop complete: 192 total designs, 5/10 top backbones AD-selective, 9 leads written to results/design/leads.fasta
 2026-07-18T13:38:23+0000 | INFO    | __main__ | active-learning final best=0.3103 vs random-search final best=0.3031
+2026-07-18T13:39:30+0000 | INFO    | sentinel.md.simulate | 1357 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T13:39:44+0000 | INFO    | __main__ | biosensor concept written: Split-NanoLuc conformation-sensitive AD-tau biosensor, engaging hotspots ['GLY365', 'LEU357', 'GLU342', 'GLY326', 'LEU315']
+2026-07-18T13:43:51+0000 | INFO    | sentinel.md.simulate | 1357 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T13:44:49+0000 | INFO    | sentinel.md.simulate | 1357 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T13:46:18+0000 | WARNING | sentinel.md.simulate | r4_c5_helix_hairpin_s1_validate: target 0.02 ns would take ~4977s at 8.0 steps/s on this CPU; capping to a 180s budget (1446 steps) and logging the ACTUAL ns simulated, not the target.
+2026-07-18T13:48:40+0000 | INFO    | sentinel.md.simulate | r4_c5_helix_hairpin_s1_validate: simulated 0.00072 ns (1446 steps @ 0.5 fs) in 142.1s wall-clock (8.0 steps/s measured on this CPU).
+2026-07-18T13:48:40+0000 | INFO    | __main__ | r4_c5_helix_hairpin_s1: RMSD_mean=0.083nm, tip H-bond occlusion=17.81%
+2026-07-18T13:48:41+0000 | INFO    | sentinel.md.simulate | 1202 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T13:49:43+0000 | ERROR   | __main__ | r4_c5_helix_hairpin_s2: validation MD failed (Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan); recording as unstable, not silently skipping.
+2026-07-18T13:49:44+0000 | INFO    | sentinel.md.simulate | 1461 atoms > 800: using CutoffNonPeriodic (1.5 nm) instead of all-pairs NoCutoff.
+2026-07-18T13:50:59+0000 | WARNING | sentinel.md.simulate | r5_c1_three_helix_bundle_s0_validate: target 0.02 ns would take ~5659s at 7.1 steps/s on this CPU; capping to a 180s budget (1272 steps) and logging the ACTUAL ns simulated, not the target.
+2026-07-18T13:53:04+0000 | INFO    | sentinel.md.simulate | r5_c1_three_helix_bundle_s0_validate: simulated 0.00064 ns (1272 steps @ 0.5 fs) in 124.7s wall-clock (7.1 steps/s measured on this CPU).
+2026-07-18T13:53:04+0000 | INFO    | __main__ | r5_c1_three_helix_bundle_s0: RMSD_mean=0.033nm, tip H-bond occlusion=7.53%
+2026-07-18T13:53:49+0000 | INFO    | __main__ | computing aggregation predictor ROC/PR...
+2026-07-18T13:53:49+0000 | INFO    | __main__ | comparing active-learning vs random-search...
+2026-07-18T13:53:49+0000 | INFO    | __main__ | running negative controls (scrambled sequences)...
+2026-07-18T13:53:49+0000 | INFO    | __main__ | aggregation predictor: ROC-AUC=0.8107, PR-AUC=0.3697
+2026-07-18T13:53:49+0000 | INFO    | __main__ | active learning final=0.3103 vs random search final=0.3031, dominates_every_round=False
+2026-07-18T13:53:49+0000 | INFO    | __main__ | negative control: 5/5 real sequences beat their scrambled counterpart
+2026-07-18T13:54:12+0000 | INFO    | __main__ | generated fig01_strain_folds
+2026-07-18T13:54:14+0000 | INFO    | __main__ | generated fig02_dendrogram_rmsd
+2026-07-18T13:54:14+0000 | INFO    | __main__ | generated fig03_sasa_map
+2026-07-18T13:54:15+0000 | INFO    | __main__ | generated fig04_strain_fingerprint
+2026-07-18T13:54:16+0000 | INFO    | __main__ | generated fig05_aggregation_profile
+2026-07-18T13:54:18+0000 | INFO    | __main__ | generated fig06_md_analyses
+2026-07-18T13:54:19+0000 | INFO    | __main__ | generated fig07_learning_curves
+2026-07-18T13:54:20+0000 | INFO    | __main__ | generated fig08_score_distributions
+2026-07-18T13:54:21+0000 | INFO    | __main__ | generated fig09_selectivity_matrix
+2026-07-18T13:54:21+0000 | INFO    | __main__ | generated fig10_biosensor_schematic
+2026-07-18T13:54:22+0000 | INFO    | __main__ | generated fig11_graphical_abstract

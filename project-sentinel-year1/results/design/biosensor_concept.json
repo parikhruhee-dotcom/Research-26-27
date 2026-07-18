@@ -1,0 +1,19 @@
+{
+  "concept_name": "Split-NanoLuc conformation-sensitive AD-tau biosensor",
+  "rationale": "Cryo-EM shows the AD fold packs as a stack of IDENTICAL monomer layers along the fibril axis (>=2 copies of the same protofilament chain within a few Angstroms of each other \u2014 verified directly in this project's own M1d protofilament clustering, e.g. 5O3L layer spacing 4.75 A). Two copies of the SAME AD-selective binder, each fused to a complementary split-reporter half, will therefore be brought into close proximity (within the reporter's reconstitution distance, typically <10 nm for NanoBiT/split-luciferase) ONLY when they both dock onto adjacent layers of an actual AD-fold fibril \u2014 not on monomeric tau, not on the other 7 folds (whose templating tips the binder was explicitly negative-designed against in M6e), and not on a single isolated binder with no fibril present.",
+  "architecture": {
+    "reporter_system": "Split NanoLuc (NanoBiT: LgBiT + SmBiT), chosen over split-GFP/FRET for its low background and high dynamic range at low analyte concentration (relevant for CSF/plasma biomarker detection later in the roadmap).",
+    "fusion_design": "AD-selective binder (from results/design/leads.fasta) fused at its solvent-exposed terminus (the end pointing AWAY from the fibril tip in the docked pose, so the fusion does not clash with the binding interface) to LgBiT via a flexible (GGGGS)x3 linker; a second copy fused to SmBiT via the same linker chemistry.",
+    "signal_logic": "Two-binder-bridging AND-gate: luminescence requires BOTH binder copies engaging the SAME fibril (adjacent layers) simultaneously. This is a built-in specificity check beyond the binder's own AD-selectivity \u2014 monomeric tau or a single off-target fold cannot satisfy the AND-gate even in the unlikely event ONE binder copy binds nonspecifically.",
+    "top_hotspot_residues_engaged": [
+      "GLY365",
+      "LEU357",
+      "GLU342",
+      "GLY326",
+      "LEU315"
+    ]
+  },
+  "n_candidate_binder_scaffolds_available": 9,
+  "predicted_use_case": "Cell-free or CSF-based rapid AD-strain-specific aggregate detection; a diagnostic spin-off distinct from the therapeutic degrader program, reusing the same M2 fingerprint + M6 binder without new design work.",
+  "status": "computational design proposal only \u2014 NOT experimentally validated this year (see roadmap: Year 3+ wet-lab validation, Part 6 of the brief)."
+}

@@ -1,0 +1,36 @@
+{
+  "per_design": [
+    {
+      "design_id": "r4_c5_helix_hairpin_s1",
+      "real_plausibility": 0.9408,
+      "scrambled_plausibility": 0.9399,
+      "real_beats_scrambled": true
+    },
+    {
+      "design_id": "r4_c5_helix_hairpin_s2",
+      "real_plausibility": 0.9371,
+      "scrambled_plausibility": 0.9366,
+      "real_beats_scrambled": true
+    },
+    {
+      "design_id": "r5_c1_three_helix_bundle_s0",
+      "real_plausibility": 0.9407,
+      "scrambled_plausibility": 0.9308,
+      "real_beats_scrambled": true
+    },
+    {
+      "design_id": "r0_c7_helix_hairpin_s1",
+      "real_plausibility": 0.9411,
+      "scrambled_plausibility": 0.9354,
+      "real_beats_scrambled": true
+    },
+    {
+      "design_id": "r1_c0_helix_hairpin_s2",
+      "real_plausibility": 0.9377,
+      "scrambled_plausibility": 0.9352,
+      "real_beats_scrambled": true
+    }
+  ],
+  "n_real_beats_scrambled": 5,
+  "n_total": 5
+}

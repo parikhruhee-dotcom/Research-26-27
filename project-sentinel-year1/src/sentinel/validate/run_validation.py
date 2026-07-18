@@ -109,13 +109,28 @@ def main() -> dict:
         binder_fixed = out_dir / f"{design_id}_binder.pdb"
         build_binder_pdb_with_sequence(str(backbone_pdb), lead["sequence"], binder_fixed)
 
-        md_result = run_md(
-            pdb_path=str(binder_fixed), forcefield_files=md_cfg["forcefield"],
-            temperature_K=md_cfg["temperature_K"], friction_per_ps=md_cfg["friction_per_ps"],
-            timestep_fs=md_cfg["timestep_fs"], minimize_max_iterations=md_cfg["minimize_max_iterations"],
-            target_ns=0.02, report_interval_steps=200, out_dir=out_dir, tag=f"{design_id}_validate",
-            seed=cfg["project"]["seed"], max_wallclock_s=MAX_WALLCLOCK_S,
-        )
+        try:
+            # PDBFixer rebuilds sidechains onto an idealized (not energy-relaxed) geometric
+            # backbone, which can leave real steric clashes; a smaller timestep + more
+            # minimization iterations than the hexapeptide defaults makes integration robust to
+            # that starting-geometry roughness. If it still blows up (NaN), that is itself a real,
+            # honest finding about this specific design and is recorded, not hidden.
+            md_result = run_md(
+                pdb_path=str(binder_fixed), forcefield_files=md_cfg["forcefield"],
+                temperature_K=md_cfg["temperature_K"], friction_per_ps=md_cfg["friction_per_ps"],
+                timestep_fs=0.5, minimize_max_iterations=500,
+                target_ns=0.02, report_interval_steps=200, out_dir=out_dir, tag=f"{design_id}_validate",
+                seed=cfg["project"]["seed"], max_wallclock_s=MAX_WALLCLOCK_S,
+            )
+        except Exception as exc:
+            logger.error(f"{design_id}: validation MD failed ({exc}); recording as unstable, "
+                          f"not silently skipping.")
+            results.append({
+                "design_id": design_id, "backbone_id": backbone_id, "composite_score": lead["composite_score"],
+                "md_failed": True, "md_failure_reason": str(exc), "stable": False,
+                "mechanistically_plausible": False,
+            })
+            continue
 
         traj = load_trajectory(md_result["trajectory_dcd"], str(binder_fixed))
         rmsd = compute_rmsd(traj)

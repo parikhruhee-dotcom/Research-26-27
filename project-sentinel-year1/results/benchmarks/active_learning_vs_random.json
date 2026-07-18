@@ -1,0 +1,23 @@
+{
+  "active_learning_curve": [
+    0.2991,
+    0.2991,
+    0.2991,
+    0.2991,
+    0.3103,
+    0.3103
+  ],
+  "random_search_curve": [
+    0.2887,
+    0.2961,
+    0.2961,
+    0.3031,
+    0.3031,
+    0.3031
+  ],
+  "al_dominates_every_round": false,
+  "final_gap": 0.0072,
+  "paired_ttest_statistic": 2.1784,
+  "paired_ttest_pvalue": 0.0813,
+  "cohens_d_effect_size": 0.9742
+}
