@@ -1,0 +1,34 @@
+name: sentinel
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - seaborn
+  - biopython
+  - biotite
+  - mdtraj
+  - openmm
+  - freesasa
+  - scikit-learn
+  - requests
+  - pyyaml
+  - tqdm
+  - pytest
+  - pytest-cov
+  - jupyter
+  - pdbfixer
+  - pymol-open-source
+  - dssp            # provides mkdssp binary
+  - ruff
+  - black
+  - pip
+  - pip:
+      - fair-esm     # optional; CPU-feasible small checkpoints only (esm2_t6_8M_UR50D)
+# GPU-only, not part of this env (see notebooks/colab_*.ipynb and
+# results/design/GPU_TIER_STATUS.md for install instructions):
+#   torch+cuda, RFdiffusion (RosettaCommons/RFdiffusion), SE3-Transformer,
+#   localcolabfold / AlphaFold2-multimer weights.

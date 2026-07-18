@@ -1,0 +1,27 @@
+# pip fallback (primary env is environment.yml). Pin loosely; exact resolved
+# versions actually used in this build are recorded at runtime in
+# results/PROVENANCE.json under "tool_versions".
+numpy
+scipy
+pandas
+matplotlib
+seaborn
+biopython
+biotite
+mdtraj
+openmm
+freesasa
+scikit-learn
+requests
+pyyaml
+tqdm
+pytest
+pytest-cov
+pdbfixer
+ruff
+black
+
+# Optional deep-learning extras (GPU-tier / heavier CPU-tier substitutes).
+# Install manually if you want the ESM plausibility scorer beyond the CPU demo:
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   pip install fair-esm

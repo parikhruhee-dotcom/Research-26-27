@@ -1,0 +1,174 @@
+# ==============================================================================
+# PROJECT SENTINEL — Year 1 — MASTER CONFIGURATION
+# All tunable parameters live here. Code must read from this file and must
+# never hardcode a threshold, seed, PDB ID, or weight.
+# ==============================================================================
+
+project:
+  name: "project-sentinel-year1"
+  seed: 42
+  author_note: "Autonomous Year-1 build executed by Claude Code"
+
+# ------------------------------------------------------------------------------
+# M1 — Data acquisition
+# ------------------------------------------------------------------------------
+data:
+  uniprot:
+    accession: "P10636"          # human tau, canonical entry
+    isoform: "2N4R"               # 441 aa, the numbering used throughout
+    fasta_url: "https://rest.uniprot.org/uniprotkb/P10636.fasta"
+    length_aa: 441
+
+  landmarks:                      # 2N4R numbering, 1-indexed, inclusive
+    PHF6_star: {start: 275, end: 280, sequence: "VQIINK"}
+    PHF6:      {start: 306, end: 311, sequence: "VQIVYK"}
+    R1: {start: 244, end: 274}
+    R2: {start: 275, end: 305}
+    R3: {start: 306, end: 336}
+    R4: {start: 337, end: 368}
+    fibril_core_approx: {start: 306, end: 378}
+    K18: {start: 244, end: 372, description: "4R microtubule-binding domain construct"}
+    K19: {start: 244, end: 372, exclude: [275, 305], description: "3R construct lacking R2"}
+
+  rcsb:
+    entry_api: "https://data.rcsb.org/rest/v1/core/entry/{id}"
+    file_api_cif: "https://files.rcsb.org/download/{id}.cif"
+    file_api_pdb: "https://files.rcsb.org/download/{id}.pdb"
+    search_api: "https://search.rcsb.org/rcsbsearch/v2/query"
+
+  strain_panel:
+    # Each entry: PDB ID, disease label, core residue span (paper-reported), citation key.
+    - {id: "5O3L", strain: "AD_PHF", core_start: 306, core_end: 378, citation: "Fitzpatrick2017"}
+    - {id: "5O3T", strain: "AD_SF",  core_start: 306, core_end: 378, citation: "Fitzpatrick2017"}
+    - {id: "6NWP", strain: "CTE_I",  core_start: 305, core_end: 379, citation: "Falcon2019_CTE"}
+    - {id: "6NWQ", strain: "CTE_II", core_start: 305, core_end: 379, citation: "Falcon2019_CTE"}
+    - {id: "6GX5", strain: "PiD",    core_start: 254, core_end: 378, citation: "Falcon2018_PiD"}
+    - {id: "6TJO", strain: "CBD",    core_start: 274, core_end: 380, citation: "Zhang2020_CBD"}
+    - {id: "7P65", strain: "PSP",    core_start: 272, core_end: 381, citation: "Shi2021"}
+    - {id: "7P6D", strain: "AGD",    core_start: 273, core_end: 387, citation: "Shi2021"}
+    - {id: "7P66", strain: "GGT",    core_start: 272, core_end: 379, citation: "Shi2021"}
+    - {id: "7P6A", strain: "GPT",    core_start: 272, core_end: 379, citation: "Shi2021"}
+
+  reference_strain: "AD_PHF"       # the strain the design engine targets
+  min_stacked_layers: 3            # required to define a realistic growing tip
+
+  known_inhibitors_table: "data/external/known_tau_inhibitors.csv"
+
+# ------------------------------------------------------------------------------
+# M2 — Strain conformational atlas
+# ------------------------------------------------------------------------------
+atlas:
+  sasa_probe_radius_A: 1.4
+  buried_rel_sasa_threshold: 0.20     # relative SASA below this = buried
+  exposed_rel_sasa_threshold: 0.40    # relative SASA above this = exposed
+  max_asa_scale: "Tien2013"           # theoretical max ASA reference scale used for relative SASA
+  dendrogram_linkage: "average"
+  hydrophobicity_scale: "kyte_doolittle"
+  fingerprint_top_n_hotspots: 15
+
+# ------------------------------------------------------------------------------
+# M3 — Aggregation-propensity engine
+# ------------------------------------------------------------------------------
+aggregation:
+  window_size: 6
+  weights:                      # sum need not be 1; scores are min-max normalized after combination
+    beta_propensity: 0.30       # Chou-Fasman beta-sheet propensity
+    hydrophobicity: 0.25        # Kyte-Doolittle
+    charge_penalty: 0.20        # net-charge penalty (charged windows resist zipper packing)
+    aromatic_bonus: 0.10        # aromatic stacking bonus (F/Y/W)
+    zipper_compatibility: 0.15  # steric-zipper compatibility term vs VQIVYK/VQIINK reference motifs
+  weight_justification:
+    beta_propensity: "Cross-beta amyloid core requires high intrinsic beta-sheet propensity (Chou-Fasman 1974)."
+    hydrophobicity: "Dry steric-zipper interfaces are desolvated; hydrophobic windows pack more favorably (Kyte-Doolittle 1982)."
+    charge_penalty: "Buried like-charge or high net-charge windows are energetically penalized in a dry interface (Fernandez-Escamilla 2004, TANGO rationale)."
+    aromatic_bonus: "Aromatic residues (Y/F/W) contribute pi-stacking that stabilizes steric zippers (Gazit 2002)."
+    zipper_compatibility: "Explicit sequence-similarity term to the two experimentally solved zipper-forming hexapeptides anchors the score to known amyloid motifs."
+  validation:
+    top_n_required: 15           # PHF6 & PHF6* must appear within the top-N windows genome-wide (tau length 441)
+
+# ------------------------------------------------------------------------------
+# M4 — Molecular dynamics (OpenMM)
+# ------------------------------------------------------------------------------
+md:
+  platform_preference: ["CPU"]     # detected at runtime; CUDA used automatically if present
+  hexapeptide:
+    solvent: "implicit_gbsa"
+    forcefield: ["amber14-all.xml", "implicit/gbn2.xml"]
+    temperature_K: 300
+    friction_per_ps: 1.0
+    timestep_fs: 2.0
+    minimize_max_iterations: 500
+    target_ns_gpu: 20
+    target_ns_cpu: 2.0
+    report_interval_steps: 1000
+  fibril_tip:
+    solvent: "implicit_gbsa"
+    forcefield: ["amber14-all.xml", "implicit/gbn2.xml"]
+    temperature_K: 300
+    friction_per_ps: 1.0
+    timestep_fs: 2.0
+    minimize_max_iterations: 500
+    target_ns_gpu: 10
+    target_ns_cpu: 1.0
+    report_interval_steps: 1000
+
+# ------------------------------------------------------------------------------
+# M5 — Design target
+# ------------------------------------------------------------------------------
+target:
+  binder_length_min: 60
+  binder_length_max: 120
+  negative_design_panel: ["CTE_I", "CTE_II", "PiD", "CBD", "PSP", "AGD", "GGT", "GPT"]
+
+# ------------------------------------------------------------------------------
+# M6 — Design engine
+# ------------------------------------------------------------------------------
+design:
+  rfdiffusion:
+    repo: "https://github.com/RosettaCommons/RFdiffusion"
+    n_backbones_gpu_campaign: 128
+    n_backbones_cpu_demo: 0        # RFdiffusion requires CUDA SE3-Transformer kernels; not runnable on CPU tier
+  proteinmpnn:
+    repo: "https://github.com/dauparas/ProteinMPNN"
+    sampling_temperatures: [0.1, 0.15, 0.2]
+    n_sequences_per_backbone: 8
+  synthetic_backbone_generation:
+    # CPU-tier substitute backbone generator (see src/sentinel/design/backbone_gen.py):
+    # helix-loop-helix and beta-hairpin-capper scaffold library, parametrically enumerated
+    # and geometrically docked onto the M5 target tip. Documented as a real, deterministic,
+    # non-ML geometric baseline that keeps the closed loop fully executable on CPU while
+    # RFdiffusion is Colab-deferred.
+    n_scaffold_topologies: 4
+    n_backbones_per_round: 24
+  scoring:
+    interface_pae_max: 7.5
+    plddt_min: 85
+    iptm_min: 0.7
+    esm_model: "esm2_t6_8M_UR50D"     # smallest ESM-2 checkpoint, CPU-feasible
+  active_learning:
+    n_rounds: 6
+    n_candidates_per_round: 24
+    surrogate_model: "gaussian_process"   # gaussian_process | random_forest
+    acquisition: "expected_improvement"
+    xi: 0.01
+    random_search_baseline: true
+  selectivity:
+    min_selectivity_margin: 0.05    # AD-tip score must exceed mean other-fold score by this margin
+  developability:
+    max_binder_aggregation_percentile: 40   # binder's own M3 aggregation score must be below this percentile of tau windows
+    disallow_free_cysteines: true
+
+# ------------------------------------------------------------------------------
+# M9 — Benchmarking
+# ------------------------------------------------------------------------------
+benchmark:
+  aggregation_positive_set: ["PHF6", "PHF6_star"]
+  n_random_search_baseline_repeats: 5
+
+# ------------------------------------------------------------------------------
+# Figures
+# ------------------------------------------------------------------------------
+figures:
+  dpi: 300
+  formats: ["png", "svg", "pdf"]
+  palette: "colorblind"     # seaborn colorblind-safe palette

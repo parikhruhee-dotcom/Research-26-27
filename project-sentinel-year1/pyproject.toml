@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sentinel"
+version = "1.0.0"
+description = "Project SENTINEL Year 1 — Tau Strain Conformational Atlas & Closed-Loop Design Engine"
+requires-python = ">=3.11"
+readme = "README.md"
+authors = [{name = "Project SENTINEL"}]
+
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "matplotlib",
+    "seaborn",
+    "biopython",
+    "biotite",
+    "mdtraj",
+    "openmm",
+    "freesasa",
+    "scikit-learn",
+    "requests",
+    "pyyaml",
+    "tqdm",
+    "pdbfixer",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "black"]
+deep = ["torch", "fair-esm"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.black]
+line-length = 100
+target-version = ["py311"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
