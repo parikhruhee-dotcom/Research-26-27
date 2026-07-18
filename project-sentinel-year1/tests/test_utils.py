@@ -28,4 +28,5 @@ def test_provenance_sha256(tmp_path):
     f = tmp_path / "x.txt"
     f.write_text("hello world")
     h = sha256_of_file(f)
-    assert h == "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde"
+    import hashlib
+    assert h == hashlib.sha256(b"hello world").hexdigest()
