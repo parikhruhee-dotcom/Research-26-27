@@ -140,16 +140,22 @@ def prepare_one(entry: dict, min_layers: int) -> dict:
     interim_dir = repo_path("data", "interim", "structures")
     raw_single = interim_dir / f"{pdb_id}_single_raw.pdb"
     raw_stack = interim_dir / f"{pdb_id}_stack_raw.pdb"
+    raw_full = interim_dir / f"{pdb_id}_full_raw.pdb"
+    all_chains = [c for members in clusters.values() for c in members]
     write_chains_subset(arr, single_chain, raw_single)
     write_chains_subset(arr, stack_chains, raw_stack)
+    write_chains_subset(arr, all_chains, raw_full)
 
     fixed_single = interim_dir / f"{pdb_id}_single.pdb"
     fixed_stack = interim_dir / f"{pdb_id}_stack.pdb"
+    fixed_full = interim_dir / f"{pdb_id}_full.pdb"
     fix_info_single = fix_with_pdbfixer(raw_single, fixed_single)
     fix_info_stack = fix_with_pdbfixer(raw_stack, fixed_stack)
+    fix_info_full = fix_with_pdbfixer(raw_full, fixed_full)
 
     raw_single.unlink()
     raw_stack.unlink()
+    raw_full.unlink()
 
     return {
         "pdb_id": pdb_id,
@@ -161,8 +167,11 @@ def prepare_one(entry: dict, min_layers: int) -> dict:
         "stack_chains_used": stack_chains,
         "single_pdb": str(fixed_single.relative_to(repo_path())),
         "stack_pdb": str(fixed_stack.relative_to(repo_path())),
+        "full_pdb": str(fixed_full.relative_to(repo_path())),
+        "full_chains_by_protofilament": {r: v for r, v in clusters.items()},
         "pdbfixer_single": fix_info_single,
         "pdbfixer_stack": fix_info_stack,
+        "pdbfixer_full": fix_info_full,
         "layers_below_target": n_layers_available < min_layers,
     }
 

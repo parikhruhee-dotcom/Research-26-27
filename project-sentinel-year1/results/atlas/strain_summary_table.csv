@@ -1,0 +1,11 @@
+strain,pdb_id,core_start,core_end,core_length,protofilament_count,n_beta_strands_per_layer,n_interprotofilament_interface_residues,PHF6_burial_in_fibril_A2,PHF6star_burial_in_fibril_A2
+AD_PHF,5O3L,306,378,73,2,10,14,580.413,
+AD_SF,5O3T,306,378,73,2,12,5,582.26,
+CTE_I,6NWP,305,379,75,2,8,12,547.618,
+CTE_II,6NWQ,305,379,75,2,9,10,548.458,
+PiD,6GX5,254,378,125,1,10,0,544.73,
+CBD,6TJO,274,380,107,1,14,0,540.637,529.929
+PSP,7P65,272,381,110,1,13,0,548.582,523.275
+AGD,7P6D,273,387,115,1,14,0,573.215,535.224
+GGT,7P66,272,379,108,1,12,0,526.502,602.053
+GPT,7P6A,272,379,108,1,12,0,561.054,523.079

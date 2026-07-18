@@ -56,6 +56,19 @@ data:
   reference_strain: "AD_PHF"       # the strain the design engine targets
   min_stacked_layers: 3            # required to define a realistic growing tip
 
+  zipper_reference_structures:
+    # Standalone hexapeptide steric-zipper microcrystal structures (found via
+    # the M1b RCSB full-text search on VQIVYK/VQIINK, cross-checked against
+    # titles). These are the actual dry-interface zipper crystals the "VQIINK
+    # buries ~2x VQIVYK" literature claim (Seidler 2018 Nat Chem) is about —
+    # used directly for M2's zipper analysis rather than inferred from the
+    # disease-fibril context (a fibril's cross-beta packing measures a related
+    # but different quantity; see PROGRESS_LOG.md M2 entry).
+    VQIVYK: {id: "2ON9", method: "X-RAY DIFFRACTION", resolution_A: 1.51,
+             title: "Structure of an amyloid forming peptide VQIVYK from the repeat region of Tau"}
+    VQIINK: {id: "5V5C", method: "ELECTRON CRYSTALLOGRAPHY", resolution_A: 1.25,
+             title: "VQIINK, Structure of the amyloid-spine from microtubule associated protein tau Repeat 2"}
+
   known_inhibitors_table: "data/external/known_tau_inhibitors.csv"
 
 # ------------------------------------------------------------------------------

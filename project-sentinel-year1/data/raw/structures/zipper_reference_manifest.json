@@ -1,0 +1,22 @@
+{
+  "VQIVYK": {
+    "id": "2ON9",
+    "method": "X-RAY DIFFRACTION",
+    "resolution_A": 1.51,
+    "title": "Structure of an amyloid forming peptide VQIVYK from the repeat region of Tau",
+    "pdb_id": "2ON9",
+    "release_date": "2007-01-30T00:00:00.000+00:00",
+    "asu_cif": "data/raw/structures/2ON9.cif",
+    "assembly_cif": "data/raw/structures/2ON9-assembly1.cif"
+  },
+  "VQIINK": {
+    "id": "5V5C",
+    "method": "ELECTRON CRYSTALLOGRAPHY",
+    "resolution_A": 1.25,
+    "title": "VQIINK, Structure of the amyloid-spine from microtubule associated protein tau Repeat 2",
+    "pdb_id": "5V5C",
+    "release_date": "2018-02-07T00:00:00.000+00:00",
+    "asu_cif": "data/raw/structures/5V5C.cif",
+    "assembly_cif": "data/raw/structures/5V5C-assembly1.cif"
+  }
+}

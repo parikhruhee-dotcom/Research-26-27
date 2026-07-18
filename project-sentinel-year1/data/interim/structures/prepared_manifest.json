@@ -16,6 +16,23 @@
     ],
     "single_pdb": "data/interim/structures/5O3L_single.pdb",
     "stack_pdb": "data/interim/structures/5O3L_stack.pdb",
+    "full_pdb": "data/interim/structures/5O3L_full.pdb",
+    "full_chains_by_protofilament": {
+      "I": [
+        "A",
+        "C",
+        "E",
+        "G",
+        "I"
+      ],
+      "J": [
+        "B",
+        "D",
+        "F",
+        "H",
+        "J"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1140
@@ -23,6 +40,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 3420
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 11400
     },
     "layers_below_target": false
   },
@@ -43,6 +64,23 @@
     ],
     "single_pdb": "data/interim/structures/5O3T_single.pdb",
     "stack_pdb": "data/interim/structures/5O3T_stack.pdb",
+    "full_pdb": "data/interim/structures/5O3T_full.pdb",
+    "full_chains_by_protofilament": {
+      "I": [
+        "A",
+        "C",
+        "E",
+        "G",
+        "I"
+      ],
+      "J": [
+        "B",
+        "D",
+        "F",
+        "H",
+        "J"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1140
@@ -50,6 +88,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 3420
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 11400
     },
     "layers_below_target": false
   },
@@ -70,6 +112,19 @@
     ],
     "single_pdb": "data/interim/structures/6NWP_single.pdb",
     "stack_pdb": "data/interim/structures/6NWP_stack.pdb",
+    "full_pdb": "data/interim/structures/6NWP_full.pdb",
+    "full_chains_by_protofilament": {
+      "E": [
+        "E",
+        "A",
+        "C"
+      ],
+      "F": [
+        "F",
+        "B",
+        "D"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1175
@@ -77,6 +132,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 3525
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 7050
     },
     "layers_below_target": false
   },
@@ -97,6 +156,19 @@
     ],
     "single_pdb": "data/interim/structures/6NWQ_single.pdb",
     "stack_pdb": "data/interim/structures/6NWQ_stack.pdb",
+    "full_pdb": "data/interim/structures/6NWQ_full.pdb",
+    "full_chains_by_protofilament": {
+      "E": [
+        "E",
+        "A",
+        "C"
+      ],
+      "F": [
+        "D",
+        "B",
+        "F"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1175
@@ -104,6 +176,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 3525
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 7050
     },
     "layers_below_target": false
   },
@@ -123,11 +199,23 @@
     ],
     "single_pdb": "data/interim/structures/6GX5_single.pdb",
     "stack_pdb": "data/interim/structures/6GX5_stack.pdb",
+    "full_pdb": "data/interim/structures/6GX5_full.pdb",
+    "full_chains_by_protofilament": {
+      "C": [
+        "B",
+        "A",
+        "C"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1459
     },
     "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 4377
+    },
+    "pdbfixer_full": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 4377
     },
@@ -149,11 +237,23 @@
     ],
     "single_pdb": "data/interim/structures/6TJO_single.pdb",
     "stack_pdb": "data/interim/structures/6TJO_stack.pdb",
+    "full_pdb": "data/interim/structures/6TJO_full.pdb",
+    "full_chains_by_protofilament": {
+      "C": [
+        "C",
+        "A",
+        "B"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1668
     },
     "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 5004
+    },
+    "pdbfixer_full": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 5004
     },
@@ -175,6 +275,16 @@
     ],
     "single_pdb": "data/interim/structures/7P65_single.pdb",
     "stack_pdb": "data/interim/structures/7P65_stack.pdb",
+    "full_pdb": "data/interim/structures/7P65_full.pdb",
+    "full_chains_by_protofilament": {
+      "E": [
+        "E",
+        "D",
+        "A",
+        "B",
+        "C"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1696
@@ -182,6 +292,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 5088
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 8480
     },
     "layers_below_target": false
   },
@@ -201,6 +315,16 @@
     ],
     "single_pdb": "data/interim/structures/7P6D_single.pdb",
     "stack_pdb": "data/interim/structures/7P6D_stack.pdb",
+    "full_pdb": "data/interim/structures/7P6D_full.pdb",
+    "full_chains_by_protofilament": {
+      "E": [
+        "D",
+        "E",
+        "A",
+        "C",
+        "B"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1779
@@ -208,6 +332,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 5337
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 8895
     },
     "layers_below_target": false
   },
@@ -227,6 +355,16 @@
     ],
     "single_pdb": "data/interim/structures/7P66_single.pdb",
     "stack_pdb": "data/interim/structures/7P66_stack.pdb",
+    "full_pdb": "data/interim/structures/7P66_full.pdb",
+    "full_chains_by_protofilament": {
+      "E": [
+        "C",
+        "B",
+        "A",
+        "D",
+        "E"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1667
@@ -234,6 +372,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 5001
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 8335
     },
     "layers_below_target": false
   },
@@ -253,6 +395,16 @@
     ],
     "single_pdb": "data/interim/structures/7P6A_single.pdb",
     "stack_pdb": "data/interim/structures/7P6A_stack.pdb",
+    "full_pdb": "data/interim/structures/7P6A_full.pdb",
+    "full_chains_by_protofilament": {
+      "E": [
+        "E",
+        "D",
+        "A",
+        "B",
+        "C"
+      ]
+    },
     "pdbfixer_single": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 1667
@@ -260,6 +412,10 @@
     "pdbfixer_stack": {
       "missing_residues_filled": 0,
       "n_atoms_after_fix": 5001
+    },
+    "pdbfixer_full": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 8335
     },
     "layers_below_target": false
   }

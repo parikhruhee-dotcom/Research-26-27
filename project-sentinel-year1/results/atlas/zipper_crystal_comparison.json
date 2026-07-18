@@ -1,0 +1,91 @@
+{
+  "VQIVYK": {
+    "pdb_id": "2ON9",
+    "reference_chain": "A",
+    "n_assembly_chains": 4,
+    "per_residue": [
+      {
+        "res_id": 1,
+        "sasa_isolated_A2": 190.644,
+        "sasa_in_crystal_A2": 89.207,
+        "buried_A2": 101.437
+      },
+      {
+        "res_id": 2,
+        "sasa_isolated_A2": 167.062,
+        "sasa_in_crystal_A2": 131.642,
+        "buried_A2": 35.42
+      },
+      {
+        "res_id": 3,
+        "sasa_isolated_A2": 122.369,
+        "sasa_in_crystal_A2": 60.261,
+        "buried_A2": 62.108
+      },
+      {
+        "res_id": 4,
+        "sasa_isolated_A2": 103.694,
+        "sasa_in_crystal_A2": 75.821,
+        "buried_A2": 27.873
+      },
+      {
+        "res_id": 5,
+        "sasa_isolated_A2": 201.299,
+        "sasa_in_crystal_A2": 109.605,
+        "buried_A2": 91.694
+      },
+      {
+        "res_id": 6,
+        "sasa_isolated_A2": 249.095,
+        "sasa_in_crystal_A2": 198.285,
+        "buried_A2": 50.81
+      }
+    ],
+    "total_buried_A2": 369.342
+  },
+  "VQIINK": {
+    "pdb_id": "5V5C",
+    "reference_chain": "A",
+    "n_assembly_chains": 18,
+    "per_residue": [
+      {
+        "res_id": 1,
+        "sasa_isolated_A2": 183.753,
+        "sasa_in_crystal_A2": 74.023,
+        "buried_A2": 109.73
+      },
+      {
+        "res_id": 2,
+        "sasa_isolated_A2": 160.493,
+        "sasa_in_crystal_A2": 55.651,
+        "buried_A2": 104.842
+      },
+      {
+        "res_id": 3,
+        "sasa_isolated_A2": 166.128,
+        "sasa_in_crystal_A2": 0.0,
+        "buried_A2": 166.128
+      },
+      {
+        "res_id": 4,
+        "sasa_isolated_A2": 125.016,
+        "sasa_in_crystal_A2": 24.498,
+        "buried_A2": 100.518
+      },
+      {
+        "res_id": 5,
+        "sasa_isolated_A2": 154.822,
+        "sasa_in_crystal_A2": 11.258,
+        "buried_A2": 143.564
+      },
+      {
+        "res_id": 6,
+        "sasa_isolated_A2": 242.879,
+        "sasa_in_crystal_A2": 117.479,
+        "buried_A2": 125.4
+      }
+    ],
+    "total_buried_A2": 750.182
+  },
+  "VQIINK_over_VQIVYK_ratio": 2.031
+}

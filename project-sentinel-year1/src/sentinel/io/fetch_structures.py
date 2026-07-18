@@ -134,8 +134,43 @@ def search_related_structures() -> dict:
     return results
 
 
+def fetch_zipper_references() -> dict:
+    """Download the two hexapeptide steric-zipper microcrystal structures
+    (VQIVYK, VQIINK) plus RCSB's precomputed crystallographic assembly for
+    each (assembly1.cif — includes the symmetry-generated mating strands
+    needed for a real dry-interface burial calculation in M2)."""
+    cfg = load_config()
+    refs = cfg["data"]["zipper_reference_structures"]
+    raw_dir = repo_path("data", "raw", "structures")
+    manifest = {}
+    for motif, spec in refs.items():
+        pdb_id = spec["id"]
+        try:
+            meta = verify_entry(pdb_id)
+        except Exception as exc:
+            logger.error(f"could not verify zipper reference {pdb_id}: {exc}")
+            meta = {}
+        asu_dest = raw_dir / f"{pdb_id}.cif"
+        assembly_dest = raw_dir / f"{pdb_id}-assembly1.cif"
+        cfg_r = load_config()["data"]["rcsb"]
+        download(cfg_r["file_api_cif"].format(id=pdb_id), asu_dest,
+                 extra_provenance={"kind": "zipper_reference_asu", "motif": motif, "pdb_id": pdb_id})
+        assembly_url = f"https://files.rcsb.org/download/{pdb_id}-assembly1.cif"
+        download(assembly_url, assembly_dest,
+                 extra_provenance={"kind": "zipper_reference_assembly", "motif": motif, "pdb_id": pdb_id})
+        manifest[motif] = {**spec, **meta, "asu_cif": str(asu_dest.relative_to(repo_path())),
+                            "assembly_cif": str(assembly_dest.relative_to(repo_path()))}
+        logger.info(f"zipper reference {motif} ({pdb_id}): {meta.get('title')}")
+
+    out_path = raw_dir / "zipper_reference_manifest.json"
+    with open(out_path, "w") as fh:
+        json.dump(manifest, fh, indent=2)
+    return manifest
+
+
 def main() -> None:
     manifest = fetch_panel()
+    fetch_zipper_references()
     n_ok = sum(1 for m in manifest if m.get("cif_path") and not m.get("verification_error"))
     search = search_related_structures()
     append_progress_log(
