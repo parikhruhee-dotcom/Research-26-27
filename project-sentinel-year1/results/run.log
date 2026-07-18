@@ -129,3 +129,5 @@
 2026-07-18T12:37:55+0000 | INFO    | __main__ | analyzing strain GPT (7P6A)...
 2026-07-18T12:37:58+0000 | INFO    | __main__ | AD strain fingerprint: top hotspot = GLY365 (differential exposure 0.3354)
 2026-07-18T12:37:58+0000 | INFO    | __main__ | zipper crystal ratio VQIINK/VQIVYK buried SASA = 2.031
+2026-07-18T12:40:24+0000 | INFO    | __main__ | PHF6 rank=1, PHF6* rank=3 (top-15 required) out of 436 windows.
+2026-07-18T12:40:24+0000 | INFO    | __main__ | top-5 predicted nucleating windows: VQIVYK@306, SVQIVY@305, VQIINK@275, IVYKPV@308, VAVVRT@226
