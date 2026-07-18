@@ -1,0 +1,266 @@
+[
+  {
+    "pdb_id": "5O3L",
+    "strain": "AD_PHF",
+    "n_protofilaments_detected": 2,
+    "protofilament_sizes": [
+      5,
+      5
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "E",
+    "stack_chains_used": [
+      "E",
+      "G",
+      "I"
+    ],
+    "single_pdb": "data/interim/structures/5O3L_single.pdb",
+    "stack_pdb": "data/interim/structures/5O3L_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1140
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 3420
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "5O3T",
+    "strain": "AD_SF",
+    "n_protofilaments_detected": 2,
+    "protofilament_sizes": [
+      5,
+      5
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "E",
+    "stack_chains_used": [
+      "E",
+      "G",
+      "I"
+    ],
+    "single_pdb": "data/interim/structures/5O3T_single.pdb",
+    "stack_pdb": "data/interim/structures/5O3T_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1140
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 3420
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "6NWP",
+    "strain": "CTE_I",
+    "n_protofilaments_detected": 2,
+    "protofilament_sizes": [
+      3,
+      3
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "E",
+      "A",
+      "C"
+    ],
+    "single_pdb": "data/interim/structures/6NWP_single.pdb",
+    "stack_pdb": "data/interim/structures/6NWP_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1175
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 3525
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "6NWQ",
+    "strain": "CTE_II",
+    "n_protofilaments_detected": 2,
+    "protofilament_sizes": [
+      3,
+      3
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "E",
+      "A",
+      "C"
+    ],
+    "single_pdb": "data/interim/structures/6NWQ_single.pdb",
+    "stack_pdb": "data/interim/structures/6NWQ_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1175
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 3525
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "6GX5",
+    "strain": "PiD",
+    "n_protofilaments_detected": 1,
+    "protofilament_sizes": [
+      3
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "B",
+      "A",
+      "C"
+    ],
+    "single_pdb": "data/interim/structures/6GX5_single.pdb",
+    "stack_pdb": "data/interim/structures/6GX5_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1459
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 4377
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "6TJO",
+    "strain": "CBD",
+    "n_protofilaments_detected": 1,
+    "protofilament_sizes": [
+      3
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "C",
+      "A",
+      "B"
+    ],
+    "single_pdb": "data/interim/structures/6TJO_single.pdb",
+    "stack_pdb": "data/interim/structures/6TJO_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1668
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 5004
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "7P65",
+    "strain": "PSP",
+    "n_protofilaments_detected": 1,
+    "protofilament_sizes": [
+      5
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "A",
+      "B",
+      "C"
+    ],
+    "single_pdb": "data/interim/structures/7P65_single.pdb",
+    "stack_pdb": "data/interim/structures/7P65_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1696
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 5088
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "7P6D",
+    "strain": "AGD",
+    "n_protofilaments_detected": 1,
+    "protofilament_sizes": [
+      5
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "A",
+      "C",
+      "B"
+    ],
+    "single_pdb": "data/interim/structures/7P6D_single.pdb",
+    "stack_pdb": "data/interim/structures/7P6D_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1779
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 5337
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "7P66",
+    "strain": "GGT",
+    "n_protofilaments_detected": 1,
+    "protofilament_sizes": [
+      5
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "A",
+      "D",
+      "E"
+    ],
+    "single_pdb": "data/interim/structures/7P66_single.pdb",
+    "stack_pdb": "data/interim/structures/7P66_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1667
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 5001
+    },
+    "layers_below_target": false
+  },
+  {
+    "pdb_id": "7P6A",
+    "strain": "GPT",
+    "n_protofilaments_detected": 1,
+    "protofilament_sizes": [
+      5
+    ],
+    "n_layers_used_for_stack": 3,
+    "single_chain_used": "A",
+    "stack_chains_used": [
+      "A",
+      "B",
+      "C"
+    ],
+    "single_pdb": "data/interim/structures/7P6A_single.pdb",
+    "stack_pdb": "data/interim/structures/7P6A_stack.pdb",
+    "pdbfixer_single": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 1667
+    },
+    "pdbfixer_stack": {
+      "missing_residues_filled": 0,
+      "n_atoms_after_fix": 5001
+    },
+    "layers_below_target": false
+  }
+]

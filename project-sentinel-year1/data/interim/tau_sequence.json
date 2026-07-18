@@ -1,0 +1,57 @@
+{
+  "uniprot_accession": "P10636",
+  "isoform": "2N4R",
+  "header": "sp|P10636-8|TAU_HUMAN Isoform Tau-F of Microtubule-associated protein tau OS=Homo sapiens OX=9606 GN=MAPT",
+  "length_aa": 441,
+  "sequence": "MAEPRQEFEVMEDHAGTYGLGDRKDQGGYTMHQDQEGDTDAGLKESPLQTPTEDGSEEPGSETSDAKSTPTAEDVTAPLVDEGAPGKQAAAQPHTEIPEGTTAEEAGIGDTPSLEDEAAGHVTQARMVSKSKDGTGSDDKKAKGADGKTKIATPRGAAPPGQKGQANATRIPAKTPPAPKTPPSSGEPPKSGDRSGYSSPGSPGTPGSRSRTPSLPTPPTREPKKVAVVRTPPKSPSSAKSRLQTAPVPMPDLKNVKSKIGSTENLKHQPGGGKVQIINKKLDLSNVQSKCGSKDNIKHVPGGGSVQIVYKPVDLSKVTSKCGSLGNIHHKPGGGQVEVKSEKLDFKDRVQSKIGSLDNITHVPGGGNKKIETHKLTFRENAKAKTDHGAEIVYKSPVVSGDTSPRHLSNVSSTGSIDMVDSPQLATLADEVSASLAKQGL",
+  "landmarks": {
+    "PHF6_star": {
+      "start": 275,
+      "end": 280,
+      "sequence": "VQIINK",
+      "observed_sequence": "VQIINK",
+      "verified": true
+    },
+    "PHF6": {
+      "start": 306,
+      "end": 311,
+      "sequence": "VQIVYK",
+      "observed_sequence": "VQIVYK",
+      "verified": true
+    },
+    "R1": {
+      "start": 244,
+      "end": 274
+    },
+    "R2": {
+      "start": 275,
+      "end": 305
+    },
+    "R3": {
+      "start": 306,
+      "end": 336
+    },
+    "R4": {
+      "start": 337,
+      "end": 368
+    },
+    "fibril_core_approx": {
+      "start": 306,
+      "end": 378
+    },
+    "K18": {
+      "start": 244,
+      "end": 372,
+      "description": "4R microtubule-binding domain construct"
+    },
+    "K19": {
+      "start": 244,
+      "end": 372,
+      "exclude": [
+        275,
+        305
+      ],
+      "description": "3R construct lacking R2"
+    }
+  }
+}

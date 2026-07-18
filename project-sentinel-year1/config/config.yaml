@@ -14,9 +14,13 @@ project:
 # ------------------------------------------------------------------------------
 data:
   uniprot:
-    accession: "P10636"          # human tau, canonical entry
-    isoform: "2N4R"               # 441 aa, the numbering used throughout
-    fasta_url: "https://rest.uniprot.org/uniprotkb/P10636.fasta"
+    accession: "P10636"          # human tau gene entry (MAPT); canonical *displayed* UniProt
+                                  # sequence is isoform PNS-tau (758 aa) — NOT the isoform used
+                                  # in the tauopathy cryo-EM / MD literature.
+    isoform: "2N4R"               # 441 aa, isoform Tau-F / P10636-8. This is the numbering
+                                   # used throughout this project and in the cited cryo-EM papers.
+    isoform_accession: "P10636-8"
+    fasta_url: "https://rest.uniprot.org/uniprotkb/P10636-8.fasta"
     length_aa: 441
 
   landmarks:                      # 2N4R numbering, 1-indexed, inclusive

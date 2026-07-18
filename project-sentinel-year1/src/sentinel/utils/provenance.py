@@ -66,6 +66,26 @@ def log_download(url: str, dest_path: Path | str, extra: dict[str, Any] | None =
     return checksum or ""
 
 
+def log_curated_artifact(source_description: str, dest_path: Path | str, extra: dict[str, Any] | None = None) -> str:
+    """Record a hand-curated (non-downloaded) artifact, e.g. a literature table,
+    with the same auditability as a download: a checksum and a timestamp."""
+    dest_path = Path(dest_path)
+    checksum = sha256_of_file(dest_path)
+    record = _load()
+    entry = {
+        "url": source_description,
+        "dest": str(dest_path.relative_to(repo_path())) if dest_path.is_absolute() else str(dest_path),
+        "sha256": checksum,
+        "timestamp": _now(),
+        "kind": "curated_literature_table",
+    }
+    if extra:
+        entry.update(extra)
+    record["downloads"].append(entry)
+    _save(record)
+    return checksum
+
+
 def log_tool_version(tool: str, version: str) -> None:
     record = _load()
     record["tool_versions"][tool] = version
