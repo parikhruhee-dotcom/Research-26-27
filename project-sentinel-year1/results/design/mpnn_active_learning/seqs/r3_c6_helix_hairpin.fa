@@ -1,10 +1,10 @@
->r3_c6_helix_hairpin, score=0.9270, global_score=0.9270, fixed_chains=[], designed_chains=['A'], model_name=v_48_020, git_hash=8907e6671bfbfc92303b5f79c4b5e6ce47cdef57, seed=3048
+>r3_c6_helix_hairpin, score=0.9269, global_score=0.9269, fixed_chains=[], designed_chains=['A'], model_name=v_48_020, git_hash=8907e6671bfbfc92303b5f79c4b5e6ce47cdef57, seed=3048
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
->T=0.2, sample=1, score=0.9605, global_score=0.9605, seq_recovery=0.7969
+>T=0.2, sample=1, score=0.9606, global_score=0.9606, seq_recovery=0.7969
 AAAAALIAAAAAAAAAVAAAADALLAAGAAGAGAAAAAAAAAAAALRAAAAAAAEAAAAAAAAL
 >T=0.2, sample=2, score=1.0051, global_score=1.0051, seq_recovery=0.6875
 AAAAALLAAAEAAAAARAAEAAALLAAGAEGAAAARAAARAAAAALRAAAAAELEAARAEAAAL
->T=0.2, sample=3, score=1.1511, global_score=1.1511, seq_recovery=0.5938
+>T=0.2, sample=3, score=1.1510, global_score=1.1510, seq_recovery=0.5938
 ATAAALLAAGKAAAAALLAAADAIVAAGAAGAGGGAAAAKAIADAIKAAAAAGLAAAKAKAAEL
->T=0.2, sample=4, score=0.9816, global_score=0.9816, seq_recovery=0.1250
+>T=0.2, sample=4, score=0.9818, global_score=0.9818, seq_recovery=0.1250
 KEAEELLKKAEEKKKEIEKEAEKLLKKGKEGKKKEKEKAEKEAEKLLKEAEELLKKAKKEAEKL

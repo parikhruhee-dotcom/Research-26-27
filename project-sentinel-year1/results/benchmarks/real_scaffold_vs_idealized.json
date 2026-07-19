@@ -1,10 +1,10 @@
 {
-  "n_real_scaffold": 112,
-  "n_idealized": 208,
-  "mean_pearson_r_real_scaffold": -0.4934,
-  "mean_pearson_r_idealized": -0.2563,
+  "n_real_scaffold": 144,
+  "n_idealized": 176,
+  "mean_pearson_r_real_scaffold": -0.4988,
+  "mean_pearson_r_idealized": -0.3246,
   "note": "more negative = better hydrophobic-core packing (buried residues genuinely hydrophobic, exposed residues genuinely polar)",
-  "unpaired_ttest_statistic": -6.8101,
+  "unpaired_ttest_statistic": -5.9278,
   "unpaired_ttest_pvalue": 0.0,
   "real_scaffolds_better_packed": true
 }

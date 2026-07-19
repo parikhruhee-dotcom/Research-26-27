@@ -1,85 +1,5 @@
-============================= test session starts ==============================
-platform linux -- Python 3.12.1, pytest-9.1.1, pluggy-1.6.0 -- /home/codespace/.python/current/bin/python3
-cachedir: .pytest_cache
-rootdir: /workspaces/Research-26-27/project-sentinel-year1
-configfile: pyproject.toml
-plugins: anyio-4.12.1, cov-7.1.0
-collecting ... collected 73 items
-
-tests/test_active_learning.py::test_param_bounds_has_onehot_topology_block PASSED [  1%]
-tests/test_active_learning.py::test_n_topologies_matches_real_registry PASSED [  2%]
-tests/test_active_learning.py::test_decode_params_picks_argmax_topology PASSED [  4%]
-tests/test_active_learning.py::test_decode_params_all_topologies_reachable PASSED [  5%]
-tests/test_active_learning.py::test_random_params_shape PASSED           [  6%]
-tests/test_active_learning.py::test_random_params_topology_block_is_true_onehot_corner PASSED [  8%]
-tests/test_active_learning.py::test_random_params_topology_roughly_uniform PASSED [  9%]
-tests/test_active_learning.py::test_surrogate_fits_and_predicts_on_new_param_space PASSED [ 10%]
-tests/test_aggregation.py::test_zipper_compatibility_perfect_match PASSED [ 12%]
-tests/test_aggregation.py::test_zipper_compatibility_mismatch_lower PASSED [ 13%]
-tests/test_aggregation.py::test_compute_profile_scores_normalized_0_1 PASSED [ 15%]
-tests/test_aggregation.py::test_compute_profile_window_count PASSED      [ 16%]
-tests/test_aggregation.py::test_compute_profile_deterministic PASSED     [ 17%]
-tests/test_atlas.py::test_charge_class PASSED                            [ 19%]
-tests/test_atlas.py::test_residue_physchem_aromatic PASSED               [ 20%]
-tests/test_atlas.py::test_classify_burial_thresholds PASSED              [ 21%]
-tests/test_atlas.py::test_kabsch_rmsd_identical_structures_is_zero PASSED [ 23%]
-tests/test_atlas.py::test_kabsch_rmsd_rotation_invariant PASSED          [ 24%]
-tests/test_bench_scaffold_comparison.py::test_correctly_splits_real_vs_idealized_by_name_prefix PASSED [ 26%]
-tests/test_bench_scaffold_comparison.py::test_handles_missing_pearson_r_gracefully PASSED [ 27%]
-tests/test_bench_scaffold_comparison.py::test_insufficient_data_reports_note_not_crash PASSED [ 28%]
-tests/test_chemical_complementarity.py::test_hydrophobic_match_scores_higher_than_mismatch PASSED [ 30%]
-tests/test_chemical_complementarity.py::test_opposite_charge_attracts_same_charge_repels PASSED [ 31%]
-tests/test_chemical_complementarity.py::test_no_contacts_beyond_cutoff_returns_zero_not_nan PASSED [ 32%]
-tests/test_design_geometry.py::test_build_backbone_bond_lengths PASSED   [ 34%]
-tests/test_design_geometry.py::test_ideal_alpha_helix_rise PASSED        [ 35%]
-tests/test_design_geometry.py::test_no_atom_clashes_within_single_chain PASSED [ 36%]
-tests/test_design_geometry.py::test_rotation_matrix_is_orthonormal PASSED [ 38%]
-tests/test_design_scoring.py::test_binder_own_max_score_is_not_trivially_one PASSED [ 39%]
-tests/test_design_scoring.py::test_developability_flags_known_amyloid_motif PASSED [ 41%]
-tests/test_design_scoring.py::test_developability_passes_bland_sequence PASSED [ 42%]
-tests/test_design_scoring.py::test_cysteine_check PASSED                 [ 43%]
-tests/test_developability_exposure_fix.py::test_buried_amyloidogenic_window_does_not_fail_when_structure_shown_buried PASSED [ 45%]
-tests/test_developability_exposure_fix.py::test_exposed_amyloidogenic_window_still_fails_with_structure PASSED [ 46%]
-tests/test_developability_exposure_fix.py::test_no_structure_falls_back_to_original_whole_sequence_behavior PASSED [ 47%]
-tests/test_developability_reference.py::test_reference_sources_disjoint_from_design_scaffold_library PASSED [ 49%]
-tests/test_developability_reference.py::test_build_reference_distribution_returns_one_peak_per_protein PASSED [ 50%]
-tests/test_developability_reference.py::test_peak_vs_peak_beats_pooled_individual_window_bug PASSED [ 52%]
-tests/test_docking_refinement.py::test_refine_dock_pose_never_gets_worse_than_starting_pose PASSED [ 53%]
-tests/test_docking_refinement.py::test_refine_dock_pose_is_deterministic_given_seed PASSED [ 54%]
-tests/test_docking_refinement.py::test_refine_dock_pose_multirestart_never_worse_than_single_restart PASSED [ 56%]
-tests/test_docking_refinement.py::test_refine_dock_pose_preserves_backbone_geometry PASSED [ 57%]
-tests/test_io.py::test_parse_fasta PASSED                                [ 58%]
-tests/test_io.py::test_build_aggregation_constructs PASSED               [ 60%]
-tests/test_io.py::test_panel_manifest_has_ten_verified_structures PASSED [ 61%]
-tests/test_md.py::test_rmsf_shape_consistency PASSED                     [ 63%]
-tests/test_md.py::test_md_results_exist_and_actual_ns_logged PASSED      [ 64%]
-tests/test_md.py::test_hexapeptides_lose_beta_structure_in_isolation PASSED [ 65%]
-tests/test_outputs_exist.py::test_atlas_outputs PASSED                   [ 67%]
-tests/test_outputs_exist.py::test_figures_generated PASSED               [ 68%]
-tests/test_outputs_exist.py::test_benchmarks_outputs PASSED              [ 69%]
-tests/test_outputs_exist.py::test_design_leads_are_valid_sequences PASSED [ 71%]
-tests/test_outputs_exist.py::test_provenance_ledger_populated PASSED     [ 72%]
-tests/test_pipeline_wiring.py::test_fetch_sequence_writes_compute_profile PASSED [ 73%]
-tests/test_pipeline_wiring.py::test_gpu_tier_status_self_heals_without_preexisting_profile PASSED [ 75%]
-tests/test_scaffold_library.py::test_all_scaffold_sources_have_required_fields PASSED [ 76%]
-tests/test_scaffold_library.py::test_scaffold_backbones_load_with_expected_size PASSED [ 78%]
-tests/test_scaffold_library.py::test_scaffold_backbones_have_real_bond_lengths PASSED [ 79%]
-tests/test_scientific_validation.py::test_phf6_ranked_top PASSED         [ 80%]
-tests/test_scientific_validation.py::test_vqiink_buries_more_than_vqivyk PASSED [ 82%]
-tests/test_scientific_validation.py::test_ad_selective_designs_prefer_ad_tip PASSED [ 83%]
-tests/test_scientific_validation.py::test_active_learning_beats_random PASSED [ 84%]
-tests/test_scientific_validation.py::test_determinism PASSED             [ 86%]
-tests/test_topology_builder.py::test_hairpin_helices_are_actually_antiparallel_and_packed PASSED [ 87%]
-tests/test_topology_builder.py::test_three_helix_bundle_is_compact_not_a_flat_row PASSED [ 89%]
-tests/test_topology_builder.py::test_no_backbone_clashes_or_absurd_stretching PASSED [ 90%]
-tests/test_topology_builder.py::test_mixed_helix_strand_helix_topology_builds PASSED [ 91%]
-tests/test_topology_builder.py::test_deterministic_given_seed PASSED     [ 93%]
-tests/test_topology_builder.py::test_different_seeds_give_different_roll_but_same_packing PASSED [ 94%]
-tests/test_utils.py::test_config_loads PASSED                            [ 95%]
-tests/test_utils.py::test_set_global_seed_reproducible PASSED            [ 97%]
-tests/test_utils.py::test_compute_tier_detection PASSED                  [ 98%]
-tests/test_utils.py::test_provenance_sha256 PASSED                       [100%]
-
+........................................................................ [ 96%]
+...                                                                      [100%]
 =============================== warnings summary ===============================
 tests/test_active_learning.py::test_surrogate_fits_and_predicts_on_new_param_space
   /home/codespace/.python/current/lib/python3.12/site-packages/sklearn/gaussian_process/kernels.py:445: ConvergenceWarning: The optimal value found for dimension 0 of parameter k1__k2__length_scale is close to the specified lower bound 1e-05. Decreasing the bound and calling fit again may find a better value.
@@ -102,4 +22,4 @@ tests/test_active_learning.py::test_surrogate_fits_and_predicts_on_new_param_spa
     warnings.warn(
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-======================== 73 passed, 5 warnings in 6.96s ========================
+75 passed, 5 warnings in 6.55s

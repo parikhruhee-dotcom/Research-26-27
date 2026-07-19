@@ -1,10 +1,10 @@
 >r8_c1_helix_hairpin, score=0.9564, global_score=0.9564, fixed_chains=[], designed_chains=['A'], model_name=v_48_020, git_hash=8907e6671bfbfc92303b5f79c4b5e6ce47cdef57, seed=8043
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
->T=0.2, sample=1, score=0.9646, global_score=0.9646, seq_recovery=0.6094
+>T=0.2, sample=1, score=0.9643, global_score=0.9643, seq_recovery=0.6094
 KAAVEAAKKAQEQGKAAGEQAAAKAAAAGAAAAAAAGAAAVAAGKAAQAQAVAAGEQAAAAAAA
 >T=0.2, sample=2, score=0.6782, global_score=0.6782, seq_recovery=0.8594
 AAAVAAAAAAAAAGAAAGAAAAAAAAAAGAAGAAAAGAAAVAAGAAAAAAAAAAGAAAAAAAAA
->T=0.2, sample=3, score=0.8229, global_score=0.8229, seq_recovery=0.7656
+>T=0.2, sample=3, score=0.8230, global_score=0.8230, seq_recovery=0.7656
 AAAVAAAAAAQAAGVAAGKAAAAEAAAKGAAAAAAAAAAAVAAAKAAKAAAKAAGKAAAAAAAA
->T=0.2, sample=4, score=0.7164, global_score=0.7164, seq_recovery=0.8281
+>T=0.2, sample=4, score=0.7165, global_score=0.7165, seq_recovery=0.8281
 AAAVAAAAAAGAAAVAAGAAAAAAAAAAGAGGAAAAAAAAVAAGAAAAAAGAAAGAAAAAAAAA

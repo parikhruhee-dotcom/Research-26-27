@@ -2,53 +2,53 @@
   "active_learning": [
     {
       "round": 0,
-      "round_best_score": 0.5291,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.5261,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 1,
       "round_best_score": 0.4527,
-      "cumulative_best_score": 0.5291
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 2,
       "round_best_score": 0.4728,
-      "cumulative_best_score": 0.5291
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 3,
-      "round_best_score": 0.4823,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.4981,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 4,
-      "round_best_score": 0.4945,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.4669,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 5,
-      "round_best_score": 0.4803,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.47,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 6,
-      "round_best_score": 0.474,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.4703,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 7,
-      "round_best_score": 0.4697,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.4519,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 8,
-      "round_best_score": 0.4965,
-      "cumulative_best_score": 0.5291
+      "round_best_score": 0.4649,
+      "cumulative_best_score": 0.5261
     },
     {
       "round": 9,
       "round_best_score": 0.476,
-      "cumulative_best_score": 0.5291
+      "cumulative_best_score": 0.5261
     }
   ],
   "random_search": [
@@ -64,7 +64,7 @@
     },
     {
       "round": 2,
-      "round_best_score": 0.4732,
+      "round_best_score": 0.4708,
       "cumulative_best_score": 0.5105
     },
     {
@@ -79,12 +79,12 @@
     },
     {
       "round": 5,
-      "round_best_score": 0.4745,
+      "round_best_score": 0.4655,
       "cumulative_best_score": 0.5105
     },
     {
       "round": 6,
-      "round_best_score": 0.4727,
+      "round_best_score": 0.4719,
       "cumulative_best_score": 0.5105
     },
     {
@@ -99,7 +99,7 @@
     },
     {
       "round": 9,
-      "round_best_score": 0.462,
+      "round_best_score": 0.4684,
       "cumulative_best_score": 0.5105
     }
   ]

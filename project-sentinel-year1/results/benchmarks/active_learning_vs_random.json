@@ -1,16 +1,16 @@
 {
   "final_best_comparison": {
     "active_learning_curve": [
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291,
-      0.5291
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261,
+      0.5261
     ],
     "random_search_curve": [
       0.4684,
@@ -25,22 +25,22 @@
       0.5105
     ],
     "al_dominates_every_round": true,
-    "final_gap": 0.0186,
-    "paired_ttest_statistic": 5.4181,
-    "paired_ttest_pvalue": 0.0004,
-    "cohens_d_effect_size": 1.806
+    "final_gap": 0.0156,
+    "paired_ttest_statistic": 4.7055,
+    "paired_ttest_pvalue": 0.0011,
+    "cohens_d_effect_size": 1.5685
   },
   "mean_score_comparison": {
     "n_active_learning": 80,
     "n_random_search": 80,
-    "al_mean": 0.4306,
-    "rs_mean": 0.4256,
-    "al_median": 0.444,
-    "rs_median": 0.4351,
-    "al_second_half_minus_first_half_trend": -0.0193,
-    "rs_second_half_minus_first_half_trend": -0.0015,
-    "unpaired_ttest_statistic": 0.656,
-    "unpaired_ttest_pvalue": 0.512749,
+    "al_mean": 0.4326,
+    "rs_mean": 0.4283,
+    "al_median": 0.4412,
+    "rs_median": 0.4342,
+    "al_second_half_minus_first_half_trend": -0.0165,
+    "rs_second_half_minus_first_half_trend": -0.0,
+    "unpaired_ttest_statistic": 0.6779,
+    "unpaired_ttest_pvalue": 0.49883,
     "al_mean_beats_rs_mean": true
   }
 }

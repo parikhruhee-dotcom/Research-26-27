@@ -30,7 +30,12 @@ from sentinel.utils.seeds import set_global_seed
 logger = get_logger(__name__)
 
 MAX_WALLCLOCK_S = 180.0
-N_LEADS_TO_VALIDATE = 3
+# Validate every real lead, not just the top 3 — with the M7 NaN-crash root
+# causes fixed (collapsed-loop backbone geometry in mixed-length topologies,
+# and velocities assigned before minimization; see PROGRESS_LOG.md), a
+# larger validated sample is both affordable and gives real, direct evidence
+# across the actual candidate pool rather than an arbitrary small slice.
+N_LEADS_TO_VALIDATE = 20
 
 
 def build_binder_pdb_with_sequence(backbone_pdb: str, sequence: str, dest_path) -> None:

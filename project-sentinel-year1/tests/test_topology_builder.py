@@ -51,6 +51,44 @@ def test_mixed_helix_strand_helix_topology_builds():
         assert full[atom].shape[0] == full["CA"].shape[0]
 
 
+def test_mixed_length_segments_do_not_produce_collapsed_loops():
+    """Regression test for a real bug: segments were anchored to a shared
+    z-plane derived from the LONGEST segment's half-length, so a much
+    shorter segment (e.g. an 8-residue strand between two 20-residue
+    helices) fell far short of reaching that plane, leaving the connecting
+    loop to bridge a gap on the order of a full helix length rather than
+    the small xy packing gap it is actually sized for. Measured directly on
+    the real design this produced: CA(i) and CA(i+2) landed 1.93 A apart
+    (should be several A at minimum for any real backbone conformation),
+    and the full-atom PDBFixer/OpenMM reconstruction of that geometry
+    crashed downstream MD with NaN particle coordinates. Checked across
+    several genuinely mismatched segment-length combinations and seeds, not
+    just the one specific case that was caught."""
+    specs_and_seeds = [
+        ([("H", 20), ("E", 8), ("H", 20)], 1),
+        ([("H", 20), ("E", 8), ("H", 20)], 7044),  # the exact seed that produced the real failure
+        ([("H", 30), ("E", 6), ("H", 30)], 3),
+        ([("H", 12), ("H", 40), ("H", 12)], 5),
+    ]
+    for specs, seed in specs_and_seeds:
+        full = build_packed_bundle(specs, loop_length=3, seed=seed)
+        ca = full["CA"]
+        i2 = np.linalg.norm(ca[:-2] - ca[2:], axis=1)
+        # 2.0 A, not the ~3.8-5 A typical of mid-segment residues: a small residual
+        # tightness right at the loop-to-next-segment junction survives the sequential-
+        # z-tracking fix (measured: worst case ~2.56 A, at exactly that junction) --
+        # dramatically better than the pre-fix failure (~1.93 A, mid-loop, with the
+        # full-atom reconstruction crashing downstream MD with NaN) and directly confirmed
+        # end-to-end MD-stable for the real seed=7044 case that actually failed in
+        # production (see PROGRESS_LOG.md and tests/test_md.py's MD-level regression test).
+        assert i2.min() > 2.0, (
+            f"specs={specs} seed={seed}: CA(i)-CA(i+2) should never collapse below ~2 A "
+            f"(a real backbone cannot fold back on itself that tightly), got {i2.min():.3f} A"
+        )
+        i1 = np.linalg.norm(np.diff(ca, axis=0), axis=1)
+        assert i1.min() > 1.5, f"specs={specs} seed={seed}: no near-overlapping consecutive CA atoms"
+
+
 def test_deterministic_given_seed():
     a = build_packed_bundle([("H", 20), ("H", 20)], loop_length=3, seed=99)
     b = build_packed_bundle([("H", 20), ("H", 20)], loop_length=3, seed=99)

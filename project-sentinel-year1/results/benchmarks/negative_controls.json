@@ -19,15 +19,15 @@
       "real_beats_scrambled": true
     },
     {
-      "design_id": "r0_c6_helix_hairpin_s0",
-      "real_plausibility": 0.9443,
-      "scrambled_plausibility": 0.9353,
+      "design_id": "r3_c3_helix_hairpin_s3",
+      "real_plausibility": 0.9431,
+      "scrambled_plausibility": 0.9357,
       "real_beats_scrambled": true
     },
     {
-      "design_id": "r8_c6_helix_hairpin_s0",
-      "real_plausibility": 0.9436,
-      "scrambled_plausibility": 0.936,
+      "design_id": "r0_c6_helix_hairpin_s0",
+      "real_plausibility": 0.9443,
+      "scrambled_plausibility": 0.9378,
       "real_beats_scrambled": true
     }
   ],

@@ -77,9 +77,20 @@ def run_md(pdb_path: str, forcefield_files: list[str], temperature_K: float, fri
     out_dir.mkdir(parents=True, exist_ok=True)
 
     simulation = build_simulation(pdb_path, forcefield_files, temperature_K, friction_per_ps, timestep_fs)
-    simulation.context.setVelocitiesToTemperature(temperature_K * kelvin, seed)
 
+    # A real bug was found and fixed here: velocities were previously assigned BEFORE
+    # minimization. Minimization can move a badly-clashed starting structure (e.g. from
+    # PDBFixer-rebuilt side chains on imperfect backbone geometry) a long way to reach a
+    # relaxed, low-energy configuration -- but the velocities randomly assigned to the OLD,
+    # high-energy positions stay attached to the particles regardless, so the very first
+    # dynamics step combines brand-new (relaxed) positions/forces with stale, mismatched
+    # velocities. Measured directly: for a real design whose starting energy was 6.4e10
+    # kJ/mol, minimization alone reliably converged to a sane ~-9500 kJ/mol either way, but
+    # dynamics only completed without a NaN blowup when velocities were assigned AFTER
+    # minimization, on the already-relaxed structure -- with velocities-before-minimize
+    # (the original order), the exact same minimized structure crashed with NaN every time.
     min_info = minimize(simulation, minimize_max_iterations)
+    simulation.context.setVelocitiesToTemperature(temperature_K * kelvin, seed)
 
     dcd_path = out_dir / f"{tag}_trajectory.dcd"
     log_path = out_dir / f"{tag}_statedata.csv"

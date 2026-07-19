@@ -175,22 +175,34 @@ def build_packed_bundle(segment_specs: list[tuple], loop_length: int, seed: int,
     radial_dirs = [np.array([np.cos(angle_step * i), np.sin(angle_step * i), 0.0])
                     for i in range(n_segments)]
     bundle_center = np.array([0.0, 0.0, 0.0])
-    z_half = max(half_lengths) if half_lengths else 0.0
 
+    # A real bug was found and fixed here: anchoring every segment to a SHARED
+    # z-plane derived from the LONGEST segment's half-length (the original
+    # scheme) silently assumes every segment spans that same z-extent. That
+    # holds for equal-length segments (hairpin, three-helix-bundle, all built
+    # from same-length helices in this codebase) but breaks for mixed-length
+    # topologies like helix_strand_helix (e.g. 20/8/20 residues): the short
+    # strand segment, anchored at the shared top plane, falls far short of
+    # reaching the shared bottom plane, leaving the NEXT loop to bridge a gap
+    # on the order of a full helix length rather than the small xy
+    # circumradius gap it is actually sized for (loop_length=3). Measured
+    # directly: this produced a physically absurd backbone where residue i and
+    # i+2 landed 0.22 A apart (should be ~5-6 A) once PDBFixer/OpenMM tried to
+    # build a full-atom structure on it, causing MD to blow up with NaN
+    # coordinates. Fixed by tracking each segment's start z SEQUENTIALLY from
+    # where the PREVIOUS segment's own real half-length actually placed its
+    # end, so every connecting loop only ever bridges the small xy gap,
+    # regardless of how much individual segment lengths differ.
+    current_z = 0.0
     placed_segments = []
     for i, seg_local in enumerate(segments_local):
         xy = bundle_center + radial_dirs[i] * circumradius
-        if i % 2 == 0:
-            # runs bottom -> top: anchor local start at the bottom plane, axis = +z
-            target_start = xy + np.array([0.0, 0.0, -z_half])
-            axis = np.array([0.0, 0.0, 1.0])
-        else:
-            # runs top -> bottom: anchor local start at the top plane, axis = -z
-            target_start = xy + np.array([0.0, 0.0, z_half])
-            axis = np.array([0.0, 0.0, -1.0])
+        axis = np.array([0.0, 0.0, 1.0 if i % 2 == 0 else -1.0])
+        target_start = xy + np.array([0.0, 0.0, current_z])
         roll = float(rng.uniform(0, 2 * np.pi))
         placed = _place_segment(seg_local, axis, target_start, roll)
         placed_segments.append(placed)
+        current_z += axis[2] * 2 * half_lengths[i]
 
     full = {"N": [], "CA": [], "C": [], "O": []}
     for i, seg in enumerate(placed_segments):

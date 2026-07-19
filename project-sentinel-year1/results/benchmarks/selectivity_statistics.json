@@ -1,7 +1,7 @@
 {
   "n_designs": 40,
-  "mean_ad_score": 0.0452,
-  "mean_other_score": 0.0432,
-  "paired_ttest_statistic": 1.1566,
-  "paired_ttest_pvalue": 0.2545
+  "mean_ad_score": 0.0427,
+  "mean_other_score": 0.0418,
+  "paired_ttest_statistic": 0.5214,
+  "paired_ttest_pvalue": 0.605
 }

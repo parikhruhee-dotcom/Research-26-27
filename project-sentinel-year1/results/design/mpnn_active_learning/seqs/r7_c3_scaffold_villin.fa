@@ -1,0 +1,10 @@
+>r7_c3_scaffold_villin, score=1.7738, global_score=1.7738, fixed_chains=[], designed_chains=['A'], model_name=v_48_020, git_hash=8907e6671bfbfc92303b5f79c4b5e6ce47cdef57, seed=7045
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+>T=0.1, sample=1, score=1.1637, global_score=1.1637, seq_recovery=0.0833
+EPTPEQAKELLGGTVEEALKVSPEEQEALYEERLKE
+>T=0.1, sample=2, score=1.0247, global_score=1.0247, seq_recovery=0.0556
+KPTPEEAKKLLGGTLEEFKKLSPEEQKKAYEEKLKE
+>T=0.1, sample=3, score=1.1086, global_score=1.1086, seq_recovery=0.1389
+TPTPEQAAALLGGTVEEFRTLSPEQQRAAWEERLRE
+>T=0.1, sample=4, score=1.0503, global_score=1.0503, seq_recovery=0.0556
+EPTPEEAKKLIGKTVEEAKKLSPEEQEKLYKERLEK
