@@ -211,15 +211,18 @@ def fig09_selectivity_matrix():
     cfg = load_config()
     strains = [cfg["data"]["reference_strain"]] + [n["strain"] for n in
                json.load(open(repo_path("results", "target", "ad_capper_target.json")))["negative_design_panel"]]
-    mat = df.set_index("backbone_id")[strains]
+    mat = df.set_index("design_id")[strains]
     fig, ax = plt.subplots(figsize=(10, max(4, 0.4 * len(mat))))
-    sns.heatmap(mat, cmap="RdBu_r", center=0, ax=ax, cbar_kws={"label": "packing_sc_proxy - clash_score"})
-    ax.set_title("Selectivity matrix: top backbones x fold")
+    sns.heatmap(mat, cmap="RdBu_r", center=0, ax=ax,
+                cbar_kws={"label": "combined score (packing + chemical complementarity - clash)"})
+    ax.set_title("Selectivity matrix: top designs x fold")
     fig.tight_layout()
-    save_figure(fig, "fig09_selectivity_matrix", "Selectivity matrix: each top-scoring backbone's "
-                "geometric-complementarity score when redocked (identical rigid-body sampling seed) "
-                "onto each of the 8 folds' templating tips. Higher (redder) on the reference AD "
-                "column than the negative-design columns indicates AD-selective shape complementarity.",
+    save_figure(fig, "fig09_selectivity_matrix", "Selectivity matrix: each top-scoring design's "
+                "(real backbone shape + actual designed sequence) combined geometric- and chemical-"
+                "complementarity score when redocked (identical rigid-body sampling seed) onto each "
+                "of the 8 folds' templating tips. Higher (redder) on the reference AD column than "
+                "the negative-design columns indicates AD-selective binding — driven by both shape "
+                "fit and the designed sequence's own chemistry, not shape alone.",
                 CAPTIONS)
     plt.close(fig)
 

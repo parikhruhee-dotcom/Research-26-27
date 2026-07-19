@@ -29,7 +29,7 @@ def test_developability_flags_known_amyloid_motif(tau_reference):
     amyloidogenic_seq = "AAAAAAAVQIVYKAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
     d = developability_filter(amyloidogenic_seq, tau_scores, tau_bounds)
     assert d["developability_passed"] is False
-    assert d["percentile_vs_tau_windows"] > 90
+    assert d["percentile_vs_reference_windows"] > 90
 
 
 def test_developability_passes_bland_sequence(tau_reference):

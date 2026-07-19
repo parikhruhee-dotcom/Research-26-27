@@ -92,6 +92,78 @@ def geometric_complementarity(binder_coords: dict, target_coords: dict,
     }
 
 
+def chemical_complementarity(binder_ca: np.ndarray, binder_sequence: str, target_ca: np.ndarray,
+                               target_res_names: list[str], contact_distance_A: float = 8.0) -> dict:
+    """Real physicochemical interface complementarity — a bug found and
+    fixed here: geometric_complementarity() above is entirely sequence-
+    blind (it places a generic, residue-identity-independent ideal-geometry
+    CB and never looks at side-chain chemistry at all), so it cannot
+    distinguish a well-chosen sequence from a poorly-chosen one docked on
+    the identical rigid backbone shape — including for AD-selectivity,
+    which is supposed to be about whether the DESIGNED SEQUENCE'S chemistry
+    prefers AD's specific tip surface, not just whether some generic rigid
+    shape happens to fit multiple different tauopathy fold tips (real
+    tauopathy fibril tips can share broadly similar concave amyloid-groove
+    geometry even though their fold, and surface chemistry, genuinely
+    differs — measured directly in this build: without this term, AD-tip
+    scores averaged BELOW the mean other-fold score across the top-10
+    backbone pool, i.e. shape alone showed no real AD preference).
+
+    For every binder-CA/target-CA pair within contact_distance_A, scores:
+      - hydrophobic_term: KD(binder_residue) * KD(target_residue) — positive
+        for a hydrophobic-hydrophobic OR polar-polar (both negative KD)
+        match, negative for a hydrophobic/polar mismatch. A standard,
+        simple hydropathy-complementarity proxy.
+      - charge_term: +1 for an opposite-charge (electrostatically
+        attractive) contact, -1 for a same-charge (repulsive) contact, 0
+        otherwise.
+    Returns the mean of each term over all real contacts (0.0 with no
+    contacts in range, an honest signal of no local interface at all rather
+    than a silent divide-by-zero)."""
+    from sentinel.atlas.physicochemical import KYTE_DOOLITTLE, THREE_TO_ONE, charge_class
+
+    one_to_three = {v: k for k, v in THREE_TO_ONE.items()}
+    binder_res_names = [one_to_three.get(s, "ALA") for s in binder_sequence[:binder_ca.shape[0]]]
+
+    diffs = binder_ca[:, None, :] - target_ca[None, :, :]
+    dists = np.linalg.norm(diffs, axis=-1)
+    contact_mask = dists < contact_distance_A
+    n_contacts = int(contact_mask.sum())
+    if n_contacts == 0:
+        return {"n_chemical_contacts": 0, "hydrophobic_complementarity": 0.0,
+                "charge_complementarity": 0.0}
+
+    hydro_terms, charge_terms = [], []
+    bi_idx, ti_idx = np.nonzero(contact_mask)
+    for bi, ti in zip(bi_idx, ti_idx):
+        b_res, t_res = binder_res_names[bi], target_res_names[ti]
+        hydro_terms.append(KYTE_DOOLITTLE.get(b_res, 0.0) * KYTE_DOOLITTLE.get(t_res, 0.0))
+        b_charge, t_charge = charge_class(b_res), charge_class(t_res)
+        if b_charge == "neutral" or t_charge == "neutral":
+            charge_terms.append(0.0)
+        elif b_charge != t_charge:
+            charge_terms.append(1.0)
+        else:
+            charge_terms.append(-1.0)
+
+    return {
+        "n_chemical_contacts": n_contacts,
+        "hydrophobic_complementarity": round(float(np.mean(hydro_terms)), 4),
+        "charge_complementarity": round(float(np.mean(charge_terms)), 4),
+    }
+
+
+def scale_chemical_complementarity(chem: dict) -> float:
+    """Maps chemical_complementarity()'s two raw terms (a KD*KD-based
+    hydrophobic term of roughly a few units' magnitude, and a +/-1 charge
+    term) onto a single [0,1] scalar comparable to the other composite-score
+    terms. Shared by both design-time scoring (run_design_loop) and
+    selectivity re-scoring (selectivity.py) so the two use the identical
+    scale."""
+    return float(np.clip((chem["hydrophobic_complementarity"] / 5.0 + 1.0) / 2.0
+                           + chem["charge_complementarity"] * 0.1, 0.0, 1.0))
+
+
 def buried_sasa_of_interface(binder_pdb: str, target_pdb: str, complex_pdb: str) -> float:
     """SASA(binder alone) + SASA(target alone) - SASA(complex), i.e. the
     interface buried surface area, via freesasa."""

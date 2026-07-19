@@ -1,0 +1,82 @@
+{
+  "ref_ubiquitin": {
+    "pdb_id": "1UBQ",
+    "chain": "A",
+    "description": "Ubiquitin \u2014 one of the most extensively characterized stable, soluble, monomeric proteins known.",
+    "expected_length": 76,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "STRUCTURE OF UBIQUITIN REFINED AT 1.8 ANGSTROMS RESOLUTION",
+    "verified_n_residues": 76,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_ubiquitin_fixed.pdb"
+  },
+  "ref_gb1": {
+    "pdb_id": "1PGB",
+    "chain": "A",
+    "description": "Streptococcal Protein G, B1 immunoglobulin-binding domain \u2014 a classic hyperstable, highly soluble biophysics workhorse.",
+    "expected_length": 56,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "TWO CRYSTAL STRUCTURES OF THE B1 IMMUNOGLOBULIN-BINDING DOMAIN OF STREPTOCCOCAL PROTEIN G AND COMPARISON WITH NMR",
+    "verified_n_residues": 56,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_gb1_fixed.pdb"
+  },
+  "ref_sh3": {
+    "pdb_id": "1SHG",
+    "chain": "A",
+    "description": "Alpha-spectrin SH3 domain \u2014 a classic well-behaved folding model.",
+    "expected_length": 62,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "CRYSTAL STRUCTURE OF A SRC-HOMOLOGY 3 (SH3) DOMAIN",
+    "verified_n_residues": 57,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_sh3_fixed.pdb"
+  },
+  "ref_csp": {
+    "pdb_id": "1CSP",
+    "chain": "A",
+    "description": "Bacillus subtilis major cold-shock protein CspB \u2014 hyperstable, highly soluble nucleic-acid-binding domain.",
+    "expected_length": 67,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "CRYSTAL STRUCTURE OF THE BACILLUS SUBTILIS MAJOR COLD SHOCK PROTEIN, CSPB: A UNIVERSAL NUCLEIC-ACID BINDING DOMAIN",
+    "verified_n_residues": 67,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_csp_fixed.pdb"
+  },
+  "ref_ci2": {
+    "pdb_id": "2CI2",
+    "chain": "I",
+    "description": "Chymotrypsin inhibitor 2 (barley) \u2014 a classic hyperstable folding-model protein.",
+    "expected_length": 83,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "CRYSTAL AND MOLECULAR STRUCTURE OF THE SERINE PROTEINASE INHIBITOR CI-2 FROM BARLEY SEEDS",
+    "verified_n_residues": 65,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_ci2_fixed.pdb"
+  },
+  "ref_fn3": {
+    "pdb_id": "1TEN",
+    "chain": "A",
+    "description": "Tenascin fibronectin type-III domain \u2014 a real, soluble, well-expressed beta-sandwich fold (also the scaffold family behind 'Adnectin' engineered binders).",
+    "expected_length": 90,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "STRUCTURE OF A FIBRONECTIN TYPE III DOMAIN FROM TENASCIN PHASED BY MAD ANALYSIS OF THE SELENOMETHIONYL PROTEIN",
+    "verified_n_residues": 90,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_fn3_fixed.pdb"
+  },
+  "ref_acylphosphatase": {
+    "pdb_id": "2ACY",
+    "chain": "A",
+    "description": "Bovine testis acylphosphatase \u2014 a well-studied soluble, monomeric alpha/beta fold.",
+    "expected_length": 98,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "ACYL-PHOSPHATASE (COMMON TYPE) FROM BOVINE TESTIS",
+    "verified_n_residues": 101,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_acylphosphatase_fixed.pdb"
+  },
+  "ref_barstar": {
+    "pdb_id": "1BTA",
+    "chain": "A",
+    "description": "Barstar \u2014 a well-characterized soluble, monomeric ribonuclease inhibitor.",
+    "expected_length": 89,
+    "expected_method": "SOLUTION NMR",
+    "verified_title": "THREE-DIMENSIONAL SOLUTION STRUCTURE AND 13C ASSIGNMENTS OF BARSTAR USING NUCLEAR MAGNETIC RESONANCE SPECTROSCOPY",
+    "verified_n_residues": 89,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/developability_reference/ref_barstar_fixed.pdb"
+  }
+}

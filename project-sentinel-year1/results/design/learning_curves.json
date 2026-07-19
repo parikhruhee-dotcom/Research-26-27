@@ -2,105 +2,105 @@
   "active_learning": [
     {
       "round": 0,
-      "round_best_score": 0.2731,
-      "cumulative_best_score": 0.2731
+      "round_best_score": 0.5291,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 1,
-      "round_best_score": 0.2022,
-      "cumulative_best_score": 0.2731
+      "round_best_score": 0.4527,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 2,
-      "round_best_score": 0.2311,
-      "cumulative_best_score": 0.2731
+      "round_best_score": 0.4728,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 3,
-      "round_best_score": 0.2893,
-      "cumulative_best_score": 0.2893
+      "round_best_score": 0.4823,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 4,
-      "round_best_score": 0.2865,
-      "cumulative_best_score": 0.2893
+      "round_best_score": 0.4945,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 5,
-      "round_best_score": 0.2829,
-      "cumulative_best_score": 0.2893
+      "round_best_score": 0.4803,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 6,
-      "round_best_score": 0.2914,
-      "cumulative_best_score": 0.2914
+      "round_best_score": 0.474,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 7,
-      "round_best_score": 0.2787,
-      "cumulative_best_score": 0.2914
+      "round_best_score": 0.4697,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 8,
-      "round_best_score": 0.2995,
-      "cumulative_best_score": 0.2995
+      "round_best_score": 0.4965,
+      "cumulative_best_score": 0.5291
     },
     {
       "round": 9,
-      "round_best_score": 0.2586,
-      "cumulative_best_score": 0.2995
+      "round_best_score": 0.476,
+      "cumulative_best_score": 0.5291
     }
   ],
   "random_search": [
     {
       "round": 0,
-      "round_best_score": 0.2304,
-      "cumulative_best_score": 0.2304
+      "round_best_score": 0.4684,
+      "cumulative_best_score": 0.4684
     },
     {
       "round": 1,
-      "round_best_score": 0.2704,
-      "cumulative_best_score": 0.2704
+      "round_best_score": 0.5105,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 2,
-      "round_best_score": 0.2368,
-      "cumulative_best_score": 0.2704
+      "round_best_score": 0.4732,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 3,
-      "round_best_score": 0.3035,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.4824,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 4,
-      "round_best_score": 0.2794,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.4691,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 5,
-      "round_best_score": 0.2939,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.4745,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 6,
-      "round_best_score": 0.2794,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.4727,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 7,
-      "round_best_score": 0.3009,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.4754,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 8,
-      "round_best_score": 0.2359,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.4673,
+      "cumulative_best_score": 0.5105
     },
     {
       "round": 9,
-      "round_best_score": 0.2762,
-      "cumulative_best_score": 0.3035
+      "round_best_score": 0.462,
+      "cumulative_best_score": 0.5105
     }
   ]
 }

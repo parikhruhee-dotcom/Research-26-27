@@ -13,7 +13,7 @@
       "LEU315"
     ]
   },
-  "n_candidate_binder_scaffolds_available": 5,
+  "n_candidate_binder_scaffolds_available": 20,
   "predicted_use_case": "Cell-free or CSF-based rapid AD-strain-specific aggregate detection; a diagnostic spin-off distinct from the therapeutic degrader program, reusing the same M2 fingerprint + M6 binder without new design work.",
   "status": "computational design proposal only \u2014 NOT experimentally validated this year (see roadmap: Year 3+ wet-lab validation, Part 6 of the brief)."
 }

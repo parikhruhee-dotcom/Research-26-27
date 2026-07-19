@@ -1,0 +1,52 @@
+{
+  "scaffold_protA_bdomain": {
+    "pdb_id": "1BDD",
+    "chain": "A",
+    "description": "Staphylococcal Protein A, B-domain \u2014 a hyperstable 3-helix bundle; this exact fold is the real scaffold behind the 'Affibody' engineered-binder technology.",
+    "expected_length": 60,
+    "expected_method": "SOLUTION NMR",
+    "verified_title": "STAPHYLOCOCCUS AUREUS PROTEIN A, IMMUNOGLOBULIN-BINDING B DOMAIN, NMR, MINIMIZED AVERAGE STRUCTURE",
+    "verified_n_residues": 60,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/scaffolds/scaffold_protA_bdomain_fixed.pdb"
+  },
+  "scaffold_villin": {
+    "pdb_id": "1VII",
+    "chain": "A",
+    "description": "Chicken villin headpiece subdomain \u2014 the smallest known autonomously folding protein domain, a hyperstable 3-helix bundle.",
+    "expected_length": 36,
+    "expected_method": "SOLUTION NMR",
+    "verified_title": "THERMOSTABLE SUBDOMAIN FROM CHICKEN VILLIN HEADPIECE, NMR, MINIMIZED AVERAGE STRUCTURE",
+    "verified_n_residues": 36,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/scaffolds/scaffold_villin_fixed.pdb"
+  },
+  "scaffold_engrailed_hd": {
+    "pdb_id": "1ENH",
+    "chain": "A",
+    "description": "Engrailed homeodomain \u2014 a classic helix-turn-helix fold.",
+    "expected_length": 54,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "STRUCTURAL STUDIES OF THE ENGRAILED HOMEODOMAIN",
+    "verified_n_residues": 54,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/scaffolds/scaffold_engrailed_hd_fixed.pdb"
+  },
+  "scaffold_de_novo_3helix": {
+    "pdb_id": "6DS9",
+    "chain": "A",
+    "description": "GRa3D, an elongated de novo designed 3-helix bundle, 1.34 A resolution \u2014 a real hyperstable engineered scaffold.",
+    "expected_length": 93,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "Elongated version of a de novo designed three helix bundle structure (GRa3D)",
+    "verified_n_residues": 93,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/scaffolds/scaffold_de_novo_3helix_fixed.pdb"
+  },
+  "scaffold_darpin": {
+    "pdb_id": "2JAB",
+    "chain": "A",
+    "description": "A Designed Ankyrin Repeat Protein (DARPin) evolved to picomolar affinity against Her2 \u2014 a real, independent engineered-binder scaffold family (helical-repeat fold), used here purely for its real backbone geometry, not its original binding specificity.",
+    "expected_length": 124,
+    "expected_method": "X-RAY DIFFRACTION",
+    "verified_title": "A designed ankyrin repeat protein evolved to picomolar affinity to Her2",
+    "verified_n_residues": 124,
+    "fixed_pdb": "/workspaces/Research-26-27/project-sentinel-year1/data/interim/scaffolds/scaffold_darpin_fixed.pdb"
+  }
+}

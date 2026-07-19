@@ -24,31 +24,49 @@ from __future__ import annotations
 import numpy as np
 
 from sentinel.design.geometry import build_backbone
+from sentinel.design.scaffold_library import SCAFFOLD_SOURCES, load_scaffold_backbone
 from sentinel.design.topology_builder import build_packed_bundle
 from sentinel.utils.config import load_config, repo_path
 
-# Each topology is a list of (secondary-structure-type, length) segments plus
-# the loop length connecting consecutive segments. Multi-segment topologies
-# are built via topology_builder.build_packed_bundle, which EXPLICITLY places
-# each segment in a real, packed antiparallel arrangement (verified: ~10.5 A
-# inter-helix spacing, ~180 degree antiparallel axis angle) rather than
-# hoping a naive dihedral-only chain happens to fold back on itself (it
-# doesn't — see PROGRESS_LOG.md for the measurement that caught this).
-TOPOLOGIES = {
+# Each idealized topology is a list of (secondary-structure-type, length)
+# segments plus the loop length connecting consecutive segments, built via
+# topology_builder.build_packed_bundle, which EXPLICITLY places each segment
+# in a real, packed antiparallel arrangement (verified: ~10.5 A inter-helix
+# spacing, ~180 degree antiparallel axis angle) rather than hoping a naive
+# dihedral-only chain happens to fold back on itself (it doesn't — see
+# PROGRESS_LOG.md for the measurement that caught this).
+#
+# These are kept alongside (not replaced by) the real scaffold library below
+# — the active-learning loop can then empirically discover whether idealized
+# or real-scaffold backbones perform better, which is itself an honest,
+# informative result rather than an assumption.
+IDEALIZED_TOPOLOGIES = {
     "helix_hairpin": {"segments": [("H", 30), ("H", 30)], "loop_length": 4},            # 64 aa
     "three_helix_bundle": {"segments": [("H", 24), ("H", 24), ("H", 24)], "loop_length": 3},  # 78 aa
     "helix_strand_helix": {"segments": [("H", 24), ("E", 10), ("H", 24)], "loop_length": 3},  # 64 aa
     "long_helix_capper": {"segments": [("H", 65)], "loop_length": 0},                    # 65 aa, no packing needed
 }
 
+# Backwards-compatible alias (older code/tests reference TOPOLOGIES for the
+# idealized set specifically).
+TOPOLOGIES = IDEALIZED_TOPOLOGIES
+
+REAL_SCAFFOLD_NAMES = list(SCAFFOLD_SOURCES.keys())
+ALL_TOPOLOGY_NAMES = list(IDEALIZED_TOPOLOGIES.keys()) + REAL_SCAFFOLD_NAMES
+
 AA_PLACEHOLDER = "ALA"
 
 
 def build_topology_backbone(topo_name: str, topology_seed: int) -> dict:
-    """Build one topology's coordinates deterministically from its own seed
-    (independent of the docking pose seed), so selectivity.py can rebuild
-    the identical backbone shape when redocking onto other folds."""
-    spec = TOPOLOGIES[topo_name]
+    """Build one topology's coordinates. Real scaffolds are deterministic by
+    construction (a fixed solved structure — no seed needed for shape, only
+    for the downstream docking pose). Idealized topologies build
+    deterministically from their own seed (independent of the docking pose
+    seed), so selectivity.py can rebuild the identical backbone shape when
+    redocking onto other folds either way."""
+    if topo_name in SCAFFOLD_SOURCES:
+        return load_scaffold_backbone(topo_name)
+    spec = IDEALIZED_TOPOLOGIES[topo_name]
     if len(spec["segments"]) == 1:
         ss_char, length = spec["segments"][0]
         return build_backbone(ss_char * length)
@@ -56,9 +74,18 @@ def build_topology_backbone(topo_name: str, topology_seed: int) -> dict:
 
 
 def topology_length(topo_name: str) -> int:
-    spec = TOPOLOGIES[topo_name]
+    if topo_name in SCAFFOLD_SOURCES:
+        return SCAFFOLD_SOURCES[topo_name]["expected_length"]
+    spec = IDEALIZED_TOPOLOGIES[topo_name]
     n_segments = len(spec["segments"])
     return sum(length for _, length in spec["segments"]) + spec["loop_length"] * (n_segments - 1)
+
+
+def topology_source_label(topo_name: str) -> str:
+    if topo_name in SCAFFOLD_SOURCES:
+        pdb_id = SCAFFOLD_SOURCES[topo_name]["pdb_id"]
+        return f"real_solved_scaffold ({pdb_id}, RCSB PDB)"
+    return "cpu_geometric_baseline (idealized NeRF-built topology; RFdiffusion Colab-deferred)"
 
 
 def _write_backbone_pdb(coords: dict, dest_path, chain_id: str = "A") -> None:
@@ -115,6 +142,85 @@ def dock_onto_target(coords: dict, target_centroid: np.ndarray, approach_directi
     return placed
 
 
+def _pose_score(placed: dict, target_coords: dict, clash_distance_A: float = 2.8,
+                  contact_distance_A: float = 5.0) -> float:
+    """Fast, dependency-free scoring for pose search: packing density minus a
+    clash penalty (the same physical quantities interface_scorer.geometric_
+    complementarity computes, inlined here to avoid a heavier per-candidate
+    import and to keep this local search cheap enough to run every backbone)."""
+    binder_atoms = np.concatenate([placed[a] for a in ["N", "CA", "C", "O"]], axis=0)
+    target_atoms = np.concatenate([target_coords[a] for a in ["N", "CA", "C", "O"]], axis=0)
+    diffs = binder_atoms[:, None, :] - target_atoms[None, :, :]
+    dists = np.linalg.norm(diffs, axis=-1)
+    n_clashes = int((dists < clash_distance_A).sum())
+    contacts_per_atom = ((dists >= clash_distance_A) & (dists < contact_distance_A)).sum(axis=1)
+    mean_contacts = float(contacts_per_atom.mean())
+    sc_proxy = mean_contacts / (mean_contacts + 8.0)
+    clash_score = n_clashes / binder_atoms.shape[0]
+    return sc_proxy - clash_score
+
+
+def _single_basin_hill_climb(start: dict, target_coords: dict, rng: np.random.Generator,
+                               n_iterations: int) -> tuple[dict, float]:
+    best = start
+    best_score = _pose_score(best, target_coords)
+
+    translation_step_A = 2.0
+    rotation_step_rad = np.radians(15)
+    for it in range(n_iterations):
+        cooling = 1.0 - (it / n_iterations)
+        all_atoms = np.concatenate([best[a] for a in ["N", "CA", "C", "O"]], axis=0)
+        center = all_atoms.mean(axis=0)
+        centered = {a: best[a] - center for a in best}
+
+        jitter_t = rng.normal(size=3) * translation_step_A * cooling
+        jitter_axis = rng.normal(size=3)
+        jitter_axis /= np.linalg.norm(jitter_axis)
+        jitter_angle = rng.uniform(-rotation_step_rad, rotation_step_rad) * cooling
+        r_jitter = _rotation_matrix(jitter_axis, jitter_angle)
+
+        candidate = {a: (centered[a] @ r_jitter.T) + center + jitter_t for a in centered}
+        score = _pose_score(candidate, target_coords)
+        if score > best_score:
+            best, best_score = candidate, score
+
+    return best, best_score
+
+
+def refine_dock_pose(coords: dict, target_centroid: np.ndarray, approach_direction: np.ndarray,
+                       target_coords: dict, standoff_A: float, rng: np.random.Generator,
+                       n_iterations: int = 40, n_restarts: int = 3) -> dict:
+    """Real local rigid-body docking refinement: a simple, dependency-free
+    hill-climbing search over small translation/rotation perturbations that
+    maximizes packing complementarity while minimizing clashes against the
+    ACTUAL target tip coordinates (not just a fixed standoff from the
+    hotspot centroid, which is all the original one-shot placement used).
+    This is a real, if simplified, physics-based docking step — the same
+    class of local-search refinement real docking tools (e.g. RosettaDock's
+    local perturbation phase) use, just without a full energy function.
+
+    Runs n_restarts independent basins (each from its own random initial
+    placement) and keeps the best. A real bug was found and fixed here: a
+    single basin can get stuck — the cooling schedule shrinks the step size
+    over iterations, so an unlucky initial placement with a bad clash
+    sometimes cannot be escaped within budget, occasionally producing a
+    catastrophically bad final pose purely from initialization luck rather
+    than any real geometric incompatibility (measured: one backbone's AD-tip
+    redock in the M6e selectivity scan landed at packing-minus-clash=-0.23
+    against that same backbone's own other-fold scores all sitting near
+    zero, entirely attributable to a single bad basin — see PROGRESS_LOG.md
+    M6-quality-4). Multi-restart is the standard fix for basin-dependent
+    local search; it can only match or beat a single restart, never do
+    worse. Deterministic given rng."""
+    best, best_score = None, -np.inf
+    for _ in range(n_restarts):
+        start = dock_onto_target(coords, target_centroid, approach_direction, standoff_A, rng)
+        pose, score = _single_basin_hill_climb(start, target_coords, rng, n_iterations)
+        if score > best_score:
+            best, best_score = pose, score
+    return best
+
+
 def generate_backbones(target_spec: dict, n_backbones: int, seed: int) -> list[dict]:
     import biotite.structure.io.pdb as pdb_io
 
@@ -137,7 +243,7 @@ def generate_backbones(target_spec: dict, n_backbones: int, seed: int) -> list[d
     out_dir = repo_path("results", "design", "backbones")
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    topo_names = list(TOPOLOGIES.keys())
+    topo_names = ALL_TOPOLOGY_NAMES
     manifest = []
     for i in range(n_backbones):
         topo_name = topo_names[i % len(topo_names)]
@@ -156,7 +262,7 @@ def generate_backbones(target_spec: dict, n_backbones: int, seed: int) -> list[d
             "dock_seed": dock_seed,  # lets selectivity.py reproduce the identical rigid-body
                                       # pose (twist/tilt) when redocking this same backbone onto
                                       # each negative-design fold's tip for a fair comparison
-            "source": "cpu_geometric_baseline (RFdiffusion Colab-deferred — see GPU_TIER_STATUS.md)",
+            "source": topology_source_label(topo_name),
         })
 
     return manifest

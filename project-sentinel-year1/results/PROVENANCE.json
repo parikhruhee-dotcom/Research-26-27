@@ -213,6 +213,182 @@
       "timestamp": "2026-07-18T16:11:02Z",
       "kind": "curated_literature_table",
       "n_entries": 4
+    },
+    {
+      "url": "https://files.rcsb.org/download/1BDD.cif",
+      "dest": "data/raw/scaffolds/1BDD.cif",
+      "sha256": "de2327fa385c168abae275b06e6f9d91228cb03b3e95c37d3646bc454ee9b91c",
+      "timestamp": "2026-07-18T17:40:20Z",
+      "kind": "scaffold_library",
+      "pdb_id": "1BDD",
+      "name": "scaffold_protA_bdomain"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1VII.cif",
+      "dest": "data/raw/scaffolds/1VII.cif",
+      "sha256": "f8f69df4a43443d0c06c58384f147bd28815453e2b16707954401183a441a566",
+      "timestamp": "2026-07-18T17:40:20Z",
+      "kind": "scaffold_library",
+      "pdb_id": "1VII",
+      "name": "scaffold_villin"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1ENH.cif",
+      "dest": "data/raw/scaffolds/1ENH.cif",
+      "sha256": "80c861fd8559f1a8842e0ae1de7d742aca803aabaf0b3107f93dab91d70e8ca5",
+      "timestamp": "2026-07-18T17:40:21Z",
+      "kind": "scaffold_library",
+      "pdb_id": "1ENH",
+      "name": "scaffold_engrailed_hd"
+    },
+    {
+      "url": "https://files.rcsb.org/download/6DS9.cif",
+      "dest": "data/raw/scaffolds/6DS9.cif",
+      "sha256": "83f4483090e4c49b322169cfaa503b79c23939997ddd7a32bfe12fd41c6fadbd",
+      "timestamp": "2026-07-18T17:40:22Z",
+      "kind": "scaffold_library",
+      "pdb_id": "6DS9",
+      "name": "scaffold_de_novo_3helix"
+    },
+    {
+      "url": "https://files.rcsb.org/download/2JAB.cif",
+      "dest": "data/raw/scaffolds/2JAB.cif",
+      "sha256": "fd2b59595e4342fcff492b09c688b66f5cf61d05b0ba44dbb4730f8dc172ee06",
+      "timestamp": "2026-07-18T17:40:23Z",
+      "kind": "scaffold_library",
+      "pdb_id": "2JAB",
+      "name": "scaffold_darpin"
+    },
+    {
+      "url": "RCSB PDB \u2014 5 verified real solved-structure scaffolds (see docstring for scientific rationale: motif-grafting design using real hyperstable folds, two of which are the literal scaffolds behind real engineered-binder technologies, Affibody and DARPin)",
+      "dest": "data/interim/scaffolds/scaffold_manifest.json",
+      "sha256": "ffbf3bca976d74d9896975ae193cf471185863dbab202b5e01f9de5dcd89902e",
+      "timestamp": "2026-07-18T17:40:23Z",
+      "kind": "curated_literature_table"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1UBQ.cif",
+      "dest": "data/raw/developability_reference/1UBQ.cif",
+      "sha256": "056f98710cb2b36f633c45e41902a02eb446e82871da21ff2dd44f74a56ca0f6",
+      "timestamp": "2026-07-18T21:20:01Z",
+      "kind": "developability_reference",
+      "pdb_id": "1UBQ",
+      "name": "ref_ubiquitin"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1PGB.cif",
+      "dest": "data/raw/developability_reference/1PGB.cif",
+      "sha256": "70dee89314535f274a5ebcd496d32fb825feb335ab2e9bc716479d7ea22b2626",
+      "timestamp": "2026-07-18T21:20:02Z",
+      "kind": "developability_reference",
+      "pdb_id": "1PGB",
+      "name": "ref_gb1"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1SHG.cif",
+      "dest": "data/raw/developability_reference/1SHG.cif",
+      "sha256": "c278e2e544b120b060ee893094f4083add38db1dd421952b9ab1a98891a99dc1",
+      "timestamp": "2026-07-18T21:20:03Z",
+      "kind": "developability_reference",
+      "pdb_id": "1SHG",
+      "name": "ref_sh3"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1CSP.cif",
+      "dest": "data/raw/developability_reference/1CSP.cif",
+      "sha256": "c23f6e4bf192bbd0c181da9a90f1942c51cb5660e23af1eb846356d5711c018f",
+      "timestamp": "2026-07-18T21:20:03Z",
+      "kind": "developability_reference",
+      "pdb_id": "1CSP",
+      "name": "ref_csp"
+    },
+    {
+      "url": "https://files.rcsb.org/download/2CI2.cif",
+      "dest": "data/raw/developability_reference/2CI2.cif",
+      "sha256": "62c6ec30a5986404a30417f585b77c59d95b4f6029587c810b4b5d213d9727cc",
+      "timestamp": "2026-07-18T21:20:04Z",
+      "kind": "developability_reference",
+      "pdb_id": "2CI2",
+      "name": "ref_ci2"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1UBQ.cif",
+      "dest": "data/raw/developability_reference/1UBQ.cif",
+      "sha256": "056f98710cb2b36f633c45e41902a02eb446e82871da21ff2dd44f74a56ca0f6",
+      "timestamp": "2026-07-18T21:20:50Z",
+      "kind": "developability_reference",
+      "pdb_id": "1UBQ",
+      "name": "ref_ubiquitin"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1PGB.cif",
+      "dest": "data/raw/developability_reference/1PGB.cif",
+      "sha256": "70dee89314535f274a5ebcd496d32fb825feb335ab2e9bc716479d7ea22b2626",
+      "timestamp": "2026-07-18T21:20:51Z",
+      "kind": "developability_reference",
+      "pdb_id": "1PGB",
+      "name": "ref_gb1"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1SHG.cif",
+      "dest": "data/raw/developability_reference/1SHG.cif",
+      "sha256": "c278e2e544b120b060ee893094f4083add38db1dd421952b9ab1a98891a99dc1",
+      "timestamp": "2026-07-18T21:20:51Z",
+      "kind": "developability_reference",
+      "pdb_id": "1SHG",
+      "name": "ref_sh3"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1CSP.cif",
+      "dest": "data/raw/developability_reference/1CSP.cif",
+      "sha256": "c23f6e4bf192bbd0c181da9a90f1942c51cb5660e23af1eb846356d5711c018f",
+      "timestamp": "2026-07-18T21:20:52Z",
+      "kind": "developability_reference",
+      "pdb_id": "1CSP",
+      "name": "ref_csp"
+    },
+    {
+      "url": "https://files.rcsb.org/download/2CI2.cif",
+      "dest": "data/raw/developability_reference/2CI2.cif",
+      "sha256": "62c6ec30a5986404a30417f585b77c59d95b4f6029587c810b4b5d213d9727cc",
+      "timestamp": "2026-07-18T21:20:52Z",
+      "kind": "developability_reference",
+      "pdb_id": "2CI2",
+      "name": "ref_ci2"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1TEN.cif",
+      "dest": "data/raw/developability_reference/1TEN.cif",
+      "sha256": "8244778c8f2e85688274cc78da4e30a37505ffb860268864bb4ca325e02eaab2",
+      "timestamp": "2026-07-18T21:20:53Z",
+      "kind": "developability_reference",
+      "pdb_id": "1TEN",
+      "name": "ref_fn3"
+    },
+    {
+      "url": "https://files.rcsb.org/download/2ACY.cif",
+      "dest": "data/raw/developability_reference/2ACY.cif",
+      "sha256": "eeb6373b36fb76cca48da7cf56246d28f976b244f2775c674e92518954b213cf",
+      "timestamp": "2026-07-18T21:20:55Z",
+      "kind": "developability_reference",
+      "pdb_id": "2ACY",
+      "name": "ref_acylphosphatase"
+    },
+    {
+      "url": "https://files.rcsb.org/download/1BTA.cif",
+      "dest": "data/raw/developability_reference/1BTA.cif",
+      "sha256": "6fba272bfff4b0f710cf29d4f0ddbcbb7af8c1d198f56141a772b7ac395d5a67",
+      "timestamp": "2026-07-18T21:20:56Z",
+      "kind": "developability_reference",
+      "pdb_id": "1BTA",
+      "name": "ref_barstar"
+    },
+    {
+      "url": "RCSB PDB \u2014 8 verified real, well-characterized, soluble monomeric reference proteins, independent of the design scaffold library, used to calibrate binder developability (see developability_reference.py docstring for the two bugs this design fixes)",
+      "dest": "data/interim/developability_reference/reference_manifest.json",
+      "sha256": "ade3573c4359e605e644c031fc02866d56869a3262061900b1fdd3dea886758d",
+      "timestamp": "2026-07-18T21:20:57Z",
+      "kind": "curated_literature_table"
     }
   ],
   "tool_versions": {},
@@ -228,8 +404,20 @@
       "substitute": "matplotlib 3D CA-trace ribbons",
       "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
       "timestamp": "2026-07-18T16:59:53Z"
+    },
+    {
+      "original": "PyMOL-open-source structural rendering",
+      "substitute": "matplotlib 3D CA-trace ribbons",
+      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
+      "timestamp": "2026-07-19T04:00:00Z"
+    },
+    {
+      "original": "PyMOL-open-source structural rendering",
+      "substitute": "matplotlib 3D CA-trace ribbons",
+      "reason": "pymol-open-source was listed in environment.yml but a second slow conda solve (after the mkdssp install) was not spent in this build; matplotlib renders real coordinates, just without cartoon secondary-structure smoothing/surfaces.",
+      "timestamp": "2026-07-19T04:00:37Z"
     }
   ],
   "seeds": [],
-  "updated": "2026-07-18T16:59:53Z"
+  "updated": "2026-07-19T04:00:37Z"
 }

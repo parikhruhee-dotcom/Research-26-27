@@ -156,6 +156,41 @@ def negative_control_check() -> dict:
     return {"per_design": results, "n_real_beats_scrambled": n_pass, "n_total": len(results)}
 
 
+def real_scaffold_vs_idealized_comparison(al_result: dict) -> dict:
+    """The direct, quantitative test of the M6a quality upgrade's core claim:
+    do designs built on REAL solved-structure scaffolds show better sequence-
+    structure consistency (hydrophobic core packing) than designs built on
+    IDEALIZED geometric cylinders? Uses hydrophobic_core_consistency's Pearson
+    r (computed live during the design loop for every design, not recomputed
+    here) — a real, independent, structure-based quality signal, not the
+    composite score itself (which already includes this term, so comparing
+    composite score here would be circular)."""
+    idealized_prefixes = ("helix_hairpin", "three_helix_bundle", "helix_strand_helix", "long_helix_capper")
+    real_rs, idealized_rs = [], []
+    for d in al_result["all_designs"]:
+        r = d.get("hydrophobic_core_consistency", {}).get("pearson_r")
+        if r is None:
+            continue
+        topo = d["params"]["topology"]
+        (real_rs if topo.startswith("scaffold_") else idealized_rs).append(r)
+
+    if len(real_rs) < 2 or len(idealized_rs) < 2:
+        return {"note": "insufficient designs in one or both groups for a statistical comparison",
+                "n_real_scaffold": len(real_rs), "n_idealized": len(idealized_rs)}
+
+    t_stat, p_val = stats.ttest_ind(real_rs, idealized_rs)
+    return {
+        "n_real_scaffold": len(real_rs), "n_idealized": len(idealized_rs),
+        "mean_pearson_r_real_scaffold": round(float(np.mean(real_rs)), 4),
+        "mean_pearson_r_idealized": round(float(np.mean(idealized_rs)), 4),
+        "note": "more negative = better hydrophobic-core packing (buried residues genuinely "
+                "hydrophobic, exposed residues genuinely polar)",
+        "unpaired_ttest_statistic": round(float(t_stat), 4),
+        "unpaired_ttest_pvalue": round(float(p_val), 6),
+        "real_scaffolds_better_packed": bool(np.mean(real_rs) < np.mean(idealized_rs)),
+    }
+
+
 def main() -> dict:
     set_global_seed()
     out_dir = repo_path("results", "benchmarks")
@@ -188,14 +223,19 @@ def main() -> dict:
                            if r[ref_strain]]
     if len(paired_ad) >= 2:
         t_stat, p_val = stats.ttest_rel(paired_ad, paired_other_mean)
-        selectivity_stats = {"n_backbones": len(paired_ad), "mean_ad_score": round(float(np.mean(paired_ad)), 4),
+        selectivity_stats = {"n_designs": len(paired_ad), "mean_ad_score": round(float(np.mean(paired_ad)), 4),
                                "mean_other_score": round(float(np.mean(paired_other_mean)), 4),
                                "paired_ttest_statistic": round(float(t_stat), 4),
                                "paired_ttest_pvalue": round(float(p_val), 4)}
     else:
-        selectivity_stats = {"n_backbones": len(paired_ad), "note": "too few backbones for a paired test"}
+        selectivity_stats = {"n_designs": len(paired_ad), "note": "too few designs for a paired test"}
     with open(out_dir / "selectivity_statistics.json", "w") as fh:
         json.dump(selectivity_stats, fh, indent=2)
+
+    logger.info("comparing real-scaffold vs idealized-topology design quality...")
+    scaffold_comparison = real_scaffold_vs_idealized_comparison(al_result)
+    with open(out_dir / "real_scaffold_vs_idealized.json", "w") as fh:
+        json.dump(scaffold_comparison, fh, indent=2)
 
     fbc = al_vs_rs["final_best_comparison"]
     msc = al_vs_rs["mean_score_comparison"]
@@ -207,6 +247,10 @@ def main() -> dict:
                 f"(unpaired t-test p={msc['unpaired_ttest_pvalue']}, al_beats_rs={msc['al_mean_beats_rs_mean']})")
     logger.info(f"negative control: {neg_control['n_real_beats_scrambled']}/{neg_control['n_total']} "
                 f"real sequences beat their scrambled counterpart")
+    logger.info(f"real scaffold vs idealized hydrophobic-core packing: "
+                f"{scaffold_comparison.get('mean_pearson_r_real_scaffold')} vs "
+                f"{scaffold_comparison.get('mean_pearson_r_idealized')} "
+                f"(p={scaffold_comparison.get('unpaired_ttest_pvalue')})")
 
     append_progress_log(
         "M9",
@@ -214,18 +258,27 @@ def main() -> dict:
         f"recovering known PHF6/PHF6* nucleating segments. Active-learning vs random-search: final-best "
         f"cumulative score {fbc['active_learning_curve'][-1]} vs {fbc['random_search_curve'][-1]} (a near "
         f"coin-flip single-draw comparison, paired t-test on round curves p={fbc['paired_ttest_pvalue']}) "
-        f"— but the robust comparison (mean score across all {msc['n_active_learning']} evaluated "
-        f"candidates per arm) is decisive: AL mean={msc['al_mean']} vs RS mean={msc['rs_mean']}, unpaired "
-        f"t-test p={msc['unpaired_ttest_pvalue']}, AL shows a real improving trend "
-        f"({msc['al_second_half_minus_first_half_trend']:+.4f} second-half-minus-first-half) that RS "
-        f"lacks ({msc['rs_second_half_minus_first_half_trend']:+.4f}). Selectivity: mean AD score "
+        f"— the mean comparison (mean score across all {msc['n_active_learning']} evaluated "
+        f"candidates per arm): AL mean={msc['al_mean']} vs RS mean={msc['rs_mean']} "
+        f"(AL {'beats' if msc['al_mean_beats_rs_mean'] else 'does not beat'} RS), unpaired "
+        f"t-test p={msc['unpaired_ttest_pvalue']}. Second-half-minus-first-half trend: AL "
+        f"{msc['al_second_half_minus_first_half_trend']:+.4f}, RS "
+        f"{msc['rs_second_half_minus_first_half_trend']:+.4f} (reported as-is; not asserted to favor "
+        f"either arm unless the sign actually does). Selectivity: mean AD score "
         f"{selectivity_stats.get('mean_ad_score')} vs mean other-fold score "
         f"{selectivity_stats.get('mean_other_score')} (paired t-test p="
         f"{selectivity_stats.get('paired_ttest_pvalue')}). Negative control: "
-        f"{neg_control['n_real_beats_scrambled']}/{neg_control['n_total']} real sequences beat scrambled.",
+        f"{neg_control['n_real_beats_scrambled']}/{neg_control['n_total']} real sequences beat scrambled. "
+        f"Real-scaffold vs idealized-topology hydrophobic-core packing (M6a quality upgrade's core "
+        f"claim, tested directly): mean Pearson r "
+        f"{scaffold_comparison.get('mean_pearson_r_real_scaffold')} (real, n="
+        f"{scaffold_comparison.get('n_real_scaffold')}) vs "
+        f"{scaffold_comparison.get('mean_pearson_r_idealized')} (idealized, n="
+        f"{scaffold_comparison.get('n_idealized')}), unpaired t-test p="
+        f"{scaffold_comparison.get('unpaired_ttest_pvalue')}.",
     )
     return {"agg_bench": agg_bench, "al_vs_rs": al_vs_rs, "neg_control": neg_control,
-            "selectivity_stats": selectivity_stats}
+            "selectivity_stats": selectivity_stats, "scaffold_comparison": scaffold_comparison}
 
 
 if __name__ == "__main__":

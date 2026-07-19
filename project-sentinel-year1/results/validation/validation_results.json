@@ -1,50 +1,80 @@
 [
   {
-    "design_id": "r8_c3_long_helix_capper_s2",
-    "backbone_id": "r8_c3_long_helix_capper",
-    "composite_score": "0.2995",
-    "actual_ns_simulated": 0.00105,
-    "mean_rmsd_nm": 0.0391,
-    "final_rmsd_nm": 0.0611,
-    "mean_rg_nm": 2.9422,
+    "design_id": "r7_c2_helix_strand_helix_s1",
+    "backbone_id": "r7_c2_helix_strand_helix",
+    "composite_score": 0.433,
+    "md_failed": true,
+    "md_failure_reason": "Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+    "stable": false,
+    "mechanistically_plausible": false
+  },
+  {
+    "design_id": "r3_c5_scaffold_villin_s2",
+    "backbone_id": "r3_c5_scaffold_villin",
+    "composite_score": 0.478,
+    "actual_ns_simulated": 0.00108,
+    "mean_rmsd_nm": 0.0755,
+    "final_rmsd_nm": 0.1155,
+    "mean_rg_nm": 1.0209,
     "capping_occlusion": {
       "n_tip_hbond_atoms": 146,
-      "n_occluded": 25,
-      "fraction_occluded": 0.1712
+      "n_occluded": 28,
+      "fraction_occluded": 0.1918
+    },
+    "hydrophobic_core_consistency_post_md": {
+      "n_residues": 36,
+      "pearson_r": -0.4545,
+      "pearson_p": 0.005353,
+      "well_packed": true,
+      "rel_sasa_by_resid": {
+        "1": 0.8043,
+        "2": 0.6383,
+        "3": 0.7952,
+        "4": 0.5411,
+        "5": 0.5669,
+        "6": 0.4377,
+        "7": 0.1047,
+        "8": 0.4616,
+        "9": 0.7088,
+        "10": 0.5767,
+        "11": 0.2723,
+        "12": 0.416,
+        "13": 0.3845,
+        "14": 0.3513,
+        "15": 0.2229,
+        "16": 0.6959,
+        "17": 0.693,
+        "18": 0.1807,
+        "19": 0.349,
+        "20": 0.7888,
+        "21": 0.5738,
+        "22": 0.5494,
+        "23": 0.6831,
+        "24": 0.5568,
+        "25": 0.6439,
+        "26": 0.0299,
+        "27": 0.5764,
+        "28": 0.4631,
+        "29": 0.2347,
+        "30": 0.29,
+        "31": 0.4737,
+        "32": 0.7879,
+        "33": 0.3751,
+        "34": 0.2921,
+        "35": 0.5839,
+        "36": 0.8861
+      }
     },
     "stable": true,
     "mechanistically_plausible": false
   },
   {
-    "design_id": "r8_c3_long_helix_capper_s1",
-    "backbone_id": "r8_c3_long_helix_capper",
-    "composite_score": "0.2984",
-    "actual_ns_simulated": 0.00114,
-    "mean_rmsd_nm": 0.0447,
-    "final_rmsd_nm": 0.0759,
-    "mean_rg_nm": 2.9023,
-    "capping_occlusion": {
-      "n_tip_hbond_atoms": 146,
-      "n_occluded": 25,
-      "fraction_occluded": 0.1712
-    },
-    "stable": true,
-    "mechanistically_plausible": false
-  },
-  {
-    "design_id": "r8_c3_long_helix_capper_s0",
-    "backbone_id": "r8_c3_long_helix_capper",
-    "composite_score": "0.2979",
-    "actual_ns_simulated": 0.00128,
-    "mean_rmsd_nm": 0.0468,
-    "final_rmsd_nm": 0.0839,
-    "mean_rg_nm": 2.9157,
-    "capping_occlusion": {
-      "n_tip_hbond_atoms": 146,
-      "n_occluded": 26,
-      "fraction_occluded": 0.1781
-    },
-    "stable": true,
+    "design_id": "r3_c5_scaffold_villin_s0",
+    "backbone_id": "r3_c5_scaffold_villin",
+    "composite_score": 0.4823,
+    "md_failed": true,
+    "md_failure_reason": "Particle coordinate is NaN.  For more information, see https://github.com/openmm/openmm/wiki/Frequently-Asked-Questions#nan",
+    "stable": false,
     "mechanistically_plausible": false
   }
 ]

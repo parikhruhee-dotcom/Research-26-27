@@ -1,7 +1,7 @@
 {
-  "n_backbones": 10,
-  "mean_ad_score": -0.1841,
-  "mean_other_score": -0.2255,
-  "paired_ttest_statistic": 1.2524,
-  "paired_ttest_pvalue": 0.242
+  "n_designs": 40,
+  "mean_ad_score": 0.0452,
+  "mean_other_score": 0.0432,
+  "paired_ttest_statistic": 1.1566,
+  "paired_ttest_pvalue": 0.2545
 }

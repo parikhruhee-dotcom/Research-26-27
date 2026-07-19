@@ -25,7 +25,7 @@ Cumulative best composite design score per round: the Gaussian-Process active-le
 Distribution of composite design scores across all evaluated designs (left) and broken out by scaffold topology (right).
 
 ## fig09_selectivity_matrix
-Selectivity matrix: each top-scoring backbone's geometric-complementarity score when redocked (identical rigid-body sampling seed) onto each of the 8 folds' templating tips. Higher (redder) on the reference AD column than the negative-design columns indicates AD-selective shape complementarity.
+Selectivity matrix: each top-scoring design's (real backbone shape + actual designed sequence) combined geometric- and chemical-complementarity score when redocked (identical rigid-body sampling seed) onto each of the 8 folds' templating tips. Higher (redder) on the reference AD column than the negative-design columns indicates AD-selective binding — driven by both shape fit and the designed sequence's own chemistry, not shape alone.
 
 ## fig10_biosensor_schematic
 Cryo-EM shows the AD fold packs as a stack of IDENTICAL monomer layers along the fibril axis (>=2 copies of the same protofilament chain within a few Angstroms of each other — verified directly in this project's own M1d protofilament clustering, e.g. (see results/design/biosensor_concept.json for the full design spec).

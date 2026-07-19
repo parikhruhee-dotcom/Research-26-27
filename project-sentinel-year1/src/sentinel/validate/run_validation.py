@@ -15,7 +15,6 @@ Run: python -m sentinel.validate.run_validation
 """
 from __future__ import annotations
 
-import csv
 import json
 
 import numpy as np
@@ -23,6 +22,7 @@ import numpy as np
 from sentinel.md.analyze import compute_rmsd, compute_radius_of_gyration, load_trajectory
 from sentinel.md.simulate import run_md
 from sentinel.md.system_builder import fix_and_protonate
+from sentinel.design.sequence_quality import hydrophobic_core_consistency
 from sentinel.utils.config import load_config, repo_path
 from sentinel.utils.logging import append_progress_log, get_logger
 from sentinel.utils.seeds import set_global_seed
@@ -73,9 +73,14 @@ def main() -> dict:
     set_global_seed()
     cfg = load_config()
     design_dir = repo_path("results", "design")
-    all_designs = list(csv.DictReader(open(design_dir / "all_designs_scored.csv")))
-    all_designs.sort(key=lambda d: float(d["composite_score"]), reverse=True)
-    top_leads = all_designs[:N_LEADS_TO_VALIDATE]
+    # A real bug was found and fixed here: this used to sort all_designs_scored.csv by raw
+    # composite_score and validate whatever came out on top, ignoring selectivity/developability
+    # status entirely -- meaning MD validation could easily be spent on a design that was never
+    # actually one of the real leads. leads.json is the authoritative, already-ranked (by real
+    # observed AD-preference margin, developability-passing) final candidate list -- see
+    # run_design_loop.postprocess_and_write_leads.
+    all_leads = json.load(open(design_dir / "leads.json"))
+    top_leads = all_leads[:N_LEADS_TO_VALIDATE]
 
     al_result = json.load(open(design_dir / "active_learning_result.json"))
     backbone_meta = al_result["backbone_meta"]
@@ -142,31 +147,48 @@ def main() -> dict:
         binder_final_coords = {a: final_arr.coord[final_arr.atom_name == a] for a in ["N", "CA", "C", "O"]}
         capping = capping_occlusion_check(tip_coords, binder_final_coords)
 
+        # Hydrophobic-core consistency AFTER real MD relaxation — a stronger check than the
+        # pre-MD static pose used during the design loop: does the design's hydrophobic
+        # packing actually survive real physics, not just look good in the docked starting pose?
+        try:
+            hcc_post_md = hydrophobic_core_consistency(binder_final_coords, lead["sequence"], out_dir)
+        except Exception as exc:
+            logger.warning(f"{design_id}: post-MD hydrophobic_core_consistency failed ({exc})")
+            hcc_post_md = {"pearson_r": None}
+
         results.append({
             "design_id": design_id, "backbone_id": backbone_id, "composite_score": lead["composite_score"],
             "actual_ns_simulated": md_result["actual_ns_simulated"],
             "mean_rmsd_nm": round(float(np.mean(rmsd)), 4), "final_rmsd_nm": round(float(rmsd[-1]), 4),
             "mean_rg_nm": round(float(np.mean(rg)), 4),
             "capping_occlusion": capping,
+            "hydrophobic_core_consistency_post_md": hcc_post_md,
             "stable": bool(np.mean(rmsd) < 1.0),  # 1.0 nm: a coarse, documented stability threshold
                                                      # for a 60-80 aa mini-protein at this short timescale
             "mechanistically_plausible": capping["fraction_occluded"] > 0.3,
         })
         logger.info(f"{design_id}: RMSD_mean={np.mean(rmsd):.3f}nm, tip H-bond occlusion="
-                    f"{capping['fraction_occluded']:.2%}")
+                    f"{capping['fraction_occluded']:.2%}, post-MD hydrophobic-core r="
+                    f"{hcc_post_md.get('pearson_r')}")
 
     with open(out_dir / "validation_results.json", "w") as fh:
         json.dump(results, fh, indent=2)
 
     n_stable = sum(1 for r in results if r["stable"])
     n_plausible = sum(1 for r in results if r["mechanistically_plausible"])
+    hcc_values = [r["hydrophobic_core_consistency_post_md"]["pearson_r"] for r in results
+                   if r.get("hydrophobic_core_consistency_post_md", {}).get("pearson_r") is not None]
+    mean_hcc = round(float(np.mean(hcc_values)), 4) if hcc_values else None
     append_progress_log(
         "M7",
         f"Ran in-silico validation MD on the top {len(results)} leads (real OpenMM implicit-solvent, "
         f"full-atom sidechains from PDBFixer given the ProteinMPNN-designed sequence). {n_stable}/"
         f"{len(results)} stable by RMSD, {n_plausible}/{len(results)} show >30% occlusion of the AD "
         f"tip's templating H-bond groups after relaxation (a capping-mechanism plausibility proxy, "
-        f"not a rigorous steered-MD blocking assay).",
+        f"not a rigorous steered-MD blocking assay). Mean post-MD hydrophobic-core consistency "
+        f"(Pearson r between per-residue SASA and hydrophobicity, more negative = better packed): "
+        f"{mean_hcc} — checks whether the design's hydrophobic core survives real physics relaxation, "
+        f"not just the pre-MD docked pose.",
     )
     return {"results": results}
 

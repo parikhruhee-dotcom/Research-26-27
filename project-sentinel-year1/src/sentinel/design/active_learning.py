@@ -2,23 +2,27 @@
 
 Design space per round (a small, real, continuous/discrete parameter vector,
 NOT the sequence itself — the surrogate learns which *generation settings*
-tend to produce good designs). Topology is a 4-way CATEGORICAL choice, one-
-hot encoded as 4 separate [0,1] dimensions (argmax picks the topology at
-decode time) rather than a single ordinal index in [0,3]:
-  x = [onehot_helix_hairpin, onehot_three_helix_bundle, onehot_helix_strand_helix,
-       onehot_long_helix_capper, standoff_A (7-15), mpnn_temperature (0.05-0.3),
-       hotspot_fraction (0.5-1.0)]
+tend to produce good designs). Topology is an N-way CATEGORICAL choice (4
+idealized geometric topologies + 5 real solved-structure scaffolds — see
+backbone_gen.ALL_TOPOLOGY_NAMES), one-hot encoded as N separate [0,1]
+dimensions (argmax picks the topology at decode time) rather than a single
+ordinal index:
+  x = [onehot_topology_0, ..., onehot_topology_{N-1},
+       standoff_A (7-15), mpnn_temperature (0.05-0.3), hotspot_fraction (0.5-1.0)]
 
 This one-hot encoding is not cosmetic: an RBF kernel over a single ordinal
-topology index [0,3] imposes a false, arbitrary distance structure (it
-treats topology 0 vs 3 as "more different" than 0 vs 1, purely because of
-dict ordering, with no basis in reality) and measurably hurt the GP's
-ability to learn which topology performs well within a small round budget
-— caught during this build when a run's random-search baseline pulled
-ahead of active learning by chance-favoring one topology early (see
-PROGRESS_LOG.md M6). One-hot encoding lets the kernel treat topology
-identity as its own independent dimension, which is the methodologically
-correct way to put a categorical variable into a continuous-kernel GP.
+topology index imposes a false, arbitrary distance structure (it treats
+topology 0 vs N-1 as "more different" than 0 vs 1, purely because of dict
+ordering, with no basis in reality) and measurably hurt the GP's ability to
+learn which topology performs well within a small round budget — caught
+during this build when a run's random-search baseline pulled ahead of
+active learning by chance-favoring one topology early (see PROGRESS_LOG.md
+M6). One-hot encoding lets the kernel treat topology identity as its own
+independent dimension, which is the methodologically correct way to put a
+categorical variable into a continuous-kernel GP. Letting the loop choose
+freely between idealized and real-scaffold topologies also means the
+closed loop itself empirically discovers which backbone source performs
+better — an honest result, not an assumption.
 
 Loop: propose params -> generate backbone(s) + ProteinMPNN sequences with
 those params -> score every resulting design -> record the best score for
@@ -34,7 +38,9 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.gaussian_process.kernels import RBF, ConstantKernel, WhiteKernel
 
-N_TOPOLOGIES = 4
+from sentinel.design.backbone_gen import ALL_TOPOLOGY_NAMES
+
+N_TOPOLOGIES = len(ALL_TOPOLOGY_NAMES)
 PARAM_BOUNDS = np.array(
     [[0.0, 1.0]] * N_TOPOLOGIES + [
         [7.0, 15.0],   # standoff_A
@@ -45,8 +51,31 @@ PARAM_BOUNDS = np.array(
 
 
 def random_params(rng: np.random.Generator, n: int) -> np.ndarray:
-    lo, hi = PARAM_BOUNDS[:, 0], PARAM_BOUNDS[:, 1]
-    return rng.uniform(lo, hi, size=(n, len(lo)))
+    """Topology is a true categorical, sampled as an exact one-hot corner
+    (uniform pick over ALL_TOPOLOGY_NAMES) — not N independent continuous
+    Uniform[0,1] draws. A real bug was found and fixed here: the original
+    version drew every column, including the one-hot block, as independent
+    continuous values. Two non-corner points can argmax to different
+    topologies while sitting close together in raw x-space, and two points
+    that decode to the SAME topology can sit far apart in that space — so
+    the GP's RBF kernel, which measures smooth Euclidean distance in raw x,
+    was fed a signal with no real relationship to the actual (discontinuous,
+    argmax-decoded) categorical structure it needed to learn. Measured
+    impact: with the soft encoding, active learning's mean candidate score
+    (0.3286) did not beat an equal-budget random-search baseline (0.3311)
+    over a full 10-round/320-design run — the surrogate could not reliably
+    learn which topology tended to score well. Sampling true one-hot corners
+    makes same-topology points identical in that block and different-
+    topology points a constant, well-defined distance apart in it — the
+    behavior one-hot + RBF is supposed to give a genuine categorical
+    kernel."""
+    n_continuous = PARAM_BOUNDS.shape[0] - N_TOPOLOGIES
+    lo, hi = PARAM_BOUNDS[N_TOPOLOGIES:, 0], PARAM_BOUNDS[N_TOPOLOGIES:, 1]
+    topo_idx = rng.integers(0, N_TOPOLOGIES, size=n)
+    onehot = np.zeros((n, N_TOPOLOGIES))
+    onehot[np.arange(n), topo_idx] = 1.0
+    continuous = rng.uniform(lo, hi, size=(n, n_continuous))
+    return np.concatenate([onehot, continuous], axis=1)
 
 
 def build_surrogate(kind: str):

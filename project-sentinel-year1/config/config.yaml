@@ -134,8 +134,10 @@ md:
 # M5 — Design target
 # ------------------------------------------------------------------------------
 target:
-  binder_length_min: 60
-  binder_length_max: 120
+  binder_length_min: 36    # widened from a nominal 60: the real solved-structure scaffold
+  binder_length_max: 124   # library (M6a quality upgrade) includes villin (36 aa) and a DARPin
+                             # (124 aa) alongside 60-93 aa scaffolds — real protein sizes, not
+                             # forced into an arbitrary preset range. See scaffold_library.py.
   negative_design_panel: ["CTE_I", "CTE_II", "PiD", "CBD", "PSP", "AGD", "GGT", "GPT"]
 
 # ------------------------------------------------------------------------------
@@ -166,10 +168,31 @@ design:
     iptm_min: 0.7
     esm_model: "esm2_t6_8M_UR50D"     # smallest ESM-2 checkpoint, CPU-feasible
     composite_weights:                 # combine into one score per (backbone, sequence) design
-      packing_density_sc_proxy: 0.40
-      clash_penalty: 0.30              # subtracted: composite -= weight * clash_score
-      esm_plausibility: 0.20
+      packing_density_sc_proxy: 0.25
+      clash_penalty: 0.20              # subtracted: composite -= weight * clash_score
+      esm_plausibility: 0.10
       developability_bonus: 0.10       # added if developability_passed
+      hydrophobic_core_consistency: 0.15  # added (scaled from [-1,1] to [0,1]): does the designed
+                                            # sequence's hydrophobic/polar pattern actually match its
+                                            # own structure's burial pattern (real Pearson correlation
+                                            # between per-residue SASA and Kyte-Doolittle hydrophobicity,
+                                            # sequence_quality.hydrophobic_core_consistency) — the single
+                                            # most discriminating real signal found between idealized
+                                            # cylinders (near-zero correlation, no real 'inside' to pack)
+                                            # and real solved-structure scaffolds (strong, significant
+                                            # negative correlation) — see PROGRESS_LOG.md M6-quality-2
+      chemical_complementarity: 0.20   # added (scaled to [0,1]): real hydrophobic + electrostatic
+                                            # complementarity between the DESIGNED SEQUENCE's actual
+                                            # side-chain chemistry and the AD tip's real surface residue
+                                            # chemistry (interface_scorer.chemical_complementarity) — a
+                                            # real bug fix: packing_density_sc_proxy/clash_penalty above
+                                            # are entirely sequence-blind (generic ideal-geometry CB, no
+                                            # side-chain identity), so without this term the loop could
+                                            # not learn to prefer a chemically AD-complementary sequence
+                                            # over any other sequence on the same rigid backbone shape —
+                                            # measured directly: AD-tip selectivity scores averaged BELOW
+                                            # the other-fold mean across the top-10 backbone pool without
+                                            # it. See PROGRESS_LOG.md M6-quality-5.
   active_learning:
     n_rounds: 10   # raised from 6: at 6 rounds x 8 candidates/round the AL-vs-random-search
                     # comparison was noise-dominated by single lucky/unlucky order-statistic draws
@@ -187,6 +210,18 @@ design:
     random_search_baseline: true
   selectivity:
     min_selectivity_margin: 0.05    # AD-tip score must exceed mean other-fold score by this margin
+    chemical_complementarity_weight: 0.05  # deliberately much smaller than the design-time
+      # composite weight (0.20). All 9 fold targets (AD + the 7-strain negative-design panel)
+      # are the SAME tau protein sequence in different conformations, so bulk hydrophobic/
+      # charge composition — chemical_complementarity's signal — is close to fold-INVARIANT
+      # (same underlying amino acids, just a different subset happens to be surface-exposed
+      # per fold). Real per-fold discrimination has to come from GEOMETRIC/spatial register
+      # (which fold-specific 3D tip topology genuinely differs on), not bulk chemistry. A real
+      # bug was found and fixed here: reusing the full design-time weight for chemistry in the
+      # fold-vs-fold selectivity comparison diluted the one signal that actually varies by fold
+      # — measured directly: with equal weighting, all 9 per-fold scores for a given design
+      # clustered within roughly 0.10-0.15 with no AD-specific separation (mean margin across
+      # the top-10 pool was 0.0024, essentially zero) — see PROGRESS_LOG.md M6-quality-6.
   developability:
     max_binder_aggregation_percentile: 40   # binder's own M3 aggregation score must be below this percentile of tau windows
     disallow_free_cysteines: true
